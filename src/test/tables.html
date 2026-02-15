@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Tables</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script type="module" src="/build/nwb.esm.js"></script>
+    <script nomodule src="/build/nwb.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Tables</h1>
+
+      <!-- n-table Variants -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - Basic Table</h2>
+        <n-table id="basic-table">
+          <n-table-column prop="name" label="Name" sortable></n-table-column>
+          <n-table-column prop="age" label="Age" sortable></n-table-column>
+          <n-table-column prop="city" label="City"></n-table-column>
+          <n-table-column prop="status" label="Status"></n-table-column>
+        </n-table>
+      </div>
+
+      <!-- n-table with Index -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - With Index Column</h2>
+        <n-table id="index-table">
+          <n-table-column type="index" label="#" width="60"></n-table-column>
+          <n-table-column prop="name" label="Name" sortable></n-table-column>
+          <n-table-column prop="age" label="Age" sortable></n-table-column>
+          <n-table-column prop="city" label="City"></n-table-column>
+        </n-table>
+      </div>
+
+      <!-- n-table with Selection -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - With Selection</h2>
+        <n-table id="selection-table" selectable>
+          <n-table-column prop="name" label="Name" sortable></n-table-column>
+          <n-table-column prop="age" label="Age"></n-table-column>
+          <n-table-column prop="city" label="City"></n-table-column>
+          <n-table-column prop="status" label="Status"></n-table-column>
+        </n-table>
+      </div>
+
+      <!-- n-table with Striped Rows -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - Striped Rows</h2>
+        <n-table id="striped-table" striped>
+          <n-table-column prop="name" label="Name" sortable></n-table-column>
+          <n-table-column prop="age" label="Age"></n-table-column>
+          <n-table-column prop="department" label="Department"></n-table-column>
+          <n-table-column prop="salary" label="Salary" align="right"></n-table-column>
+        </n-table>
+      </div>
+
+      <!-- n-table with Fixed Header -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - Fixed Header</h2>
+        <div class="max-h-64 overflow-auto border border-neutral-quaternary rounded-lg">
+          <n-table id="fixed-header-table" fixed-header>
+            <n-table-column prop="name" label="Name" sortable></n-table-column>
+            <n-table-column prop="email" label="Email"></n-table-column>
+            <n-table-column prop="phone" label="Phone"></n-table-column>
+            <n-table-column prop="company" label="Company"></n-table-column>
+            <n-table-column prop="role" label="Role"></n-table-column>
+          </n-table>
+        </div>
+      </div>
+
+      <!-- n-table with Multiple Sorting -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - Multiple Column Sorting</h2>
+        <n-table id="multi-sort-table">
+          <n-table-column prop="name" label="Name" sortable></n-table-column>
+          <n-table-column prop="age" label="Age" sortable></n-table-column>
+          <n-table-column prop="department" label="Department" sortable></n-table-column>
+          <n-table-column prop="salary" label="Salary" sortable align="right"></n-table-column>
+        </n-table>
+      </div>
+
+      <!-- n-table with Different Alignments -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - Column Alignments</h2>
+        <n-table id="alignment-table">
+          <n-table-column prop="name" label="Left Aligned" align="left"></n-table-column>
+          <n-table-column prop="age" label="Center Aligned" align="center"></n-table-column>
+          <n-table-column prop="salary" label="Right Aligned" align="right"></n-table-column>
+          <n-table-column prop="status" label="Default" sortable></n-table-column>
+        </n-table>
+      </div>
+
+      <!-- n-table Compact -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-table - Compact Size</h2>
+        <n-table id="compact-table">
+          <n-table-column prop="id" label="ID" width="80"></n-table-column>
+          <n-table-column prop="code" label="Code" width="120"></n-table-column>
+          <n-table-column prop="description" label="Description"></n-table-column>
+          <n-table-column prop="active" label="Active" width="100" align="center"></n-table-column>
+        </n-table>
+      </div>
+    </div>
+
+    <script>
+      // Sample data for tables
+      const sampleUsers = [
+        { name: 'John Doe', age: 28, city: 'New York', status: 'Active', department: 'Engineering', salary: '$75,000' },
+        { name: 'Jane Smith', age: 32, city: 'San Francisco', status: 'Active', department: 'Design', salary: '$70,000' },
+        { name: 'Bob Johnson', age: 45, city: 'Chicago', status: 'Inactive', department: 'Marketing', salary: '$80,000' },
+        { name: 'Alice Brown', age: 29, city: 'Los Angeles', status: 'Active', department: 'Engineering', salary: '$78,000' },
+        { name: 'Charlie Wilson', age: 38, city: 'Seattle', status: 'Active', department: 'Sales', salary: '$65,000' }
+      ];
+
+      const extendedUsers = [
+        { name: 'John Doe', email: 'john@example.com', phone: '+1-234-567-8901', company: 'Tech Corp', role: 'Developer' },
+        { name: 'Jane Smith', email: 'jane@example.com', phone: '+1-234-567-8902', company: 'Design Inc', role: 'Designer' },
+        { name: 'Bob Johnson', email: 'bob@example.com', phone: '+1-234-567-8903', company: 'Marketing LLC', role: 'Manager' },
+        { name: 'Alice Brown', email: 'alice@example.com', phone: '+1-234-567-8904', company: 'Tech Corp', role: 'Engineer' },
+        { name: 'Charlie Wilson', email: 'charlie@example.com', phone: '+1-234-567-8905', company: 'Sales Co', role: 'Sales Rep' },
+        { name: 'Diana Prince', email: 'diana@example.com', phone: '+1-234-567-8906', company: 'Hero Inc', role: 'Hero' },
+        { name: 'Edward Norton', email: 'edward@example.com', phone: '+1-234-567-8907', company: 'Film Corp', role: 'Actor' },
+        { name: 'Fiona Green', email: 'fiona@example.com', phone: '+1-234-567-8908', company: 'Eco Ltd', role: 'Consultant' }
+      ];
+
+      const compactData = [
+        { id: '001', code: 'PRD-001', description: 'Wireless Mouse', active: 'Yes' },
+        { id: '002', code: 'PRD-002', description: 'Bluetooth Keyboard', active: 'Yes' },
+        { id: '003', code: 'PRD-003', description: 'USB Cable', active: 'No' },
+        { id: '004', code: 'PRD-004', description: 'HDMI Adapter', active: 'Yes' }
+      ];
+
+      // Initialize tables with data when DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          // Initialize specific tables with appropriate data
+          const basicTable = document.getElementById('basic-table');
+          if (basicTable) {
+            basicTable.data = sampleUsers;
+          }
+
+          const indexTable = document.getElementById('index-table');
+          if (indexTable) {
+            indexTable.data = [
+              { name: 'Alice', age: 25, city: 'Boston' },
+              { name: 'Charlie', age: 35, city: 'Denver' },
+              { name: 'Diana', age: 28, city: 'Austin' }
+            ];
+          }
+
+          const selectionTable = document.getElementById('selection-table');
+          if (selectionTable) {
+            selectionTable.data = sampleUsers;
+          }
+
+          const stripedTable = document.getElementById('striped-table');
+          if (stripedTable) {
+            stripedTable.data = [
+              { name: 'John Doe', age: 28, department: 'Engineering', salary: '$75,000' },
+              { name: 'Jane Smith', age: 32, department: 'Design', salary: '$70,000' },
+              { name: 'Bob Johnson', age: 45, department: 'Marketing', salary: '$80,000' },
+              { name: 'Alice Brown', age: 29, department: 'Engineering', salary: '$78,000' }
+            ];
+          }
+
+          const fixedHeaderTable = document.getElementById('fixed-header-table');
+          if (fixedHeaderTable) {
+            fixedHeaderTable.data = extendedUsers;
+          }
+
+          const multiSortTable = document.getElementById('multi-sort-table');
+          if (multiSortTable) {
+            multiSortTable.data = [
+              { name: 'Alice', age: 25, department: 'Engineering', salary: '$75,000' },
+              { name: 'Bob', age: 30, department: 'Design', salary: '$70,000' },
+              { name: 'Charlie', age: 35, department: 'Marketing', salary: '$80,000' },
+              { name: 'Diana', age: 28, department: 'Engineering', salary: '$78,000' }
+            ];
+          }
+
+          const alignmentTable = document.getElementById('alignment-table');
+          if (alignmentTable) {
+            alignmentTable.data = [
+              { name: 'Left Text', age: 25, salary: '$50,000', status: 'Active' },
+              { name: 'Center Text', age: 30, salary: '$60,000', status: 'Inactive' },
+              { name: 'Right Text', age: 35, salary: '$70,000', status: 'Active' }
+            ];
+          }
+
+          const compactTable = document.getElementById('compact-table');
+          if (compactTable) {
+            compactTable.data = compactData;
+          }
+        }, 100);
+      });
+
+      // Theme synchronization with parent window
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      // Apply theme on load
+      applyTheme();
+
+      // Listen for theme changes from parent window
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      // Listen for messages from parent window
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      // Periodically check for theme changes (fallback)
+      setInterval(applyTheme, 1000);
+    </script>
+  </body>
+</html>

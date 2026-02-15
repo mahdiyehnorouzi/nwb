@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Buttons</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script nomodule src="/build/nwb.js"></script>
+    <script type="module">
+      // Load ESM version
+      import('/build/nwb.esm.js').then(() => {
+        console.log('Components loaded');
+      }).catch(err => {
+        console.error('Failed to load components:', err);
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Buttons</h1>
+
+      <!-- Test CSS -->
+      <div style="padding: 20px; margin-bottom: 20px; background: #f0f0f0; border: 1px solid #ccc;">
+        <h3>Test CSS Classes:</h3>
+        <div class="bg-green-500 text-white p-4 rounded">Tailwind Green</div>
+        <div class="bg-neutral-secondary text-white p-4 rounded mt-2">Custom Neutral Secondary</div>
+      </div>
+
+      <!-- n-button Variants -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button - Variants & Colors</h2>
+        <div class="grid grid-cols-4 gap-6">
+          <!-- Fill Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Fill</h3>
+            <n-button variant="fill" color="green">Green Fill</n-button>
+            <n-button variant="fill" color="red">Red Fill</n-button>
+            <n-button variant="fill" color="gray">Gray Fill</n-button>
+          </div>
+
+          <!-- Outline Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Outline</h3>
+            <n-button variant="outline" color="green">Green Outline</n-button>
+            <n-button variant="outline" color="red">Red Outline</n-button>
+            <n-button variant="outline" color="gray">Gray Outline</n-button>
+          </div>
+
+          <!-- Flat Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Flat</h3>
+            <n-button variant="flat" color="green">Green Flat</n-button>
+            <n-button variant="flat" color="red">Red Flat</n-button>
+            <n-button variant="flat" color="gray">Gray Flat</n-button>
+          </div>
+
+          <!-- Plain Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Plain</h3>
+            <n-button variant="plain" color="green">Green Plain</n-button>
+            <n-button variant="plain" color="red">Red Plain</n-button>
+            <n-button variant="plain" color="gray">Gray Plain</n-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-button Sizes -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button - Sizes</h2>
+        <div class="flex items-end gap-6 flex-wrap">
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Mini</span>
+            <n-button size="mini" variant="fill" color="green">Mini</n-button>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">XSmall</span>
+            <n-button size="xsmall" variant="fill" color="green">XSmall</n-button>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Small</span>
+            <n-button size="small" variant="fill" color="green">Small</n-button>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Middle</span>
+            <n-button size="middle" variant="fill" color="green">Middle</n-button>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Large</span>
+            <n-button size="large" variant="fill" color="green">Large</n-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-button with Icons -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button - With Icons</h2>
+        <div class="flex gap-6 flex-wrap">
+          <n-button variant="fill" color="green">
+            <span slot="icon">✅</span>
+            Save
+          </n-button>
+          <n-button variant="outline" color="red">
+            <span slot="icon">🗑️</span>
+            Delete
+          </n-button>
+          <n-button variant="flat" color="gray">
+            <span slot="icon">📤</span>
+            Export
+          </n-button>
+          <n-button variant="plain" color="green">
+            <span slot="icon">📥</span>
+            Import
+          </n-button>
+        </div>
+      </div>
+
+      <!-- n-button-icon Variants -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button-icon - Variants & Colors</h2>
+        <div class="grid grid-cols-4 gap-6">
+          <!-- Fill Icon Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Fill</h3>
+            <n-button-icon variant="fill" color="green">
+              <svg class="w-5 h-5"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="fill" color="red">
+              <svg class="w-5 h-5"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="fill" color="gray">
+              <svg class="w-5 h-5"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+
+          <!-- Outline Icon Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Outline</h3>
+            <n-button-icon variant="outline" color="green">
+              <svg class="w-5 h-5"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="outline" color="red">
+              <svg class="w-5 h-5"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="outline" color="gray">
+              <svg class="w-5 h-5"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+
+          <!-- Flat Icon Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Flat</h3>
+            <n-button-icon variant="flat" color="green">
+              <svg class="w-5 h-5"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="flat" color="red">
+              <svg class="w-5 h-5"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="flat" color="gray">
+              <svg class="w-5 h-5"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+
+          <!-- Plain Icon Buttons -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Plain</h3>
+            <n-button-icon variant="plain" color="green">
+              <svg class="w-5 h-5"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="plain" color="red">
+              <svg class="w-5 h-5"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+            <n-button-icon variant="plain" color="gray">
+              <svg class="w-5 h-5"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-button-icon Sizes -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button-icon - Sizes</h2>
+        <div class="flex items-end gap-6 flex-wrap">
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Mini</span>
+            <n-button-icon size="mini" variant="fill" color="green">
+              <svg class="w-3 h-3"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">XSmall</span>
+            <n-button-icon size="xsmall" variant="fill" color="green">
+              <svg class="w-4 h-4"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Small</span>
+            <n-button-icon size="small" variant="fill" color="green">
+              <svg class="w-5 h-5"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Middle</span>
+            <n-button-icon size="middle" variant="fill" color="green">
+              <svg class="w-6 h-6"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-3">Large</span>
+            <n-button-icon size="large" variant="fill" color="green">
+              <svg class="w-7 h-7"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </n-button-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disabled States -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Disabled States</h2>
+        <div class="flex gap-6 flex-wrap">
+          <n-button variant="fill" color="green" disabled>Disabled Fill</n-button>
+          <n-button variant="outline" color="red" disabled>Disabled Outline</n-button>
+          <n-button variant="flat" color="gray" disabled>Disabled Flat</n-button>
+          <n-button variant="plain" color="green" disabled>Disabled Plain</n-button>
+
+          <n-button-icon variant="fill" color="green" disabled>
+            <svg class="w-5 h-5"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </n-button-icon>
+          <n-button-icon variant="outline" color="red" disabled>
+            <svg class="w-5 h-5"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </n-button-icon>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Theme synchronization with parent window
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      // Apply theme on load
+      applyTheme();
+
+      // Listen for theme changes from parent window
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      // Listen for messages from parent window
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      // Periodically check for theme changes (fallback)
+      setInterval(applyTheme, 1000);
+    </script>
+  </body>
+</html>

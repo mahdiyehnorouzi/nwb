@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Toggle Groups</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script type="module" src="/build/nwb.esm.js"></script>
+    <script nomodule src="/build/nwb.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Toggle Groups</h1>
+
+      <!-- n-button-toggle-group Variants -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button-toggle-group - Colors</h2>
+        <div class="space-y-8">
+          <!-- Green Color -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Green</h3>
+            <n-button-toggle-group model-value="1" color="green">
+              <n-button-toggle label="All"></n-button-toggle>
+              <n-button-toggle label="Active"></n-button-toggle>
+              <n-button-toggle label="Completed"></n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+
+          <!-- Gray Color -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Gray</h3>
+            <n-button-toggle-group model-value="2" color="gray">
+              <n-button-toggle label="Small"></n-button-toggle>
+              <n-button-toggle label="Medium"></n-button-toggle>
+              <n-button-toggle label="Large"></n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+
+          <!-- GrayGreen Color -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">GrayGreen</h3>
+            <n-button-toggle-group model-value="0" color="grayGreen">
+              <n-button-toggle label="Option 1"></n-button-toggle>
+              <n-button-toggle label="Option 2"></n-button-toggle>
+              <n-button-toggle label="Option 3"></n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-button-toggle-group Sizes -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button-toggle-group - Sizes</h2>
+        <div class="space-y-6">
+          <!-- Small Size -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Small</h3>
+            <n-button-toggle-group model-value="1" color="green" size="small">
+              <n-button-toggle label="All"></n-button-toggle>
+              <n-button-toggle label="Active"></n-button-toggle>
+              <n-button-toggle label="Completed"></n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+
+          <!-- Middle Size -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Middle</h3>
+            <n-button-toggle-group model-value="0" color="gray" size="middle">
+              <n-button-toggle label="Tab 1"></n-button-toggle>
+              <n-button-toggle label="Tab 2"></n-button-toggle>
+              <n-button-toggle label="Tab 3"></n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-button-toggle-group Rounded -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button-toggle-group - Rounded</h2>
+        <div class="space-y-6">
+          <!-- Full Rounded -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Full Rounded</h3>
+            <n-button-toggle-group model-value="2" color="green" rounded="full">
+              <n-button-toggle label="First"></n-button-toggle>
+              <n-button-toggle label="Second"></n-button-toggle>
+              <n-button-toggle label="Third"></n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+
+          <!-- Medium Rounded -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Medium Rounded</h3>
+            <n-button-toggle-group model-value="1" color="gray" rounded="medium">
+              <n-button-toggle label="Option A"></n-button-toggle>
+              <n-button-toggle label="Option B"></n-button-toggle>
+              <n-button-toggle label="Option C"></n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-button-toggle-group with Icons -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button-toggle-group - With Icons</h2>
+        <div class="space-y-6">
+          <!-- With Icons -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">With Icons</h3>
+            <n-button-toggle-group model-value="0" color="green">
+              <n-button-toggle>
+                <span slot="icon">📋</span>
+                <span>All Tasks</span>
+              </n-button-toggle>
+              <n-button-toggle>
+                <span slot="icon">⏳</span>
+                <span>Pending</span>
+              </n-button-toggle>
+              <n-button-toggle>
+                <span slot="icon">✅</span>
+                <span>Done</span>
+              </n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+
+          <!-- Icon Only -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Icon Only</h3>
+            <n-button-toggle-group model-value="1" color="grayGreen">
+              <n-button-toggle>
+                <span slot="icon">📊</span>
+              </n-button-toggle>
+              <n-button-toggle>
+                <span slot="icon">📈</span>
+              </n-button-toggle>
+              <n-button-toggle>
+                <span slot="icon">📉</span>
+              </n-button-toggle>
+            </n-button-toggle-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-button-toggle-group States -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button-toggle-group - States</h2>
+        <div class="space-y-6">
+          <!-- Different Active States -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Different Active Items</h3>
+            <div class="space-y-4">
+              <n-button-toggle-group model-value="0" color="green">
+                <n-button-toggle label="First"></n-button-toggle>
+                <n-button-toggle label="Second"></n-button-toggle>
+                <n-button-toggle label="Third"></n-button-toggle>
+              </n-button-toggle-group>
+
+              <n-button-toggle-group model-value="1" color="gray">
+                <n-button-toggle label="A"></n-button-toggle>
+                <n-button-toggle label="B"></n-button-toggle>
+                <n-button-toggle label="C"></n-button-toggle>
+              </n-button-toggle-group>
+
+              <n-button-toggle-group model-value="2" color="grayGreen">
+                <n-button-toggle label="X"></n-button-toggle>
+                <n-button-toggle label="Y"></n-button-toggle>
+                <n-button-toggle label="Z"></n-button-toggle>
+              </n-button-toggle-group>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Theme synchronization with parent window
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      // Apply theme on load
+      applyTheme();
+
+      // Listen for theme changes from parent window
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      // Listen for messages from parent window
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      // Periodically check for theme changes (fallback)
+      setInterval(applyTheme, 1000);
+    </script>
+  </body>
+</html>

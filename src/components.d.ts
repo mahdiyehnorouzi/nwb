@@ -5,57 +5,669 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
+import { LabelPosition } from "./components/switch/type";
+import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
+export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
+export { LabelPosition } from "./components/switch/type";
+export { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
 export namespace Components {
-    interface MyComponent {
+    interface NButton {
         /**
-          * The first name
+          * @default 'green'
          */
-        "first": string;
+        "color": 'green' | 'red' | 'blue' | 'gray';
         /**
-          * The last name
+          * @default false
          */
-        "last": string;
+        "disabled": boolean;
         /**
-          * The middle name
+          * @default false
          */
-        "middle": string;
+        "loading": boolean;
+        /**
+          * @default 'middle'
+         */
+        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        /**
+          * @default 'fill'
+         */
+        "variant": 'fill' | 'outline' | 'flat' | 'plain';
+    }
+    interface NButtonIcon {
+        /**
+          * @default 'green'
+         */
+        "color": 'green' | 'red' | 'blue' | 'gray';
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "loading": boolean;
+        /**
+          * @default 'middle'
+         */
+        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        /**
+          * @default 'fill'
+         */
+        "variant": 'fill' | 'outline' | 'flat' | 'plain';
+    }
+    interface NButtonToggle {
+        /**
+          * @default ''
+         */
+        "badge": string;
+        /**
+          * @default ''
+         */
+        "label": string;
+    }
+    interface NButtonToggleGroup {
+        /**
+          * @default 'green'
+         */
+        "color": ButtonToggleColor;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default 0
+         */
+        "modelValue": number;
+        /**
+          * @default 'full'
+         */
+        "rounded": ButtonToggleRounded;
+        /**
+          * @default 'small'
+         */
+        "size": ButtonToggleSize;
+    }
+    interface NSwitch {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default ''
+         */
+        "label": string;
+        /**
+          * @default LabelPosition.End
+         */
+        "labelPosition": LabelPosition;
+        /**
+          * @default false
+         */
+        "loading": boolean;
+        "modelValue"?: boolean;
+    }
+    interface NTable {
+        /**
+          * @default ColumnPadding.Medium
+         */
+        "cellPadding": ColumnPadding;
+        /**
+          * @default []
+         */
+        "data": any[];
+        /**
+          * @default false
+         */
+        "fixedHeader": boolean;
+        /**
+          * @default 'id'
+         */
+        "identifier": string;
+        /**
+          * @default false
+         */
+        "selectable": boolean;
+        /**
+          * @default false
+         */
+        "sortMultiple": boolean;
+        /**
+          * @default true
+         */
+        "striped": boolean;
+    }
+    interface NTableColumn {
+        /**
+          * @default 'center'
+         */
+        "align": NTableColumnConfigAlign;
+        "label"?: string;
+        "prop"?: string;
+        /**
+          * @default false
+         */
+        "sortable": boolean;
+        /**
+          * @default ColumnType.Default
+         */
+        "type": ColumnType;
+    }
+    interface NTableHeader {
+        /**
+          * @default 'center'
+         */
+        "align": NTableColumnConfigAlign;
+        "label": string;
+        "prop": string;
+        "sortIndex"?: number;
+        /**
+          * @default 'none'
+         */
+        "sortOrder": SortOrder;
+        /**
+          * @default false
+         */
+        "sortable": boolean;
+    }
+    interface NTableRow {
+        /**
+          * @default false
+         */
+        "highlighted": boolean;
+        /**
+          * @default 0
+         */
+        "index": number;
+        /**
+          * @default false
+         */
+        "isAllSelected": boolean;
+        /**
+          * @default false
+         */
+        "isClickable": boolean;
+        "row": any;
+        /**
+          * @default true
+         */
+        "rowSplitter": boolean;
+        /**
+          * @default false
+         */
+        "selectable": boolean;
+        /**
+          * @default false
+         */
+        "showLoading": boolean;
+        /**
+          * @default false
+         */
+        "striped": boolean;
     }
 }
+export interface NButtonToggleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNButtonToggleElement;
+}
+export interface NButtonToggleGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNButtonToggleGroupElement;
+}
+export interface NSwitchCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNSwitchElement;
+}
+export interface NTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNTableElement;
+}
+export interface NTableHeaderCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNTableHeaderElement;
+}
+export interface NTableRowCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNTableRowElement;
+}
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLNButtonElement extends Components.NButton, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLNButtonElement: {
+        prototype: HTMLNButtonElement;
+        new (): HTMLNButtonElement;
+    };
+    interface HTMLNButtonIconElement extends Components.NButtonIcon, HTMLStencilElement {
+    }
+    var HTMLNButtonIconElement: {
+        prototype: HTMLNButtonIconElement;
+        new (): HTMLNButtonIconElement;
+    };
+    interface HTMLNButtonToggleElementEventMap {
+        "toggleClick": number;
+    }
+    interface HTMLNButtonToggleElement extends Components.NButtonToggle, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNButtonToggleElementEventMap>(type: K, listener: (this: HTMLNButtonToggleElement, ev: NButtonToggleCustomEvent<HTMLNButtonToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNButtonToggleElementEventMap>(type: K, listener: (this: HTMLNButtonToggleElement, ev: NButtonToggleCustomEvent<HTMLNButtonToggleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNButtonToggleElement: {
+        prototype: HTMLNButtonToggleElement;
+        new (): HTMLNButtonToggleElement;
+    };
+    interface HTMLNButtonToggleGroupElementEventMap {
+        "modelValueChange": number;
+    }
+    interface HTMLNButtonToggleGroupElement extends Components.NButtonToggleGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNButtonToggleGroupElementEventMap>(type: K, listener: (this: HTMLNButtonToggleGroupElement, ev: NButtonToggleGroupCustomEvent<HTMLNButtonToggleGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNButtonToggleGroupElementEventMap>(type: K, listener: (this: HTMLNButtonToggleGroupElement, ev: NButtonToggleGroupCustomEvent<HTMLNButtonToggleGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNButtonToggleGroupElement: {
+        prototype: HTMLNButtonToggleGroupElement;
+        new (): HTMLNButtonToggleGroupElement;
+    };
+    interface HTMLNSwitchElementEventMap {
+        "modelValueChange": boolean;
+    }
+    interface HTMLNSwitchElement extends Components.NSwitch, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNSwitchElementEventMap>(type: K, listener: (this: HTMLNSwitchElement, ev: NSwitchCustomEvent<HTMLNSwitchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNSwitchElementEventMap>(type: K, listener: (this: HTMLNSwitchElement, ev: NSwitchCustomEvent<HTMLNSwitchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNSwitchElement: {
+        prototype: HTMLNSwitchElement;
+        new (): HTMLNSwitchElement;
+    };
+    interface HTMLNTableElementEventMap {
+        "selectionChange": any[];
+        "sortChange": SortBy[];
+    }
+    interface HTMLNTableElement extends Components.NTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNTableElementEventMap>(type: K, listener: (this: HTMLNTableElement, ev: NTableCustomEvent<HTMLNTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNTableElementEventMap>(type: K, listener: (this: HTMLNTableElement, ev: NTableCustomEvent<HTMLNTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNTableElement: {
+        prototype: HTMLNTableElement;
+        new (): HTMLNTableElement;
+    };
+    interface HTMLNTableColumnElement extends Components.NTableColumn, HTMLStencilElement {
+    }
+    var HTMLNTableColumnElement: {
+        prototype: HTMLNTableColumnElement;
+        new (): HTMLNTableColumnElement;
+    };
+    interface HTMLNTableHeaderElementEventMap {
+        "sortChange": {
+      prop: string;
+      order: SortOrder;
+    };
+    }
+    interface HTMLNTableHeaderElement extends Components.NTableHeader, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNTableHeaderElementEventMap>(type: K, listener: (this: HTMLNTableHeaderElement, ev: NTableHeaderCustomEvent<HTMLNTableHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNTableHeaderElementEventMap>(type: K, listener: (this: HTMLNTableHeaderElement, ev: NTableHeaderCustomEvent<HTMLNTableHeaderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNTableHeaderElement: {
+        prototype: HTMLNTableHeaderElement;
+        new (): HTMLNTableHeaderElement;
+    };
+    interface HTMLNTableRowElementEventMap {
+        "rowClick": any;
+        "rowSelectionChange": any;
+    }
+    interface HTMLNTableRowElement extends Components.NTableRow, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNTableRowElementEventMap>(type: K, listener: (this: HTMLNTableRowElement, ev: NTableRowCustomEvent<HTMLNTableRowElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNTableRowElementEventMap>(type: K, listener: (this: HTMLNTableRowElement, ev: NTableRowCustomEvent<HTMLNTableRowElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNTableRowElement: {
+        prototype: HTMLNTableRowElement;
+        new (): HTMLNTableRowElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "n-button": HTMLNButtonElement;
+        "n-button-icon": HTMLNButtonIconElement;
+        "n-button-toggle": HTMLNButtonToggleElement;
+        "n-button-toggle-group": HTMLNButtonToggleGroupElement;
+        "n-switch": HTMLNSwitchElement;
+        "n-table": HTMLNTableElement;
+        "n-table-column": HTMLNTableColumnElement;
+        "n-table-header": HTMLNTableHeaderElement;
+        "n-table-row": HTMLNTableRowElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
+
+    interface NButton {
         /**
-          * The first name
+          * @default 'green'
          */
-        "first"?: string;
+        "color"?: 'green' | 'red' | 'blue' | 'gray';
         /**
-          * The last name
+          * @default false
          */
-        "last"?: string;
+        "disabled"?: boolean;
         /**
-          * The middle name
+          * @default false
          */
-        "middle"?: string;
+        "loading"?: boolean;
+        /**
+          * @default 'middle'
+         */
+        "size"?: 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        /**
+          * @default 'fill'
+         */
+        "variant"?: 'fill' | 'outline' | 'flat' | 'plain';
     }
+    interface NButtonIcon {
+        /**
+          * @default 'green'
+         */
+        "color"?: 'green' | 'red' | 'blue' | 'gray';
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "loading"?: boolean;
+        /**
+          * @default 'middle'
+         */
+        "size"?: 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        /**
+          * @default 'fill'
+         */
+        "variant"?: 'fill' | 'outline' | 'flat' | 'plain';
+    }
+    interface NButtonToggle {
+        /**
+          * @default ''
+         */
+        "badge"?: string;
+        /**
+          * @default ''
+         */
+        "label"?: string;
+        "onToggleClick"?: (event: NButtonToggleCustomEvent<number>) => void;
+    }
+    interface NButtonToggleGroup {
+        /**
+          * @default 'green'
+         */
+        "color"?: ButtonToggleColor;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default 0
+         */
+        "modelValue"?: number;
+        "onModelValueChange"?: (event: NButtonToggleGroupCustomEvent<number>) => void;
+        /**
+          * @default 'full'
+         */
+        "rounded"?: ButtonToggleRounded;
+        /**
+          * @default 'small'
+         */
+        "size"?: ButtonToggleSize;
+    }
+    interface NSwitch {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * @default LabelPosition.End
+         */
+        "labelPosition"?: LabelPosition;
+        /**
+          * @default false
+         */
+        "loading"?: boolean;
+        "modelValue"?: boolean;
+        "onModelValueChange"?: (event: NSwitchCustomEvent<boolean>) => void;
+    }
+    interface NTable {
+        /**
+          * @default ColumnPadding.Medium
+         */
+        "cellPadding"?: ColumnPadding;
+        /**
+          * @default []
+         */
+        "data"?: any[];
+        /**
+          * @default false
+         */
+        "fixedHeader"?: boolean;
+        /**
+          * @default 'id'
+         */
+        "identifier"?: string;
+        "onSelectionChange"?: (event: NTableCustomEvent<any[]>) => void;
+        "onSortChange"?: (event: NTableCustomEvent<SortBy[]>) => void;
+        /**
+          * @default false
+         */
+        "selectable"?: boolean;
+        /**
+          * @default false
+         */
+        "sortMultiple"?: boolean;
+        /**
+          * @default true
+         */
+        "striped"?: boolean;
+    }
+    interface NTableColumn {
+        /**
+          * @default 'center'
+         */
+        "align"?: NTableColumnConfigAlign;
+        "label"?: string;
+        "prop"?: string;
+        /**
+          * @default false
+         */
+        "sortable"?: boolean;
+        /**
+          * @default ColumnType.Default
+         */
+        "type"?: ColumnType;
+    }
+    interface NTableHeader {
+        /**
+          * @default 'center'
+         */
+        "align"?: NTableColumnConfigAlign;
+        "label": string;
+        "onSortChange"?: (event: NTableHeaderCustomEvent<{
+      prop: string;
+      order: SortOrder;
+    }>) => void;
+        "prop": string;
+        "sortIndex"?: number;
+        /**
+          * @default 'none'
+         */
+        "sortOrder"?: SortOrder;
+        /**
+          * @default false
+         */
+        "sortable"?: boolean;
+    }
+    interface NTableRow {
+        /**
+          * @default false
+         */
+        "highlighted"?: boolean;
+        /**
+          * @default 0
+         */
+        "index"?: number;
+        /**
+          * @default false
+         */
+        "isAllSelected"?: boolean;
+        /**
+          * @default false
+         */
+        "isClickable"?: boolean;
+        "onRowClick"?: (event: NTableRowCustomEvent<any>) => void;
+        "onRowSelectionChange"?: (event: NTableRowCustomEvent<any>) => void;
+        "row"?: any;
+        /**
+          * @default true
+         */
+        "rowSplitter"?: boolean;
+        /**
+          * @default false
+         */
+        "selectable"?: boolean;
+        /**
+          * @default false
+         */
+        "showLoading"?: boolean;
+        /**
+          * @default false
+         */
+        "striped"?: boolean;
+    }
+
+    interface NButtonAttributes {
+        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        "variant": 'fill' | 'outline' | 'flat' | 'plain';
+        "color": 'green' | 'red' | 'blue' | 'gray';
+        "loading": boolean;
+        "disabled": boolean;
+    }
+    interface NButtonIconAttributes {
+        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        "variant": 'fill' | 'outline' | 'flat' | 'plain';
+        "color": 'green' | 'red' | 'blue' | 'gray';
+        "loading": boolean;
+        "disabled": boolean;
+    }
+    interface NButtonToggleAttributes {
+        "label": string;
+        "badge": string;
+    }
+    interface NButtonToggleGroupAttributes {
+        "modelValue": number;
+        "disabled": boolean;
+        "color": ButtonToggleColor;
+        "size": ButtonToggleSize;
+        "rounded": ButtonToggleRounded;
+    }
+    interface NSwitchAttributes {
+        "modelValue": boolean;
+        "disabled": boolean;
+        "loading": boolean;
+        "label": string;
+        "labelPosition": LabelPosition;
+    }
+    interface NTableAttributes {
+        "striped": boolean;
+        "selectable": boolean;
+        "fixedHeader": boolean;
+        "sortMultiple": boolean;
+        "identifier": string;
+        "cellPadding": ColumnPadding;
+    }
+    interface NTableColumnAttributes {
+        "prop": string;
+        "label": string;
+        "type": ColumnType;
+        "sortable": boolean;
+        "align": NTableColumnConfigAlign;
+    }
+    interface NTableHeaderAttributes {
+        "prop": string;
+        "label": string;
+        "sortable": boolean;
+        "align": NTableColumnConfigAlign;
+        "sortOrder": SortOrder;
+        "sortIndex": number;
+    }
+    interface NTableRowAttributes {
+        "row": string;
+        "index": number;
+        "highlighted": boolean;
+        "striped": boolean;
+        "rowSplitter": boolean;
+        "showLoading": boolean;
+        "selectable": boolean;
+        "isAllSelected": boolean;
+        "isClickable": boolean;
+    }
+
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "n-button": Omit<NButton, keyof NButtonAttributes> & { [K in keyof NButton & keyof NButtonAttributes]?: NButton[K] } & { [K in keyof NButton & keyof NButtonAttributes as `attr:${K}`]?: NButtonAttributes[K] } & { [K in keyof NButton & keyof NButtonAttributes as `prop:${K}`]?: NButton[K] };
+        "n-button-icon": Omit<NButtonIcon, keyof NButtonIconAttributes> & { [K in keyof NButtonIcon & keyof NButtonIconAttributes]?: NButtonIcon[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `attr:${K}`]?: NButtonIconAttributes[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `prop:${K}`]?: NButtonIcon[K] };
+        "n-button-toggle": Omit<NButtonToggle, keyof NButtonToggleAttributes> & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes]?: NButtonToggle[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `attr:${K}`]?: NButtonToggleAttributes[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `prop:${K}`]?: NButtonToggle[K] };
+        "n-button-toggle-group": Omit<NButtonToggleGroup, keyof NButtonToggleGroupAttributes> & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes]?: NButtonToggleGroup[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `attr:${K}`]?: NButtonToggleGroupAttributes[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `prop:${K}`]?: NButtonToggleGroup[K] };
+        "n-switch": Omit<NSwitch, keyof NSwitchAttributes> & { [K in keyof NSwitch & keyof NSwitchAttributes]?: NSwitch[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `attr:${K}`]?: NSwitchAttributes[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `prop:${K}`]?: NSwitch[K] };
+        "n-table": Omit<NTable, keyof NTableAttributes> & { [K in keyof NTable & keyof NTableAttributes]?: NTable[K] } & { [K in keyof NTable & keyof NTableAttributes as `attr:${K}`]?: NTableAttributes[K] } & { [K in keyof NTable & keyof NTableAttributes as `prop:${K}`]?: NTable[K] };
+        "n-table-column": Omit<NTableColumn, keyof NTableColumnAttributes> & { [K in keyof NTableColumn & keyof NTableColumnAttributes]?: NTableColumn[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `attr:${K}`]?: NTableColumnAttributes[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `prop:${K}`]?: NTableColumn[K] };
+        "n-table-header": Omit<NTableHeader, keyof NTableHeaderAttributes> & { [K in keyof NTableHeader & keyof NTableHeaderAttributes]?: NTableHeader[K] } & { [K in keyof NTableHeader & keyof NTableHeaderAttributes as `attr:${K}`]?: NTableHeaderAttributes[K] } & { [K in keyof NTableHeader & keyof NTableHeaderAttributes as `prop:${K}`]?: NTableHeader[K] } & OneOf<"prop", NTableHeader["prop"], NTableHeaderAttributes["prop"]> & OneOf<"label", NTableHeader["label"], NTableHeaderAttributes["label"]>;
+        "n-table-row": Omit<NTableRow, keyof NTableRowAttributes> & { [K in keyof NTableRow & keyof NTableRowAttributes]?: NTableRow[K] } & { [K in keyof NTableRow & keyof NTableRowAttributes as `attr:${K}`]?: NTableRowAttributes[K] } & { [K in keyof NTableRow & keyof NTableRowAttributes as `prop:${K}`]?: NTableRow[K] };
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "n-button": LocalJSX.IntrinsicElements["n-button"] & JSXBase.HTMLAttributes<HTMLNButtonElement>;
+            "n-button-icon": LocalJSX.IntrinsicElements["n-button-icon"] & JSXBase.HTMLAttributes<HTMLNButtonIconElement>;
+            "n-button-toggle": LocalJSX.IntrinsicElements["n-button-toggle"] & JSXBase.HTMLAttributes<HTMLNButtonToggleElement>;
+            "n-button-toggle-group": LocalJSX.IntrinsicElements["n-button-toggle-group"] & JSXBase.HTMLAttributes<HTMLNButtonToggleGroupElement>;
+            "n-switch": LocalJSX.IntrinsicElements["n-switch"] & JSXBase.HTMLAttributes<HTMLNSwitchElement>;
+            "n-table": LocalJSX.IntrinsicElements["n-table"] & JSXBase.HTMLAttributes<HTMLNTableElement>;
+            "n-table-column": LocalJSX.IntrinsicElements["n-table-column"] & JSXBase.HTMLAttributes<HTMLNTableColumnElement>;
+            "n-table-header": LocalJSX.IntrinsicElements["n-table-header"] & JSXBase.HTMLAttributes<HTMLNTableHeaderElement>;
+            "n-table-row": LocalJSX.IntrinsicElements["n-table-row"] & JSXBase.HTMLAttributes<HTMLNTableRowElement>;
         }
     }
 }

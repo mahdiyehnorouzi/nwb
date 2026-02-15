@@ -1,0 +1,10 @@
+/* Import CSS variables */
+@import "./tokens.css";
+
+/* Import theme styles */
+@import "./theme.css";
+
+/* Tailwind directives - moved to end to ensure variables are loaded first */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

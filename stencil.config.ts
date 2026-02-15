@@ -1,7 +1,18 @@
 import { Config } from '@stencil/core';
+import { postcss } from "@stencil-community/postcss";
 
 export const config: Config = {
   namespace: 'nwb',
+  globalStyle: 'src/global/global.css',
+  plugins: [
+    postcss({
+      plugins: [
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer')
+      ],
+    }),
+  ],
   outputTargets: [
     {
       type: 'dist',
@@ -17,7 +28,10 @@ export const config: Config = {
     },
     {
       type: 'www',
-      serviceWorker: null, // disable service workers
+      serviceWorker: null,
+      copy: [
+        { src: '/tailwind.config.js', dest: 'tailwind-config.js' }
+      ]
     },
   ],
   testing: {

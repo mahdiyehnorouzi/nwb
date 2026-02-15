@@ -3,12 +3,103 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
+    <title>NWB Component Library</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="/build/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
 
     <script type="module" src="/build/nwb.esm.js"></script>
     <script nomodule src="/build/nwb.js"></script>
   </head>
-  <body>
-    <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>
+  <body class="theme-bg p-8 min-h-screen">
+    <button id="theme-toggle" class="theme-toggle">
+      🌙 Dark Mode
+    </button>
+
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary text-center mb-8">NWB Component Library</h1>
+
+      <div class="component-grid">
+        <a href="test/buttons.html" class="component-link">
+          <div class="component-card">
+            <div class="component-header">
+              <h2>Buttons</h2>
+            </div>
+            <iframe src="test/buttons.html" class="component-content" scrolling="no"></iframe>
+          </div>
+        </a>
+
+        <a href="test/toggles.html" class="component-link">
+          <div class="component-card">
+            <div class="component-header">
+              <h2>Toggle Groups</h2>
+            </div>
+            <iframe src="test/toggles.html" class="component-content" scrolling="no"></iframe>
+          </div>
+        </a>
+
+        <a href="test/switches.html" class="component-link">
+          <div class="component-card">
+            <div class="component-header">
+              <h2>Switches</h2>
+            </div>
+            <iframe src="test/switches.html" class="component-content" scrolling="no"></iframe>
+          </div>
+        </a>
+
+        <a href="test/tables.html" class="component-link">
+          <div class="component-card">
+            <div class="component-header">
+              <h2>Tables</h2>
+            </div>
+            <iframe src="test/tables.html" class="component-content" scrolling="yes"></iframe>
+          </div>
+        </a>
+      </div>
+
+      <div class="text-center mt-12 text-primary">
+        <p>Click on any component card to open it in a new tab for full interaction.</p>
+      </div>
+    </div>
+
+    <script>
+      const themeToggle = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        html.classList.add('dark');
+        themeToggle.textContent = '☀️ Light Mode';
+      } else {
+        themeToggle.textContent = '🌙 Dark Mode';
+      }
+
+      themeToggle.addEventListener('click', () => {
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          themeToggle.textContent = '🌙 Dark Mode';
+          localStorage.setItem('theme', 'light');
+        } else {
+          html.classList.add('dark');
+          themeToggle.textContent = '☀️ Light Mode';
+          localStorage.setItem('theme', 'dark');
+        }
+
+        const iframes = document.querySelectorAll('iframe');
+        iframes.forEach(iframe => {
+          try {
+            iframe.contentWindow.postMessage({ type: 'theme-change' }, '*');
+          } catch (e) {
+          }
+        });
+      });
+    </script>
   </body>
 </html>

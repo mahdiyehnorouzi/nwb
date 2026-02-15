@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Switches</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script type="module" src="/build/nwb.esm.js"></script>
+    <script nomodule src="/build/nwb.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Switches</h1>
+
+      <!-- n-switch Variants -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-switch - States</h2>
+        <div class="space-y-6">
+          <!-- Basic States -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Basic States</h3>
+            <div class="flex gap-8 flex-wrap">
+              <n-switch label="Off"></n-switch>
+              <n-switch model-value={true} label="On"></n-switch>
+            </div>
+          </div>
+
+          <!-- Disabled States -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Disabled States</h3>
+            <div class="flex gap-8 flex-wrap">
+              <n-switch disabled label="Disabled Off"></n-switch>
+              <n-switch disabled model-value={true} label="Disabled On"></n-switch>
+            </div>
+          </div>
+
+          <!-- Loading States -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Loading States</h3>
+            <div class="flex gap-8 flex-wrap">
+              <n-switch loading label="Loading Off"></n-switch>
+              <n-switch loading model-value={true} label="Loading On"></n-switch>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-switch Label Positions -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-switch - Label Positions</h2>
+        <div class="space-y-6">
+          <!-- Label Positions -->
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-4">Label Positions</h3>
+            <div class="space-y-4">
+              <n-switch model-value={true} label="Label at End (Default)" label-position="end"></n-switch>
+              <n-switch model-value={true} label="Label at Start" label-position="start"></n-switch>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-switch Without Labels -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-switch - Without Labels</h2>
+        <div class="flex gap-8 flex-wrap">
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-4">Off</span>
+            <n-switch></n-switch>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-4">On</span>
+            <n-switch model-value={true}></n-switch>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-4">Disabled Off</span>
+            <n-switch disabled></n-switch>
+          </div>
+          <div class="text-center">
+            <span class="text-sm text-primary block mb-4">Disabled On</span>
+            <n-switch disabled model-value={true}></n-switch>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-switch Interactive Demo -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-switch - Interactive Demo</h2>
+        <div class="space-y-6">
+          <!-- Theme Switch -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h3 class="text-lg font-semibold text-primary mb-4">Theme Switch</h3>
+            <n-switch
+              id="theme-switch-demo"
+              model-value={false}
+              label="Dark Mode"
+              label-position="start"
+            ></n-switch>
+          </div>
+
+          <!-- Feature Toggles -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h3 class="text-lg font-semibold text-primary mb-4">Feature Toggles</h3>
+            <div class="space-y-4">
+              <n-switch model-value={true} label="Notifications"></n-switch>
+              <n-switch model-value={false} label="Auto-save"></n-switch>
+              <n-switch disabled model-value={true} label="Premium Feature"></n-switch>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Switch theme toggle for demo
+      const themeSwitch = document.getElementById("theme-switch-demo");
+      if (themeSwitch) {
+        themeSwitch.addEventListener("modelValueChange", (event) => {
+          const html = document.documentElement;
+          if (event.detail) {
+            html.classList.add("dark");
+          } else {
+            html.classList.remove("dark");
+          }
+        });
+      }
+    </script>
+
+    <script>
+      // Theme synchronization with parent window
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      // Apply theme on load
+      applyTheme();
+
+      // Listen for theme changes from parent window
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      // Listen for messages from parent window
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      // Periodically check for theme changes (fallback)
+      setInterval(applyTheme, 1000);
+    </script>
+  </body>
+</html>
