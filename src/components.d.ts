@@ -6,9 +6,11 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
+import { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 import { LabelPosition } from "./components/switch/type";
 import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
 export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
+export { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 export { LabelPosition } from "./components/switch/type";
 export { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
 export namespace Components {
@@ -87,6 +89,37 @@ export namespace Components {
           * @default 'small'
          */
         "size": ButtonToggleSize;
+    }
+    interface NCheap {
+        /**
+          * @default true
+         */
+        "closable": boolean;
+        /**
+          * @default 'gray'
+         */
+        "color": CheapColor;
+        /**
+          * @default ''
+         */
+        "label": string | number;
+        "modelValue"?: boolean;
+        /**
+          * @default false
+         */
+        "selectable": boolean;
+        /**
+          * @default false
+         */
+        "showIcon": boolean;
+        /**
+          * @default 'middle'
+         */
+        "size": CheapSize;
+        /**
+          * @default 'fill'
+         */
+        "variant": CheapVariant;
     }
     interface NSwitch {
         /**
@@ -214,6 +247,10 @@ export interface NButtonToggleGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNButtonToggleGroupElement;
 }
+export interface NCheapCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNCheapElement;
+}
 export interface NSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNSwitchElement;
@@ -277,6 +314,24 @@ declare global {
         prototype: HTMLNButtonToggleGroupElement;
         new (): HTMLNButtonToggleGroupElement;
     };
+    interface HTMLNCheapElementEventMap {
+        "close": void;
+        "updateModelValue": boolean;
+    }
+    interface HTMLNCheapElement extends Components.NCheap, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNCheapElementEventMap>(type: K, listener: (this: HTMLNCheapElement, ev: NCheapCustomEvent<HTMLNCheapElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNCheapElementEventMap>(type: K, listener: (this: HTMLNCheapElement, ev: NCheapCustomEvent<HTMLNCheapElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNCheapElement: {
+        prototype: HTMLNCheapElement;
+        new (): HTMLNCheapElement;
+    };
     interface HTMLNSwitchElementEventMap {
         "modelValueChange": boolean;
     }
@@ -295,7 +350,7 @@ declare global {
         new (): HTMLNSwitchElement;
     };
     interface HTMLNTableElementEventMap {
-        "selectionChange": any[];
+        "selectedRowsChange": any[];
         "sortChange": SortBy[];
     }
     interface HTMLNTableElement extends Components.NTable, HTMLStencilElement {
@@ -361,6 +416,7 @@ declare global {
         "n-button-icon": HTMLNButtonIconElement;
         "n-button-toggle": HTMLNButtonToggleElement;
         "n-button-toggle-group": HTMLNButtonToggleGroupElement;
+        "n-cheap": HTMLNCheapElement;
         "n-switch": HTMLNSwitchElement;
         "n-table": HTMLNTableElement;
         "n-table-column": HTMLNTableColumnElement;
@@ -449,6 +505,39 @@ declare namespace LocalJSX {
          */
         "size"?: ButtonToggleSize;
     }
+    interface NCheap {
+        /**
+          * @default true
+         */
+        "closable"?: boolean;
+        /**
+          * @default 'gray'
+         */
+        "color"?: CheapColor;
+        /**
+          * @default ''
+         */
+        "label"?: string | number;
+        "modelValue"?: boolean;
+        "onClose"?: (event: NCheapCustomEvent<void>) => void;
+        "onUpdateModelValue"?: (event: NCheapCustomEvent<boolean>) => void;
+        /**
+          * @default false
+         */
+        "selectable"?: boolean;
+        /**
+          * @default false
+         */
+        "showIcon"?: boolean;
+        /**
+          * @default 'middle'
+         */
+        "size"?: CheapSize;
+        /**
+          * @default 'fill'
+         */
+        "variant"?: CheapVariant;
+    }
     interface NSwitch {
         /**
           * @default false
@@ -486,7 +575,7 @@ declare namespace LocalJSX {
           * @default 'id'
          */
         "identifier"?: string;
-        "onSelectionChange"?: (event: NTableCustomEvent<any[]>) => void;
+        "onSelectedRowsChange"?: (event: NTableCustomEvent<any[]>) => void;
         "onSortChange"?: (event: NTableCustomEvent<SortBy[]>) => void;
         /**
           * @default false
@@ -601,6 +690,16 @@ declare namespace LocalJSX {
         "size": ButtonToggleSize;
         "rounded": ButtonToggleRounded;
     }
+    interface NCheapAttributes {
+        "modelValue": boolean;
+        "variant": CheapVariant;
+        "closable": boolean;
+        "showIcon": boolean;
+        "label": string;
+        "size": CheapSize;
+        "color": CheapColor;
+        "selectable": boolean;
+    }
     interface NSwitchAttributes {
         "modelValue": boolean;
         "disabled": boolean;
@@ -648,6 +747,7 @@ declare namespace LocalJSX {
         "n-button-icon": Omit<NButtonIcon, keyof NButtonIconAttributes> & { [K in keyof NButtonIcon & keyof NButtonIconAttributes]?: NButtonIcon[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `attr:${K}`]?: NButtonIconAttributes[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `prop:${K}`]?: NButtonIcon[K] };
         "n-button-toggle": Omit<NButtonToggle, keyof NButtonToggleAttributes> & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes]?: NButtonToggle[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `attr:${K}`]?: NButtonToggleAttributes[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `prop:${K}`]?: NButtonToggle[K] };
         "n-button-toggle-group": Omit<NButtonToggleGroup, keyof NButtonToggleGroupAttributes> & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes]?: NButtonToggleGroup[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `attr:${K}`]?: NButtonToggleGroupAttributes[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `prop:${K}`]?: NButtonToggleGroup[K] };
+        "n-cheap": Omit<NCheap, keyof NCheapAttributes> & { [K in keyof NCheap & keyof NCheapAttributes]?: NCheap[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `attr:${K}`]?: NCheapAttributes[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `prop:${K}`]?: NCheap[K] };
         "n-switch": Omit<NSwitch, keyof NSwitchAttributes> & { [K in keyof NSwitch & keyof NSwitchAttributes]?: NSwitch[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `attr:${K}`]?: NSwitchAttributes[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `prop:${K}`]?: NSwitch[K] };
         "n-table": Omit<NTable, keyof NTableAttributes> & { [K in keyof NTable & keyof NTableAttributes]?: NTable[K] } & { [K in keyof NTable & keyof NTableAttributes as `attr:${K}`]?: NTableAttributes[K] } & { [K in keyof NTable & keyof NTableAttributes as `prop:${K}`]?: NTable[K] };
         "n-table-column": Omit<NTableColumn, keyof NTableColumnAttributes> & { [K in keyof NTableColumn & keyof NTableColumnAttributes]?: NTableColumn[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `attr:${K}`]?: NTableColumnAttributes[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `prop:${K}`]?: NTableColumn[K] };
@@ -663,6 +763,7 @@ declare module "@stencil/core" {
             "n-button-icon": LocalJSX.IntrinsicElements["n-button-icon"] & JSXBase.HTMLAttributes<HTMLNButtonIconElement>;
             "n-button-toggle": LocalJSX.IntrinsicElements["n-button-toggle"] & JSXBase.HTMLAttributes<HTMLNButtonToggleElement>;
             "n-button-toggle-group": LocalJSX.IntrinsicElements["n-button-toggle-group"] & JSXBase.HTMLAttributes<HTMLNButtonToggleGroupElement>;
+            "n-cheap": LocalJSX.IntrinsicElements["n-cheap"] & JSXBase.HTMLAttributes<HTMLNCheapElement>;
             "n-switch": LocalJSX.IntrinsicElements["n-switch"] & JSXBase.HTMLAttributes<HTMLNSwitchElement>;
             "n-table": LocalJSX.IntrinsicElements["n-table"] & JSXBase.HTMLAttributes<HTMLNTableElement>;
             "n-table-column": LocalJSX.IntrinsicElements["n-table-column"] & JSXBase.HTMLAttributes<HTMLNTableColumnElement>;

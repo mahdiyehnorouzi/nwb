@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Cheap</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/build/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script nomodule src="/build/nwb.js"></script>
+    <script type="module">
+      import('/build/nwb.esm.js').then(() => {
+        console.log('Components loaded');
+      }).catch(err => {
+        console.error('Failed to load components:', err);
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Cheap</h1>
+
+      <!-- n-cheap Variants & Colors -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-cheap - Variants & Colors</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <!-- Fill Variant -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Fill</h3>
+            <div class="flex flex-wrap gap-2">
+              <n-cheap variant="fill" color="gray" label="Gray"></n-cheap>
+              <n-cheap variant="fill" color="green" label="Green"></n-cheap>
+              <n-cheap variant="fill" color="red" label="Red"></n-cheap>
+              <n-cheap variant="fill" color="blue" label="Blue"></n-cheap>
+              <n-cheap variant="fill" color="yellow" label="Yellow"></n-cheap>
+            </div>
+          </div>
+
+          <!-- Outline Variant -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Outline</h3>
+            <div class="flex flex-wrap gap-2">
+              <n-cheap variant="outline" color="gray" label="Gray"></n-cheap>
+              <n-cheap variant="outline" color="green" label="Green"></n-cheap>
+              <n-cheap variant="outline" color="red" label="Red"></n-cheap>
+              <n-cheap variant="outline" color="blue" label="Blue"></n-cheap>
+              <n-cheap variant="outline" color="yellow" label="Yellow"></n-cheap>
+            </div>
+          </div>
+
+          <!-- Plain Variant -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-primary">Plain</h3>
+            <div class="flex flex-wrap gap-2">
+              <n-cheap variant="plain" color="gray" label="Gray"></n-cheap>
+              <n-cheap variant="plain" color="green" label="Green"></n-cheap>
+              <n-cheap variant="plain" color="red" label="Red"></n-cheap>
+              <n-cheap variant="plain" color="blue" label="Blue"></n-cheap>
+              <n-cheap variant="plain" color="yellow" label="Yellow"></n-cheap>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-cheap Sizes -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-cheap - Sizes</h2>
+        <div class="flex items-center gap-6 flex-wrap">
+          <div class="space-y-2">
+            <span class="text-sm text-primary block">Small</span>
+            <n-cheap size="small" variant="fill" color="green" label="Small Cheap"></n-cheap>
+          </div>
+          <div class="space-y-2">
+            <span class="text-sm text-primary block">Middle</span>
+            <n-cheap size="middle" variant="fill" color="green" label="Middle Cheap"></n-cheap>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-cheap with Icons -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-cheap - With Icons</h2>
+        <div class="flex flex-wrap gap-4">
+          <n-cheap variant="fill" color="green" label="Success" show-icon>
+            <span slot="icon">✅</span>
+          </n-cheap>
+          <n-cheap variant="fill" color="red" label="Error" show-icon>
+            <span slot="icon">❌</span>
+          </n-cheap>
+          <n-cheap variant="fill" color="blue" label="Info" show-icon>
+            <span slot="icon">ℹ️</span>
+          </n-cheap>
+          <n-cheap variant="fill" color="yellow" label="Warning" show-icon>
+            <span slot="icon">⚠️</span>
+          </n-cheap>
+        </div>
+      </div>
+
+      <!-- n-cheap Closable -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-cheap - Closable</h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-2">With Close Button (default)</h3>
+            <div class="flex flex-wrap gap-2">
+              <n-cheap variant="fill" color="green" label="Closable"></n-cheap>
+              <n-cheap variant="outline" color="red" label="Closable"></n-cheap>
+              <n-cheap variant="plain" color="blue" label="Closable"></n-cheap>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-2">Not Closable</h3>
+            <div class="flex flex-wrap gap-2">
+              <n-cheap variant="fill" color="green" label="Not Closable" closable="false"></n-cheap>
+              <n-cheap variant="outline" color="red" label="Not Closable" closable="false"></n-cheap>
+              <n-cheap variant="plain" color="blue" label="Not Closable" closable="false"></n-cheap>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-cheap Selectable -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-cheap - Selectable</h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-2">Selectable (Click to select)</h3>
+            <div class="flex flex-wrap gap-2">
+              <n-cheap variant="fill" color="green" label="Selectable" selectable></n-cheap>
+              <n-cheap variant="fill" color="red" label="Selectable" selectable></n-cheap>
+              <n-cheap variant="outline" color="blue" label="Selectable" selectable></n-cheap>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-primary mb-2">Selected State</h3>
+            <div class="flex flex-wrap gap-2">
+              <n-cheap variant="fill" color="green" label="Selected" selectable model-value="true"></n-cheap>
+              <n-cheap variant="fill" color="red" label="Selected" selectable model-value="true"></n-cheap>
+              <n-cheap variant="outline" color="blue" label="Selected" selectable model-value="true"></n-cheap>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-cheap with Slots -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-cheap - Custom Label Slot</h2>
+        <div class="flex flex-wrap gap-2">
+          <n-cheap variant="fill" color="green">
+            <span slot="label">Custom Label</span>
+          </n-cheap>
+          <n-cheap variant="outline" color="red">
+            <span slot="label">Custom <strong>Bold</strong> Label</span>
+          </n-cheap>
+          <n-cheap variant="plain" color="blue">
+            <span slot="label">Custom Label with Icon</span>
+            <span slot="icon">🎯</span>
+          </n-cheap>
+        </div>
+      </div>
+
+      <!-- Interactive Example -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Interactive Example</h2>
+        <div class="space-y-4">
+          <p class="text-primary">Click on closable cheaps to remove them, or click on selectable cheaps to toggle selection.</p>
+          <div id="cheap-container" class="flex flex-wrap gap-2">
+            <n-cheap variant="fill" color="green" label="Item 1"></n-cheap>
+            <n-cheap variant="fill" color="blue" label="Item 2"></n-cheap>
+            <n-cheap variant="fill" color="red" label="Item 3"></n-cheap>
+            <n-cheap variant="outline" color="yellow" label="Selectable Item" selectable></n-cheap>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Theme synchronization with parent window
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      // Apply theme on load
+      applyTheme();
+
+      // Listen for theme changes from parent window
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      // Listen for messages from parent window
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      // Periodically check for theme changes (fallback)
+      setInterval(applyTheme, 1000);
+
+      // Interactive example handlers
+      const container = document.getElementById('cheap-container');
+      if (container) {
+        container.addEventListener('close', (e) => {
+          const cheap = e.target;
+          if (cheap && cheap.parentNode) {
+            cheap.parentNode.removeChild(cheap);
+          }
+        });
+
+        container.addEventListener('updateModelValue', (e) => {
+          const cheap = e.target;
+          console.log('Cheap selection changed:', cheap.modelValue);
+        });
+      }
+    </script>
+  </body>
+</html>

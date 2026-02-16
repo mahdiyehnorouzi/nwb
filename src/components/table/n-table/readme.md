@@ -20,10 +20,10 @@
 
 ## Events
 
-| Event             | Description | Type                    |
-| ----------------- | ----------- | ----------------------- |
-| `selectionChange` |             | `CustomEvent<any[]>`    |
-| `sortChange`      |             | `CustomEvent<SortBy[]>` |
+| Event                | Description | Type                    |
+| -------------------- | ----------- | ----------------------- |
+| `selectedRowsChange` |             | `CustomEvent<any[]>`    |
+| `sortChange`         |             | `CustomEvent<SortBy[]>` |
 
 
 ----------------------------------------------

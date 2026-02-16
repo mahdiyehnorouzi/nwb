@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core';
 import { postcss } from "@stencil-community/postcss";
+import { resolve } from 'path';
 
 export const config: Config = {
   namespace: 'nwb',
@@ -30,7 +31,9 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null,
       copy: [
-        { src: '/tailwind.config.js', dest: 'tailwind-config.js' }
+        { src: resolve(process.cwd(), 'tailwind.config.js'), dest: 'build/tailwind-config.js', warn: true },
+        { src: 'index.css', dest: 'index.css', warn: true },
+        { src: 'test', dest: 'test', warn: true }
       ]
     },
   ],
