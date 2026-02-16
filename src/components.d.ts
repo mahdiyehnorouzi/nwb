@@ -7,10 +7,12 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 import { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
+import { InputType, Size } from "./components/input/type";
 import { LabelPosition } from "./components/switch/type";
 import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
 export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 export { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
+export { InputType, Size } from "./components/input/type";
 export { LabelPosition } from "./components/switch/type";
 export { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
 export namespace Components {
@@ -120,6 +122,64 @@ export namespace Components {
           * @default 'fill'
          */
         "variant": CheapVariant;
+    }
+    interface NInput {
+        /**
+          * @default true
+         */
+        "changeValueOnMouseWheel": boolean;
+        /**
+          * @default false
+         */
+        "clearable": boolean;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default ''
+         */
+        "error": string;
+        /**
+          * @default true
+         */
+        "forceEnDigit": boolean;
+        /**
+          * @default ''
+         */
+        "label": string;
+        /**
+          * @default Infinity
+         */
+        "max": number;
+        /**
+          * @default -Infinity
+         */
+        "min": number;
+        /**
+          * @default ''
+         */
+        "modelValue": string | number;
+        /**
+          * @default 3
+         */
+        "rows": number;
+        /**
+          * @default false
+         */
+        "showError": boolean;
+        /**
+          * @default 'middle'
+         */
+        "size": Size;
+        /**
+          * @default 1
+         */
+        "step": number;
+        /**
+          * @default 'text'
+         */
+        "type": InputType;
     }
     interface NSwitch {
         /**
@@ -251,6 +311,10 @@ export interface NCheapCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNCheapElement;
 }
+export interface NInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNInputElement;
+}
 export interface NSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNSwitchElement;
@@ -331,6 +395,23 @@ declare global {
     var HTMLNCheapElement: {
         prototype: HTMLNCheapElement;
         new (): HTMLNCheapElement;
+    };
+    interface HTMLNInputElementEventMap {
+        "updateModelValue": string | number;
+    }
+    interface HTMLNInputElement extends Components.NInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNInputElementEventMap>(type: K, listener: (this: HTMLNInputElement, ev: NInputCustomEvent<HTMLNInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNInputElementEventMap>(type: K, listener: (this: HTMLNInputElement, ev: NInputCustomEvent<HTMLNInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNInputElement: {
+        prototype: HTMLNInputElement;
+        new (): HTMLNInputElement;
     };
     interface HTMLNSwitchElementEventMap {
         "modelValueChange": boolean;
@@ -417,6 +498,7 @@ declare global {
         "n-button-toggle": HTMLNButtonToggleElement;
         "n-button-toggle-group": HTMLNButtonToggleGroupElement;
         "n-cheap": HTMLNCheapElement;
+        "n-input": HTMLNInputElement;
         "n-switch": HTMLNSwitchElement;
         "n-table": HTMLNTableElement;
         "n-table-column": HTMLNTableColumnElement;
@@ -537,6 +619,65 @@ declare namespace LocalJSX {
           * @default 'fill'
          */
         "variant"?: CheapVariant;
+    }
+    interface NInput {
+        /**
+          * @default true
+         */
+        "changeValueOnMouseWheel"?: boolean;
+        /**
+          * @default false
+         */
+        "clearable"?: boolean;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default ''
+         */
+        "error"?: string;
+        /**
+          * @default true
+         */
+        "forceEnDigit"?: boolean;
+        /**
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * @default Infinity
+         */
+        "max"?: number;
+        /**
+          * @default -Infinity
+         */
+        "min"?: number;
+        /**
+          * @default ''
+         */
+        "modelValue"?: string | number;
+        "onUpdateModelValue"?: (event: NInputCustomEvent<string | number>) => void;
+        /**
+          * @default 3
+         */
+        "rows"?: number;
+        /**
+          * @default false
+         */
+        "showError"?: boolean;
+        /**
+          * @default 'middle'
+         */
+        "size"?: Size;
+        /**
+          * @default 1
+         */
+        "step"?: number;
+        /**
+          * @default 'text'
+         */
+        "type"?: InputType;
     }
     interface NSwitch {
         /**
@@ -700,6 +841,22 @@ declare namespace LocalJSX {
         "color": CheapColor;
         "selectable": boolean;
     }
+    interface NInputAttributes {
+        "modelValue": string;
+        "disabled": boolean;
+        "type": InputType;
+        "label": string;
+        "showError": boolean;
+        "error": string;
+        "clearable": boolean;
+        "rows": number;
+        "forceEnDigit": boolean;
+        "size": Size;
+        "min": number;
+        "max": number;
+        "step": number;
+        "changeValueOnMouseWheel": boolean;
+    }
     interface NSwitchAttributes {
         "modelValue": boolean;
         "disabled": boolean;
@@ -748,6 +905,7 @@ declare namespace LocalJSX {
         "n-button-toggle": Omit<NButtonToggle, keyof NButtonToggleAttributes> & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes]?: NButtonToggle[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `attr:${K}`]?: NButtonToggleAttributes[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `prop:${K}`]?: NButtonToggle[K] };
         "n-button-toggle-group": Omit<NButtonToggleGroup, keyof NButtonToggleGroupAttributes> & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes]?: NButtonToggleGroup[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `attr:${K}`]?: NButtonToggleGroupAttributes[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `prop:${K}`]?: NButtonToggleGroup[K] };
         "n-cheap": Omit<NCheap, keyof NCheapAttributes> & { [K in keyof NCheap & keyof NCheapAttributes]?: NCheap[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `attr:${K}`]?: NCheapAttributes[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `prop:${K}`]?: NCheap[K] };
+        "n-input": Omit<NInput, keyof NInputAttributes> & { [K in keyof NInput & keyof NInputAttributes]?: NInput[K] } & { [K in keyof NInput & keyof NInputAttributes as `attr:${K}`]?: NInputAttributes[K] } & { [K in keyof NInput & keyof NInputAttributes as `prop:${K}`]?: NInput[K] };
         "n-switch": Omit<NSwitch, keyof NSwitchAttributes> & { [K in keyof NSwitch & keyof NSwitchAttributes]?: NSwitch[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `attr:${K}`]?: NSwitchAttributes[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `prop:${K}`]?: NSwitch[K] };
         "n-table": Omit<NTable, keyof NTableAttributes> & { [K in keyof NTable & keyof NTableAttributes]?: NTable[K] } & { [K in keyof NTable & keyof NTableAttributes as `attr:${K}`]?: NTableAttributes[K] } & { [K in keyof NTable & keyof NTableAttributes as `prop:${K}`]?: NTable[K] };
         "n-table-column": Omit<NTableColumn, keyof NTableColumnAttributes> & { [K in keyof NTableColumn & keyof NTableColumnAttributes]?: NTableColumn[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `attr:${K}`]?: NTableColumnAttributes[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `prop:${K}`]?: NTableColumn[K] };
@@ -764,6 +922,7 @@ declare module "@stencil/core" {
             "n-button-toggle": LocalJSX.IntrinsicElements["n-button-toggle"] & JSXBase.HTMLAttributes<HTMLNButtonToggleElement>;
             "n-button-toggle-group": LocalJSX.IntrinsicElements["n-button-toggle-group"] & JSXBase.HTMLAttributes<HTMLNButtonToggleGroupElement>;
             "n-cheap": LocalJSX.IntrinsicElements["n-cheap"] & JSXBase.HTMLAttributes<HTMLNCheapElement>;
+            "n-input": LocalJSX.IntrinsicElements["n-input"] & JSXBase.HTMLAttributes<HTMLNInputElement>;
             "n-switch": LocalJSX.IntrinsicElements["n-switch"] & JSXBase.HTMLAttributes<HTMLNSwitchElement>;
             "n-table": LocalJSX.IntrinsicElements["n-table"] & JSXBase.HTMLAttributes<HTMLNTableElement>;
             "n-table-column": LocalJSX.IntrinsicElements["n-table-column"] & JSXBase.HTMLAttributes<HTMLNTableColumnElement>;

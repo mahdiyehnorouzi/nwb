@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Inputs</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/build/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script nomodule src="/build/nwb.js"></script>
+    <script type="module">
+      import('/build/nwb.esm.js').then(() => {
+        console.log('Components loaded');
+      }).catch(err => {
+        console.error('Failed to load components:', err);
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Inputs</h1>
+
+      <!-- n-input Types -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-input - Input Types</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm text-primary mb-2">Text Input</label>
+              <n-input type="text" model-value="Sample text"></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">Number Input</label>
+              <n-input type="number" model-value="123" min="0" max="1000" step="1"></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">Tel Input</label>
+              <n-input type="tel" model-value="09123456789"></n-input>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm text-primary mb-2">Password Input</label>
+              <n-input type="password" model-value="password123"></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">Search Input</label>
+              <n-input type="search" model-value="Search query"></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">Textarea</label>
+              <n-input type="textarea" model-value="Multi-line text input" rows="4"></n-input>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-input Sizes -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-input - Sizes</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-primary mb-2">Mini</label>
+            <n-input size="mini" type="text" model-value="Mini input"></n-input>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Small</label>
+            <n-input size="small" type="text" model-value="Small input"></n-input>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Middle</label>
+            <n-input size="middle" type="text" model-value="Middle input"></n-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-input States -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-input - States</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm text-primary mb-2">Normal</label>
+              <n-input type="text" model-value="Normal input"></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">Disabled</label>
+              <n-input type="text" model-value="Disabled input" disabled></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">With Error</label>
+              <n-input type="text" model-value="Invalid input" error="This field is required"></n-input>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm text-primary mb-2">Clearable</label>
+              <n-input type="text" model-value="Clearable input" clearable></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">Empty Clearable</label>
+              <n-input type="text" model-value="" clearable></n-input>
+            </div>
+            <div>
+              <label class="block text-sm text-primary mb-2">With Label</label>
+              <n-input type="text" model-value="Input with label" label="Username"></n-input>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-input with Prefix/Postfix -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-input - With Prefix & Postfix</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-primary mb-2">With Prefix Icon</label>
+            <n-input type="text" model-value="Search...">
+              <span slot="prefix">🔍</span>
+            </n-input>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">With Postfix Icon</label>
+            <n-input type="text" model-value="example@email.com">
+              <span slot="postfix">✉️</span>
+            </n-input>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">With Both Prefix & Postfix</label>
+            <n-input type="text" model-value="Price">
+              <span slot="prefix">$</span>
+              <span slot="postfix">USD</span>
+            </n-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-input Numeric Features -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-input - Numeric Input Features</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-primary mb-2">Number with Min/Max (0-100)</label>
+            <n-input type="number" model-value="50" min="0" max="100" step="1"></n-input>
+            <p class="text-xs text-primary mt-1">Use arrow keys or mouse wheel to change value</p>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Number with Step (step: 5)</label>
+            <n-input type="number" model-value="10" min="0" max="100" step="5"></n-input>
+            <p class="text-xs text-primary mt-1">Use arrow keys or mouse wheel to change value</p>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Number without Mouse Wheel</label>
+            <n-input type="number" model-value="25" min="0" max="100" step="1" change-value-on-mouse-wheel="false"></n-input>
+            <p class="text-xs text-primary mt-1">Mouse wheel disabled, use arrow keys only</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-input Force English Digits -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-input - Force English Digits</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-primary mb-2">Force English Digits (default)</label>
+            <n-input type="tel" model-value="09123456789" force-en-digit></n-input>
+            <p class="text-xs text-primary mt-1">Persian digits will be converted to English</p>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Allow Persian Digits</label>
+            <n-input type="tel" model-value="۰۹۱۲۳۴۵۶۷۸۹" force-en-digit="false"></n-input>
+            <p class="text-xs text-primary mt-1">Persian digits are allowed</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-input Textarea -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-input - Textarea</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-primary mb-2">Default Rows (3)</label>
+            <n-input type="textarea" model-value="This is a textarea with default 3 rows."></n-input>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Custom Rows (5)</label>
+            <n-input type="textarea" model-value="This is a textarea with 5 rows." rows="5"></n-input>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Textarea with Error</label>
+            <n-input type="textarea" model-value="Invalid textarea" error="Maximum 100 characters allowed" rows="4"></n-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Examples -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Interactive Examples</h2>
+        <div class="space-y-6">
+          <div>
+            <label class="block text-sm text-primary mb-2">Form Example</label>
+            <div class="space-y-4 max-w-md">
+              <n-input type="text" model-value="" label="Username" clearable></n-input>
+              <n-input type="password" model-value="" label="Password"></n-input>
+              <n-input type="tel" model-value="" label="Phone Number" force-en-digit></n-input>
+              <n-input type="textarea" model-value="" label="Message" rows="4"></n-input>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-primary mb-2">Search Form</label>
+            <div class="max-w-md">
+              <n-input type="search" model-value="" clearable>
+                <span slot="prefix">🔍</span>
+              </n-input>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      applyTheme();
+
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      setInterval(applyTheme, 1000);
+
+      const inputs = document.querySelectorAll('n-input');
+      inputs.forEach(input => {
+        input.addEventListener('updateModelValue', (e) => {
+          console.log('Input value changed:', e.detail);
+        });
+      });
+    </script>
+  </body>
+</html>
