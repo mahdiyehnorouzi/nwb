@@ -10,11 +10,13 @@ import { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 import { InputType, Size } from "./components/input/type";
 import { LabelPosition } from "./components/switch/type";
 import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
+import { Position, Toast, Variants } from "./components/toast/types";
 export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 export { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 export { InputType, Size } from "./components/input/type";
 export { LabelPosition } from "./components/switch/type";
 export { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
+export { Position, Toast, Variants } from "./components/toast/types";
 export namespace Components {
     interface NButton {
         /**
@@ -181,6 +183,21 @@ export namespace Components {
          */
         "type": InputType;
     }
+    interface NProgress {
+        "backgroundColorCode": string;
+        /**
+          * @default 0
+         */
+        "percentage": number;
+        /**
+          * @default 'white'
+         */
+        "progressColorCode": string;
+        /**
+          * @default 10
+         */
+        "size": number;
+    }
     interface NSwitch {
         /**
           * @default false
@@ -298,6 +315,71 @@ export namespace Components {
          */
         "striped": boolean;
     }
+    interface NToast {
+        "addToast": (toast: Toast) => Promise<void>;
+        "clearAll": () => Promise<void>;
+        /**
+          * @default 0
+         */
+        "offset": number;
+        /**
+          * @default Position.Bottom
+         */
+        "position": Position;
+        /**
+          * @default false
+         */
+        "queued": boolean;
+    }
+    interface NToastItem {
+        /**
+          * @default true
+         */
+        "closable": boolean;
+        "depth": number;
+        /**
+          * @default 3000
+         */
+        "duration": number;
+        /**
+          * @default true
+         */
+        "enabled": boolean;
+        "index": number;
+        /**
+          * @default false
+         */
+        "loading": boolean;
+        /**
+          * @default ''
+         */
+        "message": string;
+        /**
+          * @default 0
+         */
+        "offset": number;
+        /**
+          * @default Position.Bottom
+         */
+        "position": Position;
+        /**
+          * @default false
+         */
+        "queued": boolean;
+        /**
+          * @default false
+         */
+        "removed": boolean;
+        /**
+          * @default false
+         */
+        "showIcon": boolean;
+        "toastId": string;
+        /**
+          * @default Variants.Positive
+         */
+        "variant": Variants;
+    }
 }
 export interface NButtonToggleCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -330,6 +412,10 @@ export interface NTableHeaderCustomEvent<T> extends CustomEvent<T> {
 export interface NTableRowCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNTableRowElement;
+}
+export interface NToastItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNToastItemElement;
 }
 declare global {
     interface HTMLNButtonElement extends Components.NButton, HTMLStencilElement {
@@ -413,6 +499,12 @@ declare global {
         prototype: HTMLNInputElement;
         new (): HTMLNInputElement;
     };
+    interface HTMLNProgressElement extends Components.NProgress, HTMLStencilElement {
+    }
+    var HTMLNProgressElement: {
+        prototype: HTMLNProgressElement;
+        new (): HTMLNProgressElement;
+    };
     interface HTMLNSwitchElementEventMap {
         "modelValueChange": boolean;
     }
@@ -492,6 +584,30 @@ declare global {
         prototype: HTMLNTableRowElement;
         new (): HTMLNTableRowElement;
     };
+    interface HTMLNToastElement extends Components.NToast, HTMLStencilElement {
+    }
+    var HTMLNToastElement: {
+        prototype: HTMLNToastElement;
+        new (): HTMLNToastElement;
+    };
+    interface HTMLNToastItemElementEventMap {
+        "remove": string;
+        "removeAll": void;
+    }
+    interface HTMLNToastItemElement extends Components.NToastItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNToastItemElementEventMap>(type: K, listener: (this: HTMLNToastItemElement, ev: NToastItemCustomEvent<HTMLNToastItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNToastItemElementEventMap>(type: K, listener: (this: HTMLNToastItemElement, ev: NToastItemCustomEvent<HTMLNToastItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNToastItemElement: {
+        prototype: HTMLNToastItemElement;
+        new (): HTMLNToastItemElement;
+    };
     interface HTMLElementTagNameMap {
         "n-button": HTMLNButtonElement;
         "n-button-icon": HTMLNButtonIconElement;
@@ -499,11 +615,14 @@ declare global {
         "n-button-toggle-group": HTMLNButtonToggleGroupElement;
         "n-cheap": HTMLNCheapElement;
         "n-input": HTMLNInputElement;
+        "n-progress": HTMLNProgressElement;
         "n-switch": HTMLNSwitchElement;
         "n-table": HTMLNTableElement;
         "n-table-column": HTMLNTableColumnElement;
         "n-table-header": HTMLNTableHeaderElement;
         "n-table-row": HTMLNTableRowElement;
+        "n-toast": HTMLNToastElement;
+        "n-toast-item": HTMLNToastItemElement;
     }
 }
 declare namespace LocalJSX {
@@ -679,6 +798,21 @@ declare namespace LocalJSX {
          */
         "type"?: InputType;
     }
+    interface NProgress {
+        "backgroundColorCode": string;
+        /**
+          * @default 0
+         */
+        "percentage"?: number;
+        /**
+          * @default 'white'
+         */
+        "progressColorCode"?: string;
+        /**
+          * @default 10
+         */
+        "size"?: number;
+    }
     interface NSwitch {
         /**
           * @default false
@@ -805,6 +939,71 @@ declare namespace LocalJSX {
          */
         "striped"?: boolean;
     }
+    interface NToast {
+        /**
+          * @default 0
+         */
+        "offset"?: number;
+        /**
+          * @default Position.Bottom
+         */
+        "position"?: Position;
+        /**
+          * @default false
+         */
+        "queued"?: boolean;
+    }
+    interface NToastItem {
+        /**
+          * @default true
+         */
+        "closable"?: boolean;
+        "depth": number;
+        /**
+          * @default 3000
+         */
+        "duration"?: number;
+        /**
+          * @default true
+         */
+        "enabled"?: boolean;
+        "index": number;
+        /**
+          * @default false
+         */
+        "loading"?: boolean;
+        /**
+          * @default ''
+         */
+        "message"?: string;
+        /**
+          * @default 0
+         */
+        "offset"?: number;
+        "onRemove"?: (event: NToastItemCustomEvent<string>) => void;
+        "onRemoveAll"?: (event: NToastItemCustomEvent<void>) => void;
+        /**
+          * @default Position.Bottom
+         */
+        "position"?: Position;
+        /**
+          * @default false
+         */
+        "queued"?: boolean;
+        /**
+          * @default false
+         */
+        "removed"?: boolean;
+        /**
+          * @default false
+         */
+        "showIcon"?: boolean;
+        "toastId": string;
+        /**
+          * @default Variants.Positive
+         */
+        "variant"?: Variants;
+    }
 
     interface NButtonAttributes {
         "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
@@ -857,6 +1056,12 @@ declare namespace LocalJSX {
         "step": number;
         "changeValueOnMouseWheel": boolean;
     }
+    interface NProgressAttributes {
+        "percentage": number;
+        "backgroundColorCode": string;
+        "progressColorCode": string;
+        "size": number;
+    }
     interface NSwitchAttributes {
         "modelValue": boolean;
         "disabled": boolean;
@@ -898,6 +1103,27 @@ declare namespace LocalJSX {
         "isAllSelected": boolean;
         "isClickable": boolean;
     }
+    interface NToastAttributes {
+        "offset": number;
+        "queued": boolean;
+        "position": Position;
+    }
+    interface NToastItemAttributes {
+        "toastId": string;
+        "message": string;
+        "duration": number;
+        "variant": Variants;
+        "loading": boolean;
+        "closable": boolean;
+        "showIcon": boolean;
+        "index": number;
+        "depth": number;
+        "queued": boolean;
+        "enabled": boolean;
+        "position": Position;
+        "offset": number;
+        "removed": boolean;
+    }
 
     interface IntrinsicElements {
         "n-button": Omit<NButton, keyof NButtonAttributes> & { [K in keyof NButton & keyof NButtonAttributes]?: NButton[K] } & { [K in keyof NButton & keyof NButtonAttributes as `attr:${K}`]?: NButtonAttributes[K] } & { [K in keyof NButton & keyof NButtonAttributes as `prop:${K}`]?: NButton[K] };
@@ -906,11 +1132,14 @@ declare namespace LocalJSX {
         "n-button-toggle-group": Omit<NButtonToggleGroup, keyof NButtonToggleGroupAttributes> & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes]?: NButtonToggleGroup[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `attr:${K}`]?: NButtonToggleGroupAttributes[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `prop:${K}`]?: NButtonToggleGroup[K] };
         "n-cheap": Omit<NCheap, keyof NCheapAttributes> & { [K in keyof NCheap & keyof NCheapAttributes]?: NCheap[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `attr:${K}`]?: NCheapAttributes[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `prop:${K}`]?: NCheap[K] };
         "n-input": Omit<NInput, keyof NInputAttributes> & { [K in keyof NInput & keyof NInputAttributes]?: NInput[K] } & { [K in keyof NInput & keyof NInputAttributes as `attr:${K}`]?: NInputAttributes[K] } & { [K in keyof NInput & keyof NInputAttributes as `prop:${K}`]?: NInput[K] };
+        "n-progress": Omit<NProgress, keyof NProgressAttributes> & { [K in keyof NProgress & keyof NProgressAttributes]?: NProgress[K] } & { [K in keyof NProgress & keyof NProgressAttributes as `attr:${K}`]?: NProgressAttributes[K] } & { [K in keyof NProgress & keyof NProgressAttributes as `prop:${K}`]?: NProgress[K] } & OneOf<"backgroundColorCode", NProgress["backgroundColorCode"], NProgressAttributes["backgroundColorCode"]>;
         "n-switch": Omit<NSwitch, keyof NSwitchAttributes> & { [K in keyof NSwitch & keyof NSwitchAttributes]?: NSwitch[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `attr:${K}`]?: NSwitchAttributes[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `prop:${K}`]?: NSwitch[K] };
         "n-table": Omit<NTable, keyof NTableAttributes> & { [K in keyof NTable & keyof NTableAttributes]?: NTable[K] } & { [K in keyof NTable & keyof NTableAttributes as `attr:${K}`]?: NTableAttributes[K] } & { [K in keyof NTable & keyof NTableAttributes as `prop:${K}`]?: NTable[K] };
         "n-table-column": Omit<NTableColumn, keyof NTableColumnAttributes> & { [K in keyof NTableColumn & keyof NTableColumnAttributes]?: NTableColumn[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `attr:${K}`]?: NTableColumnAttributes[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `prop:${K}`]?: NTableColumn[K] };
         "n-table-header": Omit<NTableHeader, keyof NTableHeaderAttributes> & { [K in keyof NTableHeader & keyof NTableHeaderAttributes]?: NTableHeader[K] } & { [K in keyof NTableHeader & keyof NTableHeaderAttributes as `attr:${K}`]?: NTableHeaderAttributes[K] } & { [K in keyof NTableHeader & keyof NTableHeaderAttributes as `prop:${K}`]?: NTableHeader[K] } & OneOf<"prop", NTableHeader["prop"], NTableHeaderAttributes["prop"]> & OneOf<"label", NTableHeader["label"], NTableHeaderAttributes["label"]>;
         "n-table-row": Omit<NTableRow, keyof NTableRowAttributes> & { [K in keyof NTableRow & keyof NTableRowAttributes]?: NTableRow[K] } & { [K in keyof NTableRow & keyof NTableRowAttributes as `attr:${K}`]?: NTableRowAttributes[K] } & { [K in keyof NTableRow & keyof NTableRowAttributes as `prop:${K}`]?: NTableRow[K] };
+        "n-toast": Omit<NToast, keyof NToastAttributes> & { [K in keyof NToast & keyof NToastAttributes]?: NToast[K] } & { [K in keyof NToast & keyof NToastAttributes as `attr:${K}`]?: NToastAttributes[K] } & { [K in keyof NToast & keyof NToastAttributes as `prop:${K}`]?: NToast[K] };
+        "n-toast-item": Omit<NToastItem, keyof NToastItemAttributes> & { [K in keyof NToastItem & keyof NToastItemAttributes]?: NToastItem[K] } & { [K in keyof NToastItem & keyof NToastItemAttributes as `attr:${K}`]?: NToastItemAttributes[K] } & { [K in keyof NToastItem & keyof NToastItemAttributes as `prop:${K}`]?: NToastItem[K] } & OneOf<"toastId", NToastItem["toastId"], NToastItemAttributes["toastId"]> & OneOf<"index", NToastItem["index"], NToastItemAttributes["index"]> & OneOf<"depth", NToastItem["depth"], NToastItemAttributes["depth"]>;
     }
 }
 export { LocalJSX as JSX };
@@ -923,11 +1152,14 @@ declare module "@stencil/core" {
             "n-button-toggle-group": LocalJSX.IntrinsicElements["n-button-toggle-group"] & JSXBase.HTMLAttributes<HTMLNButtonToggleGroupElement>;
             "n-cheap": LocalJSX.IntrinsicElements["n-cheap"] & JSXBase.HTMLAttributes<HTMLNCheapElement>;
             "n-input": LocalJSX.IntrinsicElements["n-input"] & JSXBase.HTMLAttributes<HTMLNInputElement>;
+            "n-progress": LocalJSX.IntrinsicElements["n-progress"] & JSXBase.HTMLAttributes<HTMLNProgressElement>;
             "n-switch": LocalJSX.IntrinsicElements["n-switch"] & JSXBase.HTMLAttributes<HTMLNSwitchElement>;
             "n-table": LocalJSX.IntrinsicElements["n-table"] & JSXBase.HTMLAttributes<HTMLNTableElement>;
             "n-table-column": LocalJSX.IntrinsicElements["n-table-column"] & JSXBase.HTMLAttributes<HTMLNTableColumnElement>;
             "n-table-header": LocalJSX.IntrinsicElements["n-table-header"] & JSXBase.HTMLAttributes<HTMLNTableHeaderElement>;
             "n-table-row": LocalJSX.IntrinsicElements["n-table-row"] & JSXBase.HTMLAttributes<HTMLNTableRowElement>;
+            "n-toast": LocalJSX.IntrinsicElements["n-toast"] & JSXBase.HTMLAttributes<HTMLNToastElement>;
+            "n-toast-item": LocalJSX.IntrinsicElements["n-toast-item"] & JSXBase.HTMLAttributes<HTMLNToastItemElement>;
         }
     }
 }

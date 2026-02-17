@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Toasts</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/build/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script type="module" src="/build/nwb.esm.js"></script>
+    <script nomodule src="/build/nwb.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .test-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid var(--n-border-primary);
+        border-radius: 8px;
+        background: var(--n-bg-secondary);
+      }
+
+      .test-section h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: var(--n-text-primary);
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .test-button {
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        border: 1px solid var(--n-border-primary);
+        background: var(--n-bg-primary);
+        color: var(--n-text-primary);
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .test-button:hover {
+        opacity: 0.8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Toasts</h1>
+
+      <!-- Basic Toast Types -->
+      <div class="test-section">
+        <h3>Basic Toast Types</h3>
+        <div class="button-grid">
+          <button class="test-button" onclick="showToast('positive', '', 3000, event)">
+            Positive Toast
+          </button>
+          <button class="test-button" onclick="showToast('negative', '', 3000, event)">
+            Negative Toast
+          </button>
+          <button class="test-button" onclick="showToast('alert', '', 3000, event)">
+            Alert Toast
+          </button>
+          <button class="test-button" onclick="showToast('neutral', '', 3000, event)">
+            Neutral Toast
+          </button>
+        </div>
+      </div>
+
+      <!-- Toast with Custom Message -->
+      <div class="test-section">
+        <h3>Custom Messages</h3>
+        <div class="button-grid">
+          <button class="test-button" onclick="showToast('positive', 'Operation completed successfully!', 3000, event)">
+            Success Message
+          </button>
+          <button class="test-button" onclick="showToast('negative', 'Something went wrong!', 3000, event)">
+            Error Message
+          </button>
+          <button class="test-button" onclick="showToast('alert', 'Please check your input!', 3000, event)">
+            Warning Message
+          </button>
+          <button class="test-button" onclick="showToast('neutral', 'Information updated', 3000, event)">
+            Info Message
+          </button>
+        </div>
+      </div>
+
+      <!-- Toast with Different Durations -->
+      <div class="test-section">
+        <h3>Different Durations</h3>
+        <div class="button-grid">
+          <button class="test-button" onclick="showToast('positive', 'Quick toast (1s)', 1000, event)">
+            1 Second
+          </button>
+          <button class="test-button" onclick="showToast('positive', 'Normal toast (3s)', 3000, event)">
+            3 Seconds
+          </button>
+          <button class="test-button" onclick="showToast('positive', 'Long toast (5s)', 5000, event)">
+            5 Seconds
+          </button>
+          <button class="test-button" onclick="showToast('positive', 'Persistent toast', 0, event)">
+            Persistent
+          </button>
+        </div>
+      </div>
+
+      <!-- Toast with Icons -->
+      <div class="test-section">
+        <h3>With Icons</h3>
+        <div class="button-grid">
+          <button class="test-button" onclick="showToastWithIcon('positive', 'Task completed!', true, event)">
+            With Icon
+          </button>
+          <button class="test-button" onclick="showToastWithIcon('positive', 'No icon', false, event)">
+            Without Icon
+          </button>
+        </div>
+      </div>
+
+      <!-- Toast Positions -->
+      <div class="test-section">
+        <h3>Different Positions</h3>
+        <div class="button-grid">
+          <button class="test-button" onclick="showToastAtPosition('top', event)">
+            Top Position
+          </button>
+          <button class="test-button" onclick="showToastAtPosition('bottom', event)">
+            Bottom Position
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading Toasts -->
+      <div class="test-section">
+        <h3>Loading States</h3>
+        <div class="button-grid">
+          <button class="test-button" onclick="showLoadingToast(event)">
+            Loading Toast
+          </button>
+          <button class="test-button" onclick="showAsyncToast(event)">
+            Async Operation
+          </button>
+        </div>
+      </div>
+
+      <!-- Toast Controls -->
+      <div class="test-section">
+        <h3>Toast Controls</h3>
+        <div class="button-grid">
+          <button class="test-button" onclick="clearAllToasts()">
+            Clear All Toasts
+          </button>
+          <button class="test-button" onclick="showMultipleToasts(event)">
+            Show Multiple Toasts
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+      // Theme synchronization with parent window
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      // Apply theme on load
+      applyTheme();
+
+      // Listen for theme changes from parent window
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      // Listen for messages from parent window
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      // Periodically check for theme changes (fallback)
+      setInterval(applyTheme, 1000);
+
+      // Toast functionality - create toast container
+      let toastContainer = null;
+      
+      function getOrCreateToastContainer() {
+        if (!toastContainer) {
+          toastContainer = document.createElement('n-toast');
+          toastContainer.setAttribute('position', 'bottom');
+          toastContainer.setAttribute('offset', '20');
+          document.body.appendChild(toastContainer);
+        }
+        return toastContainer;
+      }
+
+      function showToast(variant, message = '', duration = 3000, event = null) {
+        const messages = {
+          positive: message || 'Operation completed successfully!',
+          negative: message || 'An error occurred!',
+          alert: message || 'Warning: Please check your input!',
+          neutral: message || 'Information updated successfully.'
+        };
+
+        const toast = {
+          message: messages[variant] || message,
+          variant: variant,
+          duration: duration,
+          closable: true,
+          showIcon: true
+        };
+
+        const container = getOrCreateToastContainer();
+        // Wait for component to be ready
+        setTimeout(() => {
+          container.addToast(toast);
+        }, 100);
+      }
+
+      function showToastWithIcon(variant, message, showIcon, event = null) {
+        const toast = {
+          message: message,
+          variant: variant,
+          duration: 3000,
+          closable: true,
+          showIcon: showIcon
+        };
+
+        const container = getOrCreateToastContainer();
+        setTimeout(() => {
+          container.addToast(toast);
+        }, 100);
+      }
+
+      function showToastAtPosition(position, event = null) {
+        const toast = {
+          message: `Toast positioned at ${position}`,
+          variant: 'positive',
+          duration: 3000,
+          closable: true,
+          showIcon: true,
+          position: position
+        };
+
+        const button = event ? event.currentTarget : null;
+        if (button) {
+          const toastContainer = createToastContainer(button);
+          toastContainer.setAttribute('position', position);
+          setTimeout(() => {
+            toastContainer.addToast(toast);
+            setTimeout(() => {
+              const wrapper = toastContainer.parentElement;
+              if (wrapper) {
+                wrapper.remove();
+              }
+            }, 3500);
+          }, 100);
+        }
+      }
+
+      function showLoadingToast(event = null) {
+        const container = getOrCreateToastContainer();
+        const toast = {
+          message: 'Loading data...',
+          variant: 'neutral',
+          duration: 0, // Persistent
+          closable: false,
+          showIcon: false,
+          loading: true
+        };
+
+        setTimeout(() => {
+          container.addToast(toast);
+
+          // Simulate async operation
+          setTimeout(() => {
+            // Remove loading toast and show success
+            const successToast = {
+              message: 'Data loaded successfully!',
+              variant: 'positive',
+              duration: 3000,
+              closable: true,
+              showIcon: true
+            };
+            container.addToast(successToast);
+          }, 2000);
+        }, 100);
+      }
+
+      function showAsyncToast(event = null) {
+        const container = getOrCreateToastContainer();
+        
+        // Show initial loading toast
+        const loadingToast = {
+          message: 'Processing request...',
+          variant: 'neutral',
+          duration: 0,
+          closable: false,
+          showIcon: false,
+          loading: true
+        };
+
+        setTimeout(() => {
+          container.addToast(loadingToast);
+
+          // Simulate async operation with different outcomes
+          setTimeout(() => {
+            const success = Math.random() > 0.3; // 70% success rate
+            const resultToast = {
+              message: success ? 'Request completed successfully!' : 'Request failed. Please try again.',
+              variant: success ? 'positive' : 'negative',
+              duration: 3000,
+              closable: true,
+              showIcon: true
+            };
+            container.addToast(resultToast);
+          }, 3000);
+        }, 100);
+      }
+
+      function clearAllToasts() {
+        if (toastContainer) {
+          toastContainer.clearAll();
+        }
+      }
+
+      function showMultipleToasts(event = null) {
+        const container = getOrCreateToastContainer();
+        const toasts = [
+          { message: 'First toast', variant: 'positive', delay: 0 },
+          { message: 'Second toast', variant: 'negative', delay: 500 },
+          { message: 'Third toast', variant: 'alert', delay: 1000 },
+          { message: 'Fourth toast', variant: 'neutral', delay: 1500 }
+        ];
+
+        setTimeout(() => {
+          toasts.forEach(toast => {
+            setTimeout(() => {
+              container.addToast({
+                ...toast,
+                duration: 4000,
+                closable: true,
+                showIcon: true
+              });
+            }, toast.delay);
+          });
+        }, 100);
+      }
+    </script>
+  </body>
+</html>
