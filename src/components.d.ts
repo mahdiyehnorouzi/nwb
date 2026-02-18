@@ -5,12 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { BottomSheetSnapPoint, NBottomSheetClosingStartedDetail } from "./components/bottom-sheet/types";
 import { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 import { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 import { InputType, Size } from "./components/input/type";
 import { LabelPosition } from "./components/switch/type";
 import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
 import { Position, Toast, Variants } from "./components/toast/types";
+export { BottomSheetSnapPoint, NBottomSheetClosingStartedDetail } from "./components/bottom-sheet/types";
 export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 export { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 export { InputType, Size } from "./components/input/type";
@@ -53,6 +55,54 @@ export namespace Components {
           * @default 0
          */
         "modelValue": number | number[];
+    }
+    interface NBottomSheet {
+        "afterClose"?: () => void;
+        "afterOpen"?: () => void;
+        /**
+          * @default true
+         */
+        "blocking": boolean;
+        /**
+          * @default true
+         */
+        "canBackdropClose": boolean;
+        /**
+          * @default true
+         */
+        "canSwipeClose": boolean;
+        /**
+          * @default true
+         */
+        "closable": boolean;
+        "close": () => Promise<void>;
+        "contentClass"?: string;
+        /**
+          * @default 300
+         */
+        "duration": number;
+        /**
+          * @default false
+         */
+        "expandable": boolean;
+        "footerClass"?: string;
+        /**
+          * @default true
+         */
+        "hashBased": boolean;
+        "headerClass"?: string;
+        "height"?: number;
+        "initialSnapPoint"?: number;
+        /**
+          * @default false
+         */
+        "modelValue": boolean;
+        "open": () => Promise<void>;
+        /**
+          * @default false
+         */
+        "removeFooterPadding": boolean;
+        "snapPoints"?: BottomSheetSnapPoint[];
     }
     interface NButton {
         /**
@@ -425,6 +475,10 @@ export interface NAccordionGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNAccordionGroupElement;
 }
+export interface NBottomSheetCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNBottomSheetElement;
+}
 export interface NButtonToggleCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNButtonToggleElement;
@@ -495,6 +549,25 @@ declare global {
     var HTMLNAccordionGroupElement: {
         prototype: HTMLNAccordionGroupElement;
         new (): HTMLNAccordionGroupElement;
+    };
+    interface HTMLNBottomSheetElementEventMap {
+        "updateModelValue": boolean;
+        "closing-started": NBottomSheetClosingStartedDetail;
+        "instinct-height": number;
+    }
+    interface HTMLNBottomSheetElement extends Components.NBottomSheet, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNBottomSheetElementEventMap>(type: K, listener: (this: HTMLNBottomSheetElement, ev: NBottomSheetCustomEvent<HTMLNBottomSheetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNBottomSheetElementEventMap>(type: K, listener: (this: HTMLNBottomSheetElement, ev: NBottomSheetCustomEvent<HTMLNBottomSheetElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNBottomSheetElement: {
+        prototype: HTMLNBottomSheetElement;
+        new (): HTMLNBottomSheetElement;
     };
     interface HTMLNButtonElement extends Components.NButton, HTMLStencilElement {
     }
@@ -689,6 +762,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "n-accordion": HTMLNAccordionElement;
         "n-accordion-group": HTMLNAccordionGroupElement;
+        "n-bottom-sheet": HTMLNBottomSheetElement;
         "n-button": HTMLNButtonElement;
         "n-button-icon": HTMLNButtonIconElement;
         "n-button-toggle": HTMLNButtonToggleElement;
@@ -745,6 +819,55 @@ declare namespace LocalJSX {
          */
         "modelValue"?: number | number[];
         "onUpdateModelValue"?: (event: NAccordionGroupCustomEvent<number | number[]>) => void;
+    }
+    interface NBottomSheet {
+        "afterClose"?: () => void;
+        "afterOpen"?: () => void;
+        /**
+          * @default true
+         */
+        "blocking"?: boolean;
+        /**
+          * @default true
+         */
+        "canBackdropClose"?: boolean;
+        /**
+          * @default true
+         */
+        "canSwipeClose"?: boolean;
+        /**
+          * @default true
+         */
+        "closable"?: boolean;
+        "contentClass"?: string;
+        /**
+          * @default 300
+         */
+        "duration"?: number;
+        /**
+          * @default false
+         */
+        "expandable"?: boolean;
+        "footerClass"?: string;
+        /**
+          * @default true
+         */
+        "hashBased"?: boolean;
+        "headerClass"?: string;
+        "height"?: number;
+        "initialSnapPoint"?: number;
+        /**
+          * @default false
+         */
+        "modelValue"?: boolean;
+        "onClosing-started"?: (event: NBottomSheetCustomEvent<NBottomSheetClosingStartedDetail>) => void;
+        "onInstinct-height"?: (event: NBottomSheetCustomEvent<number>) => void;
+        "onUpdateModelValue"?: (event: NBottomSheetCustomEvent<boolean>) => void;
+        /**
+          * @default false
+         */
+        "removeFooterPadding"?: boolean;
+        "snapPoints"?: BottomSheetSnapPoint[];
     }
     interface NButton {
         /**
@@ -1135,6 +1258,22 @@ declare namespace LocalJSX {
     interface NAccordionGroupAttributes {
         "modelValue": number | number[];
     }
+    interface NBottomSheetAttributes {
+        "modelValue": boolean;
+        "duration": number;
+        "blocking": boolean;
+        "expandable": boolean;
+        "closable": boolean;
+        "canSwipeClose": boolean;
+        "canBackdropClose": boolean;
+        "hashBased": boolean;
+        "height": number;
+        "initialSnapPoint": number;
+        "headerClass": string;
+        "contentClass": string;
+        "footerClass": string;
+        "removeFooterPadding": boolean;
+    }
     interface NButtonAttributes {
         "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
         "variant": 'fill' | 'outline' | 'flat' | 'plain';
@@ -1258,6 +1397,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "n-accordion": Omit<NAccordion, keyof NAccordionAttributes> & { [K in keyof NAccordion & keyof NAccordionAttributes]?: NAccordion[K] } & { [K in keyof NAccordion & keyof NAccordionAttributes as `attr:${K}`]?: NAccordionAttributes[K] } & { [K in keyof NAccordion & keyof NAccordionAttributes as `prop:${K}`]?: NAccordion[K] };
         "n-accordion-group": Omit<NAccordionGroup, keyof NAccordionGroupAttributes> & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes]?: NAccordionGroup[K] } & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes as `attr:${K}`]?: NAccordionGroupAttributes[K] } & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes as `prop:${K}`]?: NAccordionGroup[K] };
+        "n-bottom-sheet": Omit<NBottomSheet, keyof NBottomSheetAttributes> & { [K in keyof NBottomSheet & keyof NBottomSheetAttributes]?: NBottomSheet[K] } & { [K in keyof NBottomSheet & keyof NBottomSheetAttributes as `attr:${K}`]?: NBottomSheetAttributes[K] } & { [K in keyof NBottomSheet & keyof NBottomSheetAttributes as `prop:${K}`]?: NBottomSheet[K] };
         "n-button": Omit<NButton, keyof NButtonAttributes> & { [K in keyof NButton & keyof NButtonAttributes]?: NButton[K] } & { [K in keyof NButton & keyof NButtonAttributes as `attr:${K}`]?: NButtonAttributes[K] } & { [K in keyof NButton & keyof NButtonAttributes as `prop:${K}`]?: NButton[K] };
         "n-button-icon": Omit<NButtonIcon, keyof NButtonIconAttributes> & { [K in keyof NButtonIcon & keyof NButtonIconAttributes]?: NButtonIcon[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `attr:${K}`]?: NButtonIconAttributes[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `prop:${K}`]?: NButtonIcon[K] };
         "n-button-toggle": Omit<NButtonToggle, keyof NButtonToggleAttributes> & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes]?: NButtonToggle[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `attr:${K}`]?: NButtonToggleAttributes[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `prop:${K}`]?: NButtonToggle[K] };
@@ -1280,6 +1420,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "n-accordion": LocalJSX.IntrinsicElements["n-accordion"] & JSXBase.HTMLAttributes<HTMLNAccordionElement>;
             "n-accordion-group": LocalJSX.IntrinsicElements["n-accordion-group"] & JSXBase.HTMLAttributes<HTMLNAccordionGroupElement>;
+            "n-bottom-sheet": LocalJSX.IntrinsicElements["n-bottom-sheet"] & JSXBase.HTMLAttributes<HTMLNBottomSheetElement>;
             "n-button": LocalJSX.IntrinsicElements["n-button"] & JSXBase.HTMLAttributes<HTMLNButtonElement>;
             "n-button-icon": LocalJSX.IntrinsicElements["n-button-icon"] & JSXBase.HTMLAttributes<HTMLNButtonIconElement>;
             "n-button-toggle": LocalJSX.IntrinsicElements["n-button-toggle"] & JSXBase.HTMLAttributes<HTMLNButtonToggleElement>;
