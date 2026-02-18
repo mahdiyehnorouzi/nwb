@@ -18,6 +18,42 @@ export { LabelPosition } from "./components/switch/type";
 export { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
 export { Position, Toast, Variants } from "./components/toast/types";
 export namespace Components {
+    interface NAccordion {
+        /**
+          * @default 'false'
+         */
+        "accordionActive": string;
+        /**
+          * @default ''
+         */
+        "accordionGroupId": string;
+        /**
+          * @default -1
+         */
+        "accordionIndex": number;
+        /**
+          * @default ''
+         */
+        "accordionTitle": string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "elevation": boolean;
+        /**
+          * @default false
+         */
+        "hasDivider": boolean;
+    }
+    interface NAccordionGroup {
+        /**
+          * @default 0
+         */
+        "modelValue": number | number[];
+    }
     interface NButton {
         /**
           * @default 'green'
@@ -381,6 +417,14 @@ export namespace Components {
         "variant": Variants;
     }
 }
+export interface NAccordionCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNAccordionElement;
+}
+export interface NAccordionGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNAccordionGroupElement;
+}
 export interface NButtonToggleCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNButtonToggleElement;
@@ -418,6 +462,40 @@ export interface NToastItemCustomEvent<T> extends CustomEvent<T> {
     target: HTMLNToastItemElement;
 }
 declare global {
+    interface HTMLNAccordionElementEventMap {
+        "accordionToggleClick": number;
+    }
+    interface HTMLNAccordionElement extends Components.NAccordion, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNAccordionElementEventMap>(type: K, listener: (this: HTMLNAccordionElement, ev: NAccordionCustomEvent<HTMLNAccordionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNAccordionElementEventMap>(type: K, listener: (this: HTMLNAccordionElement, ev: NAccordionCustomEvent<HTMLNAccordionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNAccordionElement: {
+        prototype: HTMLNAccordionElement;
+        new (): HTMLNAccordionElement;
+    };
+    interface HTMLNAccordionGroupElementEventMap {
+        "updateModelValue": number | number[];
+    }
+    interface HTMLNAccordionGroupElement extends Components.NAccordionGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNAccordionGroupElementEventMap>(type: K, listener: (this: HTMLNAccordionGroupElement, ev: NAccordionGroupCustomEvent<HTMLNAccordionGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNAccordionGroupElementEventMap>(type: K, listener: (this: HTMLNAccordionGroupElement, ev: NAccordionGroupCustomEvent<HTMLNAccordionGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNAccordionGroupElement: {
+        prototype: HTMLNAccordionGroupElement;
+        new (): HTMLNAccordionGroupElement;
+    };
     interface HTMLNButtonElement extends Components.NButton, HTMLStencilElement {
     }
     var HTMLNButtonElement: {
@@ -609,6 +687,8 @@ declare global {
         new (): HTMLNToastItemElement;
     };
     interface HTMLElementTagNameMap {
+        "n-accordion": HTMLNAccordionElement;
+        "n-accordion-group": HTMLNAccordionGroupElement;
         "n-button": HTMLNButtonElement;
         "n-button-icon": HTMLNButtonIconElement;
         "n-button-toggle": HTMLNButtonToggleElement;
@@ -628,6 +708,44 @@ declare global {
 declare namespace LocalJSX {
     type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
 
+    interface NAccordion {
+        /**
+          * @default 'false'
+         */
+        "accordionActive"?: string;
+        /**
+          * @default ''
+         */
+        "accordionGroupId"?: string;
+        /**
+          * @default -1
+         */
+        "accordionIndex"?: number;
+        /**
+          * @default ''
+         */
+        "accordionTitle"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "elevation"?: boolean;
+        /**
+          * @default false
+         */
+        "hasDivider"?: boolean;
+        "onAccordionToggleClick"?: (event: NAccordionCustomEvent<number>) => void;
+    }
+    interface NAccordionGroup {
+        /**
+          * @default 0
+         */
+        "modelValue"?: number | number[];
+        "onUpdateModelValue"?: (event: NAccordionGroupCustomEvent<number | number[]>) => void;
+    }
     interface NButton {
         /**
           * @default 'green'
@@ -1005,6 +1123,18 @@ declare namespace LocalJSX {
         "variant"?: Variants;
     }
 
+    interface NAccordionAttributes {
+        "accordionTitle": string;
+        "disabled": boolean;
+        "hasDivider": boolean;
+        "elevation": boolean;
+        "accordionIndex": number;
+        "accordionActive": string;
+        "accordionGroupId": string;
+    }
+    interface NAccordionGroupAttributes {
+        "modelValue": number | number[];
+    }
     interface NButtonAttributes {
         "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
         "variant": 'fill' | 'outline' | 'flat' | 'plain';
@@ -1126,6 +1256,8 @@ declare namespace LocalJSX {
     }
 
     interface IntrinsicElements {
+        "n-accordion": Omit<NAccordion, keyof NAccordionAttributes> & { [K in keyof NAccordion & keyof NAccordionAttributes]?: NAccordion[K] } & { [K in keyof NAccordion & keyof NAccordionAttributes as `attr:${K}`]?: NAccordionAttributes[K] } & { [K in keyof NAccordion & keyof NAccordionAttributes as `prop:${K}`]?: NAccordion[K] };
+        "n-accordion-group": Omit<NAccordionGroup, keyof NAccordionGroupAttributes> & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes]?: NAccordionGroup[K] } & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes as `attr:${K}`]?: NAccordionGroupAttributes[K] } & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes as `prop:${K}`]?: NAccordionGroup[K] };
         "n-button": Omit<NButton, keyof NButtonAttributes> & { [K in keyof NButton & keyof NButtonAttributes]?: NButton[K] } & { [K in keyof NButton & keyof NButtonAttributes as `attr:${K}`]?: NButtonAttributes[K] } & { [K in keyof NButton & keyof NButtonAttributes as `prop:${K}`]?: NButton[K] };
         "n-button-icon": Omit<NButtonIcon, keyof NButtonIconAttributes> & { [K in keyof NButtonIcon & keyof NButtonIconAttributes]?: NButtonIcon[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `attr:${K}`]?: NButtonIconAttributes[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `prop:${K}`]?: NButtonIcon[K] };
         "n-button-toggle": Omit<NButtonToggle, keyof NButtonToggleAttributes> & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes]?: NButtonToggle[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `attr:${K}`]?: NButtonToggleAttributes[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `prop:${K}`]?: NButtonToggle[K] };
@@ -1146,6 +1278,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "n-accordion": LocalJSX.IntrinsicElements["n-accordion"] & JSXBase.HTMLAttributes<HTMLNAccordionElement>;
+            "n-accordion-group": LocalJSX.IntrinsicElements["n-accordion-group"] & JSXBase.HTMLAttributes<HTMLNAccordionGroupElement>;
             "n-button": LocalJSX.IntrinsicElements["n-button"] & JSXBase.HTMLAttributes<HTMLNButtonElement>;
             "n-button-icon": LocalJSX.IntrinsicElements["n-button-icon"] & JSXBase.HTMLAttributes<HTMLNButtonIconElement>;
             "n-button-toggle": LocalJSX.IntrinsicElements["n-button-toggle"] & JSXBase.HTMLAttributes<HTMLNButtonToggleElement>;

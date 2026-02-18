@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Accordions</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/build/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script type="module" src="/build/nwb.esm.js"></script>
+    <script nomodule src="/build/nwb.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .test-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid var(--n-border-primary);
+        border-radius: 8px;
+        background: var(--n-bg-secondary);
+      }
+
+      .test-section h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: var(--n-text-primary);
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .accordion-demo {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Accordions</h1>
+
+      <!-- Basic Accordion -->
+      <div class="test-section">
+        <h3>Basic Accordion (Single)</h3>
+        <div class="accordion-demo">
+          <n-accordion-group model-value="0">
+            <n-accordion accordion-title="First Item">
+              <div class="p-4">
+                <p>This is the content of the first accordion item.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Second Item">
+              <div class="p-4">
+                <p>This is the content of the second accordion item.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Third Item">
+              <div class="p-4">
+                <p>This is the content of the third accordion item.</p>
+              </div>
+            </n-accordion>
+          </n-accordion-group>
+        </div>
+      </div>
+
+      <!-- Multiple Accordion -->
+      <div class="test-section">
+        <h3>Multiple Accordion (Multiple Open)</h3>
+        <div class="accordion-demo">
+          <n-accordion-group model-value="[0, 2]">
+            <n-accordion accordion-title="First Item">
+              <div class="p-4">
+                <p>This is the content of the first accordion item.</p>
+                <p>You can have multiple items open at the same time.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Second Item">
+              <div class="p-4">
+                <p>This is the content of the second accordion item.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Third Item">
+              <div class="p-4">
+                <p>This is the content of the third accordion item.</p>
+                <p>This one is open by default.</p>
+              </div>
+            </n-accordion>
+          </n-accordion-group>
+        </div>
+      </div>
+
+      <!-- Accordion with Dividers -->
+      <div class="test-section">
+        <h3>Accordion with Dividers</h3>
+        <div class="accordion-demo">
+          <n-accordion-group model-value="0">
+            <n-accordion accordion-title="First Item" has-divider>
+              <div class="p-4">
+                <p>This accordion has dividers between items.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Second Item" has-divider>
+              <div class="p-4">
+                <p>Notice the border between items.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Third Item">
+              <div class="p-4">
+                <p>Last item doesn't need divider.</p>
+              </div>
+            </n-accordion>
+          </n-accordion-group>
+        </div>
+      </div>
+
+      <!-- Accordion with Elevation -->
+      <div class="test-section">
+        <h3>Accordion with Elevation</h3>
+        <div class="accordion-demo">
+          <n-accordion-group model-value="0">
+            <n-accordion accordion-title="First Item" elevation>
+              <div class="p-4">
+                <p>This accordion has elevation/shadow.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Second Item" elevation>
+              <div class="p-4">
+                <p>Each item has its own shadow.</p>
+              </div>
+            </n-accordion>
+          </n-accordion-group>
+        </div>
+      </div>
+
+      <!-- Disabled Accordion -->
+      <div class="test-section">
+        <h3>Disabled Accordion</h3>
+        <div class="accordion-demo">
+          <n-accordion-group model-value="0">
+            <n-accordion accordion-title="Enabled Item">
+              <div class="p-4">
+                <p>This item is enabled and can be clicked.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Disabled Item" disabled>
+              <div class="p-4">
+                <p>This item is disabled and cannot be clicked.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Another Enabled Item">
+              <div class="p-4">
+                <p>This item is also enabled.</p>
+              </div>
+            </n-accordion>
+          </n-accordion-group>
+        </div>
+      </div>
+
+      <!-- Custom Header Slot -->
+      <div class="test-section">
+        <h3>Custom Header Slot</h3>
+        <div class="accordion-demo">
+          <n-accordion-group model-value="0">
+            <n-accordion>
+              <div slot="header" class="flex items-center gap-2">
+                <span class="font-bold">Custom Header</span>
+                <span class="text-xs bg-primary-60 text-white px-2 py-1 rounded">New</span>
+              </div>
+              <div class="p-4">
+                <p>This accordion uses a custom header slot.</p>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Regular Header">
+              <div class="p-4">
+                <p>This one uses the default title prop.</p>
+              </div>
+            </n-accordion>
+          </n-accordion-group>
+        </div>
+      </div>
+
+      <!-- Complex Content -->
+      <div class="test-section">
+        <h3>Complex Content</h3>
+        <div class="accordion-demo">
+          <n-accordion-group model-value="0">
+            <n-accordion accordion-title="Item with Rich Content">
+              <div class="p-4">
+                <h4 class="font-bold mb-2">Section Title</h4>
+                <p class="mb-4">This accordion contains rich content with multiple elements.</p>
+                <ul class="list-disc list-inside mb-4">
+                  <li>First point</li>
+                  <li>Second point</li>
+                  <li>Third point</li>
+                </ul>
+                <button class="px-4 py-2 bg-primary-60 text-white rounded">Action Button</button>
+              </div>
+            </n-accordion>
+            <n-accordion accordion-title="Another Rich Content">
+              <div class="p-4">
+                <p>You can put any HTML content inside accordion items.</p>
+                <div class="mt-4 p-4 bg-neutral-20 rounded">
+                  <p class="text-sm">This is a nested content area.</p>
+                </div>
+              </div>
+            </n-accordion>
+          </n-accordion-group>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Theme synchronization with parent window
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      // Apply theme on load
+      applyTheme();
+
+      // Listen for theme changes from parent window
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      // Listen for messages from parent window
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme-change') {
+          applyTheme();
+        }
+      });
+
+      // Periodically check for theme changes (fallback)
+      setInterval(applyTheme, 1000);
+
+      // Wait for components to be defined
+      setTimeout(() => {
+        const accordionGroups = document.querySelectorAll('n-accordion-group');
+        accordionGroups.forEach(group => {
+          group.addEventListener('updateModelValue', (e) => {
+            console.log('Accordion state changed:', e.detail);
+          });
+        });
+      }, 1000);
+    </script>
+  </body>
+</html>
