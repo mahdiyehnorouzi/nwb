@@ -11,6 +11,7 @@ import { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 import { InputType, Size } from "./components/input/type";
 import { LabelPosition } from "./components/switch/type";
 import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
+import { TextTag, TextVariant } from "./components/typography/text/n-text";
 import { Position, Toast, Variants } from "./components/toast/types";
 export { BottomSheetSnapPoint, NBottomSheetClosingStartedDetail } from "./components/bottom-sheet/types";
 export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
@@ -18,6 +19,7 @@ export { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 export { InputType, Size } from "./components/input/type";
 export { LabelPosition } from "./components/switch/type";
 export { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
+export { TextTag, TextVariant } from "./components/typography/text/n-text";
 export { Position, Toast, Variants } from "./components/toast/types";
 export namespace Components {
     interface NAccordion {
@@ -211,6 +213,34 @@ export namespace Components {
          */
         "variant": CheapVariant;
     }
+    interface NFade {
+    }
+    interface NField {
+        /**
+          * @default ''
+         */
+        "error": string;
+        /**
+          * @default ''
+         */
+        "label": string;
+        /**
+          * @default 'top'
+         */
+        "labelPosition": 'top' | 'inline';
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default true
+         */
+        "requiredSign": boolean;
+        /**
+          * @default true
+         */
+        "showError": boolean;
+    }
     interface NInput {
         /**
           * @default true
@@ -235,7 +265,15 @@ export namespace Components {
         /**
           * @default ''
          */
+        "inputClass": string;
+        /**
+          * @default ''
+         */
         "label": string;
+        /**
+          * @default 'top'
+         */
+        "labelPosition": 'top' | 'inline';
         /**
           * @default Infinity
          */
@@ -249,9 +287,21 @@ export namespace Components {
          */
         "modelValue": string | number;
         /**
+          * @default ''
+         */
+        "placeholder": string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default true
+         */
+        "requiredSign": boolean;
+        /**
           * @default 3
          */
-        "rows": number;
+        "rows": number | string;
         /**
           * @default false
          */
@@ -400,6 +450,20 @@ export namespace Components {
           * @default false
          */
         "striped": boolean;
+    }
+    interface NText {
+        /**
+          * @default 'span'
+         */
+        "tag": TextTag;
+        /**
+          * @default 'body'
+         */
+        "variant": TextVariant;
+        /**
+          * @default 'regular'
+         */
+        "weight": 'regular' | 'medium' | 'bold';
     }
     interface NToast {
         "addToast": (toast: Toast) => Promise<void>;
@@ -633,6 +697,18 @@ declare global {
         prototype: HTMLNCheapElement;
         new (): HTMLNCheapElement;
     };
+    interface HTMLNFadeElement extends Components.NFade, HTMLStencilElement {
+    }
+    var HTMLNFadeElement: {
+        prototype: HTMLNFadeElement;
+        new (): HTMLNFadeElement;
+    };
+    interface HTMLNFieldElement extends Components.NField, HTMLStencilElement {
+    }
+    var HTMLNFieldElement: {
+        prototype: HTMLNFieldElement;
+        new (): HTMLNFieldElement;
+    };
     interface HTMLNInputElementEventMap {
         "updateModelValue": string | number;
     }
@@ -735,6 +811,12 @@ declare global {
         prototype: HTMLNTableRowElement;
         new (): HTMLNTableRowElement;
     };
+    interface HTMLNTextElement extends Components.NText, HTMLStencilElement {
+    }
+    var HTMLNTextElement: {
+        prototype: HTMLNTextElement;
+        new (): HTMLNTextElement;
+    };
     interface HTMLNToastElement extends Components.NToast, HTMLStencilElement {
     }
     var HTMLNToastElement: {
@@ -768,6 +850,8 @@ declare global {
         "n-button-toggle": HTMLNButtonToggleElement;
         "n-button-toggle-group": HTMLNButtonToggleGroupElement;
         "n-cheap": HTMLNCheapElement;
+        "n-fade": HTMLNFadeElement;
+        "n-field": HTMLNFieldElement;
         "n-input": HTMLNInputElement;
         "n-progress": HTMLNProgressElement;
         "n-switch": HTMLNSwitchElement;
@@ -775,6 +859,7 @@ declare global {
         "n-table-column": HTMLNTableColumnElement;
         "n-table-header": HTMLNTableHeaderElement;
         "n-table-row": HTMLNTableRowElement;
+        "n-text": HTMLNTextElement;
         "n-toast": HTMLNToastElement;
         "n-toast-item": HTMLNToastItemElement;
     }
@@ -980,6 +1065,34 @@ declare namespace LocalJSX {
          */
         "variant"?: CheapVariant;
     }
+    interface NFade {
+    }
+    interface NField {
+        /**
+          * @default ''
+         */
+        "error"?: string;
+        /**
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * @default 'top'
+         */
+        "labelPosition"?: 'top' | 'inline';
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default true
+         */
+        "requiredSign"?: boolean;
+        /**
+          * @default true
+         */
+        "showError"?: boolean;
+    }
     interface NInput {
         /**
           * @default true
@@ -1004,7 +1117,15 @@ declare namespace LocalJSX {
         /**
           * @default ''
          */
+        "inputClass"?: string;
+        /**
+          * @default ''
+         */
         "label"?: string;
+        /**
+          * @default 'top'
+         */
+        "labelPosition"?: 'top' | 'inline';
         /**
           * @default Infinity
          */
@@ -1019,9 +1140,21 @@ declare namespace LocalJSX {
         "modelValue"?: string | number;
         "onUpdateModelValue"?: (event: NInputCustomEvent<string | number>) => void;
         /**
+          * @default ''
+         */
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default true
+         */
+        "requiredSign"?: boolean;
+        /**
           * @default 3
          */
-        "rows"?: number;
+        "rows"?: number | string;
         /**
           * @default false
          */
@@ -1180,6 +1313,20 @@ declare namespace LocalJSX {
          */
         "striped"?: boolean;
     }
+    interface NText {
+        /**
+          * @default 'span'
+         */
+        "tag"?: TextTag;
+        /**
+          * @default 'body'
+         */
+        "variant"?: TextVariant;
+        /**
+          * @default 'regular'
+         */
+        "weight"?: 'regular' | 'medium' | 'bold';
+    }
     interface NToast {
         /**
           * @default 0
@@ -1309,15 +1456,28 @@ declare namespace LocalJSX {
         "color": CheapColor;
         "selectable": boolean;
     }
+    interface NFieldAttributes {
+        "showError": boolean;
+        "error": string;
+        "label": string;
+        "labelPosition": 'top' | 'inline';
+        "required": boolean;
+        "requiredSign": boolean;
+    }
     interface NInputAttributes {
         "modelValue": string;
         "disabled": boolean;
         "type": InputType;
         "label": string;
+        "labelPosition": 'top' | 'inline';
+        "placeholder": string;
         "showError": boolean;
         "error": string;
+        "required": boolean;
+        "requiredSign": boolean;
         "clearable": boolean;
-        "rows": number;
+        "rows": string;
+        "inputClass": string;
         "forceEnDigit": boolean;
         "size": Size;
         "min": number;
@@ -1372,6 +1532,11 @@ declare namespace LocalJSX {
         "isAllSelected": boolean;
         "isClickable": boolean;
     }
+    interface NTextAttributes {
+        "variant": TextVariant;
+        "tag": TextTag;
+        "weight": 'regular' | 'medium' | 'bold';
+    }
     interface NToastAttributes {
         "offset": number;
         "queued": boolean;
@@ -1403,6 +1568,8 @@ declare namespace LocalJSX {
         "n-button-toggle": Omit<NButtonToggle, keyof NButtonToggleAttributes> & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes]?: NButtonToggle[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `attr:${K}`]?: NButtonToggleAttributes[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `prop:${K}`]?: NButtonToggle[K] };
         "n-button-toggle-group": Omit<NButtonToggleGroup, keyof NButtonToggleGroupAttributes> & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes]?: NButtonToggleGroup[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `attr:${K}`]?: NButtonToggleGroupAttributes[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `prop:${K}`]?: NButtonToggleGroup[K] };
         "n-cheap": Omit<NCheap, keyof NCheapAttributes> & { [K in keyof NCheap & keyof NCheapAttributes]?: NCheap[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `attr:${K}`]?: NCheapAttributes[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `prop:${K}`]?: NCheap[K] };
+        "n-fade": NFade;
+        "n-field": Omit<NField, keyof NFieldAttributes> & { [K in keyof NField & keyof NFieldAttributes]?: NField[K] } & { [K in keyof NField & keyof NFieldAttributes as `attr:${K}`]?: NFieldAttributes[K] } & { [K in keyof NField & keyof NFieldAttributes as `prop:${K}`]?: NField[K] };
         "n-input": Omit<NInput, keyof NInputAttributes> & { [K in keyof NInput & keyof NInputAttributes]?: NInput[K] } & { [K in keyof NInput & keyof NInputAttributes as `attr:${K}`]?: NInputAttributes[K] } & { [K in keyof NInput & keyof NInputAttributes as `prop:${K}`]?: NInput[K] };
         "n-progress": Omit<NProgress, keyof NProgressAttributes> & { [K in keyof NProgress & keyof NProgressAttributes]?: NProgress[K] } & { [K in keyof NProgress & keyof NProgressAttributes as `attr:${K}`]?: NProgressAttributes[K] } & { [K in keyof NProgress & keyof NProgressAttributes as `prop:${K}`]?: NProgress[K] } & OneOf<"backgroundColorCode", NProgress["backgroundColorCode"], NProgressAttributes["backgroundColorCode"]>;
         "n-switch": Omit<NSwitch, keyof NSwitchAttributes> & { [K in keyof NSwitch & keyof NSwitchAttributes]?: NSwitch[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `attr:${K}`]?: NSwitchAttributes[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `prop:${K}`]?: NSwitch[K] };
@@ -1410,6 +1577,7 @@ declare namespace LocalJSX {
         "n-table-column": Omit<NTableColumn, keyof NTableColumnAttributes> & { [K in keyof NTableColumn & keyof NTableColumnAttributes]?: NTableColumn[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `attr:${K}`]?: NTableColumnAttributes[K] } & { [K in keyof NTableColumn & keyof NTableColumnAttributes as `prop:${K}`]?: NTableColumn[K] };
         "n-table-header": Omit<NTableHeader, keyof NTableHeaderAttributes> & { [K in keyof NTableHeader & keyof NTableHeaderAttributes]?: NTableHeader[K] } & { [K in keyof NTableHeader & keyof NTableHeaderAttributes as `attr:${K}`]?: NTableHeaderAttributes[K] } & { [K in keyof NTableHeader & keyof NTableHeaderAttributes as `prop:${K}`]?: NTableHeader[K] } & OneOf<"prop", NTableHeader["prop"], NTableHeaderAttributes["prop"]> & OneOf<"label", NTableHeader["label"], NTableHeaderAttributes["label"]>;
         "n-table-row": Omit<NTableRow, keyof NTableRowAttributes> & { [K in keyof NTableRow & keyof NTableRowAttributes]?: NTableRow[K] } & { [K in keyof NTableRow & keyof NTableRowAttributes as `attr:${K}`]?: NTableRowAttributes[K] } & { [K in keyof NTableRow & keyof NTableRowAttributes as `prop:${K}`]?: NTableRow[K] };
+        "n-text": Omit<NText, keyof NTextAttributes> & { [K in keyof NText & keyof NTextAttributes]?: NText[K] } & { [K in keyof NText & keyof NTextAttributes as `attr:${K}`]?: NTextAttributes[K] } & { [K in keyof NText & keyof NTextAttributes as `prop:${K}`]?: NText[K] };
         "n-toast": Omit<NToast, keyof NToastAttributes> & { [K in keyof NToast & keyof NToastAttributes]?: NToast[K] } & { [K in keyof NToast & keyof NToastAttributes as `attr:${K}`]?: NToastAttributes[K] } & { [K in keyof NToast & keyof NToastAttributes as `prop:${K}`]?: NToast[K] };
         "n-toast-item": Omit<NToastItem, keyof NToastItemAttributes> & { [K in keyof NToastItem & keyof NToastItemAttributes]?: NToastItem[K] } & { [K in keyof NToastItem & keyof NToastItemAttributes as `attr:${K}`]?: NToastItemAttributes[K] } & { [K in keyof NToastItem & keyof NToastItemAttributes as `prop:${K}`]?: NToastItem[K] } & OneOf<"toastId", NToastItem["toastId"], NToastItemAttributes["toastId"]> & OneOf<"index", NToastItem["index"], NToastItemAttributes["index"]> & OneOf<"depth", NToastItem["depth"], NToastItemAttributes["depth"]>;
     }
@@ -1426,6 +1594,8 @@ declare module "@stencil/core" {
             "n-button-toggle": LocalJSX.IntrinsicElements["n-button-toggle"] & JSXBase.HTMLAttributes<HTMLNButtonToggleElement>;
             "n-button-toggle-group": LocalJSX.IntrinsicElements["n-button-toggle-group"] & JSXBase.HTMLAttributes<HTMLNButtonToggleGroupElement>;
             "n-cheap": LocalJSX.IntrinsicElements["n-cheap"] & JSXBase.HTMLAttributes<HTMLNCheapElement>;
+            "n-fade": LocalJSX.IntrinsicElements["n-fade"] & JSXBase.HTMLAttributes<HTMLNFadeElement>;
+            "n-field": LocalJSX.IntrinsicElements["n-field"] & JSXBase.HTMLAttributes<HTMLNFieldElement>;
             "n-input": LocalJSX.IntrinsicElements["n-input"] & JSXBase.HTMLAttributes<HTMLNInputElement>;
             "n-progress": LocalJSX.IntrinsicElements["n-progress"] & JSXBase.HTMLAttributes<HTMLNProgressElement>;
             "n-switch": LocalJSX.IntrinsicElements["n-switch"] & JSXBase.HTMLAttributes<HTMLNSwitchElement>;
@@ -1433,6 +1603,7 @@ declare module "@stencil/core" {
             "n-table-column": LocalJSX.IntrinsicElements["n-table-column"] & JSXBase.HTMLAttributes<HTMLNTableColumnElement>;
             "n-table-header": LocalJSX.IntrinsicElements["n-table-header"] & JSXBase.HTMLAttributes<HTMLNTableHeaderElement>;
             "n-table-row": LocalJSX.IntrinsicElements["n-table-row"] & JSXBase.HTMLAttributes<HTMLNTableRowElement>;
+            "n-text": LocalJSX.IntrinsicElements["n-text"] & JSXBase.HTMLAttributes<HTMLNTextElement>;
             "n-toast": LocalJSX.IntrinsicElements["n-toast"] & JSXBase.HTMLAttributes<HTMLNToastElement>;
             "n-toast-item": LocalJSX.IntrinsicElements["n-toast-item"] & JSXBase.HTMLAttributes<HTMLNToastItemElement>;
         }

@@ -2,7 +2,7 @@ const CONTAINER_BASE =
   'flex items-center leading-normal border border-neutral-primary-hover transition rounded-md p-3 bg-neutral-primary';
 
 const CONTAINER_STATE = {
-  normal: 'shadow-medium ',
+  normal: 'shadow-medium',
 };
 
 const INPUT_BASE =

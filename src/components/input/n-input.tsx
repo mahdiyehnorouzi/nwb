@@ -8,6 +8,8 @@ import {
     h,
 } from '@stencil/core';
 
+import convertNumbersToEnglish from '../utils/convertNumbersToEnglish';
+
 import {
     INPUT_BASE,
     INPUT_STATE,
@@ -19,20 +21,25 @@ import { InputType, Size, Keys } from './type';
 
 @Component({
     tag: 'n-input',
-    shadow: true,
+    shadow: false,
 })
 export class NInput {
     @Element() el!: HTMLElement;
 
-    @Prop() modelValue: string | number = '';
+    @Prop({ mutable: true }) modelValue: string | number = '';
     @Prop() disabled: boolean = false;
     @Prop() type: InputType = 'text';
 
     @Prop() label: string = '';
+    @Prop() labelPosition: 'top' | 'inline' = 'top';
+    @Prop() placeholder: string = '';
     @Prop() showError: boolean = false;
     @Prop() error: string = '';
+    @Prop() required: boolean = false;
+    @Prop() requiredSign: boolean = true;
     @Prop() clearable: boolean = false;
-    @Prop() rows: number = 3;
+    @Prop() rows: number | string = 3;
+    @Prop() inputClass: string = '';
 
     @Prop() forceEnDigit: boolean = true;
     @Prop() size: Size = 'middle';
@@ -45,6 +52,8 @@ export class NInput {
     @State() hasFocus: boolean = false;
 
     private inputRef?: HTMLInputElement | HTMLTextAreaElement;
+    private containerRef?: HTMLElement;
+    private fieldId: string = '';
 
     @Event() updateModelValue!: EventEmitter<string | number>;
 
@@ -57,23 +66,46 @@ export class NInput {
     }
 
     get classes() {
+        const input = [INPUT_BASE, this.inputClass].filter(Boolean);
+
+        const containerClassParts: string[] = [
+            CONTAINER_BASE,
+            SIZES[this.size],
+        ];
+
+
+        if (!this.disabled && !this.hasError && this.hasFocus) {
+            containerClassParts.push(CONTAINER_STATE.normal);
+            containerClassParts.push(INPUT_STATE.selected);
+        }
+
+        if (this.hasError) {
+            containerClassParts.push(INPUT_STATE.invalid);
+        }
+
+        if (!this.disabled && !this.hasError && !this.hasFocus) {
+            containerClassParts.push(INPUT_STATE.normal);
+        }
+
         return {
-            input: [INPUT_BASE].join(' '),
-            container: [
-                CONTAINER_BASE,
-                SIZES[this.size],
-                !this.disabled && CONTAINER_STATE.normal,
-                !this.disabled && !this.hasError && this.hasFocus && INPUT_STATE.selected,
-                this.hasError && INPUT_STATE.invalid,
-                !this.disabled && !this.hasError && !this.hasFocus && INPUT_STATE.normal,
-            ]
-                .filter(Boolean)
-                .join(' '),
+            input: input.join(' '),
+            container: containerClassParts.join(' '),
         };
     }
 
     componentDidLoad() {
         document.addEventListener('click', this.handleClickOutside);
+        
+        const fieldElement = this.el.closest('n-field');
+        if (fieldElement) {
+            const inputSlot = fieldElement.querySelector('[slot="input"]');
+            if (inputSlot) {
+                this.fieldId = inputSlot.getAttribute('field-id') || '';
+                if (this.inputRef && this.fieldId) {
+                    this.inputRef.id = this.fieldId;
+                }
+            }
+        }
     }
 
     disconnectedCallback() {
@@ -81,19 +113,22 @@ export class NInput {
     }
 
     private handleClickOutside = (event: MouseEvent) => {
-        if (!this.el.contains(event.target as Node)) {
+        if (this.containerRef && !this.containerRef.contains(event.target as Node)) {
             this.hasFocus = false;
         }
     };
 
     private handleInput = (event: Event) => {
-        const value = (event.target as HTMLInputElement).value;
+        const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
 
         if (this.forceEnDigit) {
-            this.updateModelValue.emit(this.convertNumbersToEnglish(value));
+            const converted = convertNumbersToEnglish(value);
+            this.modelValue = converted;
+            this.updateModelValue.emit(converted);
             return;
         }
 
+        this.modelValue = value;
         this.updateModelValue.emit(value);
     };
 
@@ -120,39 +155,50 @@ export class NInput {
     private handleKeyDown = (event: KeyboardEvent) => {
         if (!this.isNumericInput) return;
 
-        if (event.code === Keys.ArrowUp) {
-            event.preventDefault();
-            this.incrementInputNumber();
-        }
+        event.stopPropagation();
 
-        if (event.code === Keys.ArrowDown) {
-            event.preventDefault();
-            this.decrementInputNumber();
+        const actions: Record<string, () => void> = {
+            [Keys.ArrowDown]: this.decrementInputNumber,
+            [Keys.ArrowUp]: this.incrementInputNumber,
+        };
+
+        if (actions[event.code]) {
+            actions[event.code]();
         }
     };
 
     private handleWheel = (event: WheelEvent) => {
-        if (!this.hasFocus || !this.changeValueOnMouseWheel) return;
+        if (!this.isNumericInput || !this.hasFocus || !this.changeValueOnMouseWheel) return;
 
+        event.stopPropagation();
         event.preventDefault();
-        event.deltaY < 0
-            ? this.incrementInputNumber()
-            : this.decrementInputNumber();
+
+        event.deltaY < 0 ? this.incrementInputNumber() : this.decrementInputNumber();
     };
 
-    private convertNumbersToEnglish(value: string) {
-        return value.replace(/[۰-۹]/g, (d) =>
-            String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
-        );
-    }
-
     render() {
+        const hasPostfixSlot = !!this.el.querySelector('[slot="postfix"]');
+        const rowsNum = typeof this.rows === 'string' ? parseInt(this.rows, 10) : this.rows;
+
         return (
-            <div>
+            <n-field
+                showError={this.showError}
+                error={this.error}
+                required={this.required}
+                requiredSign={this.requiredSign}
+                label={this.label}
+                labelPosition={this.labelPosition}
+            >
                 <div
-                    class={this.classes.container}
+                    slot="input"
+                    ref={(el) => (this.containerRef = el as HTMLElement)}
+                    class={[
+                        this.classes.container,
+                        this.disabled ? INPUT_STATE.disabled : '',
+                    ].filter(Boolean).join(' ')}
                     onClick={() => this.inputRef?.focus()}
-                    onWheel={this.handleWheel}
+                    onWheel={this.isNumericInput ? this.handleWheel : undefined}
+                    onKeyDown={this.isNumericInput ? this.handleKeyDown : undefined}
                 >
                     <slot name="prefix" />
 
@@ -162,11 +208,11 @@ export class NInput {
                             class={this.classes.input}
                             value={String(this.modelValue)}
                             disabled={this.disabled}
-                            rows={this.rows}
+                            rows={rowsNum}
                             aria-invalid={this.hasError}
+                            placeholder={this.placeholder || undefined}
                             onInput={this.handleInput}
                             onFocus={() => (this.hasFocus = true)}
-                            onKeyDown={this.handleKeyDown}
                         />
                     ) : (
                         <input
@@ -176,30 +222,32 @@ export class NInput {
                             value={String(this.modelValue)}
                             disabled={this.disabled}
                             aria-invalid={this.hasError}
+                            placeholder={this.placeholder || undefined}
                             onInput={this.handleInput}
                             onFocus={() => (this.hasFocus = true)}
-                            onKeyDown={this.handleKeyDown}
                         />
                     )}
 
-                    {this.hasError ? (
-                        <negar-error-light-icon size={24} />
-                    ) : (
-                        this.clearable &&
-                        this.modelValue && (
-                            <negar-close-bold-icon
-                                size={24}
-                                onClick={this.clearInput}
-                            />
-                        )
+                    {(hasPostfixSlot || this.clearable || this.hasError) && (
+                        <>
+                            {this.hasError && !hasPostfixSlot && (
+                                <negar-error-light-icon size={24} class="text-critical-primary" />
+                            )}
+                            {!this.hasError && this.clearable && this.modelValue && (
+                                <negar-close-bold-icon
+                                    size={24}
+                                    class="text-neutral-tertiary cursor-pointer"
+                                    onClick={this.clearInput}
+                                />
+                            )}
+                            <slot name="postfix" />
+                        </>
                     )}
-
-                    <slot name="postfix" />
                 </div>
 
                 {!this.error && <slot />}
                 <slot name="error" />
-            </div>
+            </n-field>
         );
     }
 }
