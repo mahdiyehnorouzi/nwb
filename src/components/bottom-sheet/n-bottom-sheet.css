@@ -1,0 +1,24 @@
+:focus-visible {
+  outline: none;
+}
+
+:root {
+  --vsbs-background: #fff;
+  --vsbs-backdrop-bg: #1e1d1db3;
+  --vsbs-border-color: transparent;
+  --vsbs-handle-background: #d8d8d8;
+  --vsbs-padding-x: 0;
+  --vsbs-max-width: 100%;
+}
+
+html.dark,
+html.dark-mode,
+html[data-theme='dark'],
+.dark,
+.dark-mode,
+[data-theme='dark'] {
+  --vsbs-background: #0d0d0d;
+  --vsbs-backdrop-bg: #404040b3;
+  --vsbs-handle-background: #808080;
+}
+
