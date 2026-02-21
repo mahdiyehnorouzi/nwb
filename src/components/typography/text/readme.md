@@ -19,12 +19,14 @@
 ### Used by
 
  - [n-cheap](../../cheap)
+ - [n-dynamic-component](../../dialog)
  - [n-field](../../field)
 
 ### Graph
 ```mermaid
 graph TD;
   n-cheap --> n-text
+  n-dynamic-component --> n-text
   n-field --> n-text
   style n-text fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Dialogs</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/build/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script nomodule src="/build/nwb.js"></script>
+    <script type="module">
+      import('/build/nwb.esm.js').then((module) => {
+        console.log('Components loaded', module);
+        // Try to get useDialog from module
+        if (module.useDialog) {
+          const dialogStore = module.useDialog();
+          window.dialogStore = dialogStore;
+          window.useDialog = () => dialogStore;
+          window.nwbDialogStore = dialogStore;
+          console.log('Dialog store loaded from module:', dialogStore);
+          
+          // Dispatch event
+          window.dispatchEvent(new CustomEvent('nwb-dialog-store-ready', { detail: dialogStore }));
+        } else {
+          console.warn('useDialog not found in module');
+        }
+      }).catch(err => {
+        console.error('Failed to load components:', err);
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .test-button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        border: 1px solid var(--n-border-primary);
+        background: var(--n-bg-primary);
+        color: var(--n-text-primary);
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin: 0.5rem;
+      }
+
+      .test-button:hover {
+        background: var(--n-bg-secondary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Dialogs</h1>
+
+      <!-- Basic Dialog -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Basic Dialog</h2>
+        <div class="space-y-4">
+          <button id="open-basic-dialog" class="test-button">
+            Open Basic Dialog
+          </button>
+          <button id="open-basic-dialog-title" class="test-button">
+            Open Dialog with Title
+          </button>
+          <button id="open-basic-dialog-footer" class="test-button">
+            Open Dialog with Footer
+          </button>
+        </div>
+      </div>
+
+      <!-- Multiple Dialogs -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Multiple Dialogs</h2>
+        <div class="space-y-4">
+          <button id="open-multiple-dialog-1" class="test-button">
+            Open Multiple Dialog 1
+          </button>
+          <button id="open-multiple-dialog-2" class="test-button">
+            Open Multiple Dialog 2
+          </button>
+          <button id="open-multiple-dialog-3" class="test-button">
+            Open Multiple Dialog 3
+          </button>
+          <button id="close-all-dialogs" class="test-button">
+            Close All Dialogs
+          </button>
+        </div>
+      </div>
+
+      <!-- Expandable Dialog -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Expandable Dialog</h2>
+        <div class="space-y-4">
+          <button id="open-expandable-dialog" class="test-button">
+            Open Expandable Dialog
+          </button>
+        </div>
+      </div>
+
+      <!-- Dialog with Placement -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Dialog Placement</h2>
+        <div class="space-y-4">
+          <button id="open-dialog-bottom-left" class="test-button">
+            Bottom Left
+          </button>
+          <button id="open-dialog-bottom-right" class="test-button">
+            Bottom Right
+          </button>
+          <button id="open-dialog-top-left" class="test-button">
+            Top Left
+          </button>
+          <button id="open-dialog-top-right" class="test-button">
+            Top Right
+          </button>
+          <button id="open-dialog-bottom" class="test-button">
+            Bottom
+          </button>
+          <button id="open-dialog-top" class="test-button">
+            Top
+          </button>
+        </div>
+      </div>
+
+      <!-- Dialog with Reference Element -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Dialog with Reference Element</h2>
+        <div class="space-y-4">
+          <button id="reference-button-1" class="test-button">
+            Reference Button 1
+          </button>
+          <button id="reference-button-2" class="test-button">
+            Reference Button 2
+          </button>
+        </div>
+      </div>
+
+      <!-- Headerless Dialog -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Headerless Dialog</h2>
+        <div class="space-y-4">
+          <button id="open-headerless-dialog" class="test-button">
+            Open Headerless Dialog
+          </button>
+        </div>
+      </div>
+
+      <!-- Custom styling (bodyClass, headerLess) – مثل استفاده در Vue -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">استایل سفارشی (bodyClass, headerLess)</h2>
+        <p class="text-neutral-secondary mb-4 text-sm">معادل Vue: add({ bodyClass, headerLess, content })</p>
+        <div class="space-y-4 flex flex-wrap gap-2">
+          <button id="open-dialog-body-class" class="test-button">
+            Dialog با bodyClass
+          </button>
+          <button id="open-dialog-headerless-body-class" class="test-button">
+            Headerless + bodyClass
+          </button>
+        </div>
+      </div>
+
+      <!-- Dialog Container -->
+      <n-dialog></n-dialog>
+
+      <script>
+        // Wait for components to load
+        let dialogStore = null;
+        let initAttempts = 0;
+        let isInitialized = false; // Flag to prevent multiple initializations
+        const MAX_INIT_ATTEMPTS = 50; // Try for 10 seconds (50 * 200ms)
+
+        function getDialogStore() {
+          // Try multiple ways to get the store
+          if (window.nwbDialogStore) {
+            return window.nwbDialogStore;
+          }
+          if (window.useDialog && typeof window.useDialog === 'function') {
+            return window.useDialog();
+          }
+          if (window.dialogStore) {
+            return window.dialogStore;
+          }
+          return null;
+        }
+
+        function initDialogs() {
+          // Prevent multiple initializations
+          if (isInitialized) {
+            return;
+          }
+
+          initAttempts++;
+          
+          const store = getDialogStore();
+          
+          if (!store) {
+            if (initAttempts < MAX_INIT_ATTEMPTS) {
+              console.warn(`Dialog store not available yet (attempt ${initAttempts}), retrying...`);
+              setTimeout(initDialogs, 200);
+              return;
+            } else {
+              console.error('Dialog store not available after maximum attempts');
+              return;
+            }
+          }
+
+          // Mark as initialized before attaching listeners
+          isInitialized = true;
+          dialogStore = store;
+          console.log('Dialog store initialized:', store);
+
+            // Basic Dialog
+            const basicBtn = document.getElementById('open-basic-dialog');
+            if (basicBtn) {
+              // Remove existing listeners by cloning and replacing
+              const newBasicBtn = basicBtn.cloneNode(true);
+              basicBtn.parentNode?.replaceChild(newBasicBtn, basicBtn);
+              
+              newBasicBtn.addEventListener('click', () => {
+                try {
+                  store.add({
+                    content: 'This is a basic dialog content.',
+                    multiple: false,
+                  });
+                } catch (error) {
+                  console.error('Error adding dialog:', error);
+                }
+              });
+            }
+
+            // Helper function to safely attach event listener
+            function attachListener(id, handler) {
+              const element = document.getElementById(id);
+              if (element) {
+                // Remove existing listeners by cloning
+                const newElement = element.cloneNode(true);
+                element.parentNode?.replaceChild(newElement, element);
+                newElement.addEventListener('click', handler);
+              }
+            }
+
+            attachListener('open-basic-dialog-title', () => {
+              store.add({
+                content: 'This is a dialog with a title.',
+                title: 'Dialog Title',
+                multiple: false,
+              });
+            });
+
+            attachListener('open-basic-dialog-footer', () => {
+              store.add({
+                content: 'This is a dialog with footer.',
+                title: 'Dialog with Footer',
+                footer: 'Footer Content',
+                multiple: false,
+              });
+            });
+
+            // Multiple Dialogs
+            attachListener('open-multiple-dialog-1', () => {
+              store.add({
+                content: 'Multiple Dialog 1',
+                title: 'Dialog 1',
+                multiple: true,
+              });
+            });
+
+            attachListener('open-multiple-dialog-2', () => {
+              store.add({
+                content: 'Multiple Dialog 2',
+                title: 'Dialog 2',
+                multiple: true,
+              });
+            });
+
+            attachListener('open-multiple-dialog-3', () => {
+              store.add({
+                content: 'Multiple Dialog 3',
+                title: 'Dialog 3',
+                multiple: true,
+              });
+            });
+
+            attachListener('close-all-dialogs', () => {
+              store.removeAll();
+            });
+
+            // Expandable Dialog
+            attachListener('open-expandable-dialog', () => {
+              store.add({
+                content: 'This is the main content of the expandable dialog.',
+                title: 'Expandable Dialog',
+                expandable: true,
+                expandableLabel: 'More Info',
+                expandedContent: 'This is the expanded content that appears when you click the expand button.',
+                multiple: false,
+              });
+            });
+
+            // Dialog Placement
+            attachListener('open-dialog-bottom-left', () => {
+              store.add({
+                content: 'Dialog positioned at bottom-left',
+                title: 'Bottom Left',
+                placement: 'bottom-left',
+                multiple: false,
+              });
+            });
+
+            attachListener('open-dialog-bottom-right', () => {
+              store.add({
+                content: 'Dialog positioned at bottom-right',
+                title: 'Bottom Right',
+                placement: 'bottom-right',
+                multiple: false,
+              });
+            });
+
+            attachListener('open-dialog-top-left', () => {
+              store.add({
+                content: 'Dialog positioned at top-left',
+                title: 'Top Left',
+                placement: 'top-left',
+                multiple: false,
+              });
+            });
+
+            attachListener('open-dialog-top-right', () => {
+              store.add({
+                content: 'Dialog positioned at top-right',
+                title: 'Top Right',
+                placement: 'top-right',
+                multiple: false,
+              });
+            });
+
+            attachListener('open-dialog-bottom', () => {
+              store.add({
+                content: 'Dialog positioned at bottom',
+                title: 'Bottom',
+                placement: 'bottom',
+                multiple: false,
+              });
+            });
+
+            attachListener('open-dialog-top', () => {
+              store.add({
+                content: 'Dialog positioned at top',
+                title: 'Top',
+                placement: 'top',
+                multiple: false,
+              });
+            });
+
+            // Dialog with Reference Element
+            const refBtn1 = document.getElementById('reference-button-1');
+            if (refBtn1) {
+              const newRefBtn1 = refBtn1.cloneNode(true);
+              refBtn1.parentNode?.replaceChild(newRefBtn1, refBtn1);
+              newRefBtn1.addEventListener('click', (e) => {
+                store.add({
+                  content: 'Dialog positioned relative to button 1',
+                  title: 'Reference Dialog 1',
+                  referenceElementRef: e.target,
+                  placement: 'bottom-left',
+                  multiple: false,
+                });
+              });
+            }
+
+            const refBtn2 = document.getElementById('reference-button-2');
+            if (refBtn2) {
+              const newRefBtn2 = refBtn2.cloneNode(true);
+              refBtn2.parentNode?.replaceChild(newRefBtn2, refBtn2);
+              newRefBtn2.addEventListener('click', (e) => {
+                store.add({
+                  content: 'Dialog positioned relative to button 2',
+                  title: 'Reference Dialog 2',
+                  referenceElementRef: e.target,
+                  placement: 'top-right',
+                  multiple: false,
+                });
+              });
+            }
+
+            // Headerless Dialog
+            attachListener('open-headerless-dialog', () => {
+              store.add({
+                content: 'This is a headerless dialog without a title bar.',
+                headerLess: true,
+                multiple: false,
+              });
+            });
+
+            // استایل سفارشی مثل Vue: bodyClass، headerLess
+            attachListener('open-dialog-body-class', () => {
+              store.add({
+                title: 'دیالوگ با bodyClass',
+                content: 'عرض و استایل از طریق bodyClass تنظیم شده (مثل Vue).',
+                bodyClass: '!w-sm max-w-md rounded-xl [&>.p-4]:!p-6',
+                multiple: false,
+              });
+            });
+            attachListener('open-dialog-headerless-body-class', () => {
+              const id = store.add({
+                headerLess: true,
+                bodyClass: '!w-sm max-w-md !pb-0 rounded-xl [&>.p-4]:!p-0',
+                content: '<div class="p-4 text-sm">محتوای سفارشی با headerLess و bodyClass (هم‌تراز با Vue).</div>',
+                multiple: false,
+              });
+              // در صورت نیاز می‌توان با content به صورت { component, props } هم استفاده کرد
+            });
+        }
+
+        // Listen for store ready event
+        window.addEventListener('nwb-dialog-store-ready', (event) => {
+          console.log('Dialog store ready event received', event.detail);
+          window.nwbDialogStore = event.detail;
+          if (!isInitialized) {
+            initDialogs();
+          }
+        });
+
+        // Initialize when page loads
+        function startInit() {
+          // Wait for n-dialog component to load and expose store
+          setTimeout(() => {
+            initDialogs();
+          }, 500);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', startInit);
+        } else {
+          startInit();
+        }
+
+        // Debug: Check store availability periodically
+        setInterval(() => {
+          const store = getDialogStore();
+          if (store && !isInitialized) {
+            console.log('Store found via interval check, initializing...');
+            initDialogs();
+          }
+        }, 1000);
+      </script>
+
+      <script>
+        // تم باید روی html باشد تا tokens.css (html.dark) کار کند
+        function applyTheme() {
+          const savedTheme = localStorage.getItem('theme');
+          const html = document.documentElement;
+          if (savedTheme === 'dark') {
+            html.classList.add('dark');
+          } else {
+            html.classList.remove('dark');
+          }
+        }
+
+        function initTheme() {
+          const savedTheme = localStorage.getItem('theme');
+          if (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            localStorage.setItem('theme', 'dark');
+          }
+          applyTheme();
+        }
+
+        initTheme();
+
+        // وقتی از html اصلی (index) تم عوض می‌شود، از طریق message یا storage به‌روز شویم
+        window.addEventListener('storage', (e) => {
+          if (e.key === 'theme') applyTheme();
+        });
+        window.addEventListener('message', (e) => {
+          if (e.data?.type === 'theme-change') applyTheme();
+        });
+        // fallback: اگر داخل iframe هستیم و پیام نخورد، هر ثانیه از localStorage بخوان
+        setInterval(applyTheme, 1000);
+      </script>
+    </div>
+  </body>
+</html>

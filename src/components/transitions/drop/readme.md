@@ -1,4 +1,4 @@
-# n-fade
+# n-drop
 
 
 
@@ -10,14 +10,12 @@
 ### Used by
 
  - [n-dialog-item](../../dialog)
- - [n-field](../../field)
 
 ### Graph
 ```mermaid
 graph TD;
-  n-dialog-item --> n-fade
-  n-field --> n-fade
-  style n-fade fill:#f9f,stroke:#333,stroke-width:4px
+  n-dialog-item --> n-drop
+  style n-drop fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

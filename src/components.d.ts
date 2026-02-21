@@ -8,6 +8,8 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { BottomSheetSnapPoint, NBottomSheetClosingStartedDetail } from "./components/bottom-sheet/types";
 import { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 import { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
+import { ComponentType, DialogPlacement } from "./components/dialog/types";
+import { ComponentType as ComponentType1 } from "./components/dialog/n-dynamic-component";
 import { InputType, Size } from "./components/input/type";
 import { LabelPosition } from "./components/switch/type";
 import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
@@ -16,6 +18,8 @@ import { Position, Toast, Variants } from "./components/toast/types";
 export { BottomSheetSnapPoint, NBottomSheetClosingStartedDetail } from "./components/bottom-sheet/types";
 export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 export { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
+export { ComponentType, DialogPlacement } from "./components/dialog/types";
+export { ComponentType as ComponentType1 } from "./components/dialog/n-dynamic-component";
 export { InputType, Size } from "./components/input/type";
 export { LabelPosition } from "./components/switch/type";
 export { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder } from "./components/table/types";
@@ -105,6 +109,12 @@ export namespace Components {
          */
         "removeFooterPadding": boolean;
         "snapPoints"?: BottomSheetSnapPoint[];
+    }
+    interface NBox {
+        /**
+          * @default 'none'
+         */
+        "elevation"?: 'none' | 'small' | 'medium' | 'large';
     }
     interface NButton {
         /**
@@ -212,6 +222,60 @@ export namespace Components {
           * @default 'fill'
          */
         "variant": CheapVariant;
+    }
+    interface NDialog {
+    }
+    interface NDialogItem {
+        "afterClose"?: () => void;
+        "afterOpen"?: () => void;
+        /**
+          * @default ''
+         */
+        "bodyClass": string;
+        "content": ComponentType | string;
+        /**
+          * @default false
+         */
+        "defaultExpanded": boolean;
+        /**
+          * @default 'rtl'
+         */
+        "dialogDirection": 'rtl' | 'ltr';
+        "dialogId": string;
+        "dialogTitle"?: ComponentType | string;
+        /**
+          * @default false
+         */
+        "expandable": boolean;
+        "expandableLabel"?: ComponentType | string;
+        "expandedContent"?: ComponentType | string;
+        "footer"?: ComponentType | string;
+        /**
+          * @default ''
+         */
+        "footerClass": string;
+        /**
+          * @default false
+         */
+        "headerLess": boolean;
+        "index": number;
+        /**
+          * @default false
+         */
+        "multiple": boolean;
+        "placement"?: DialogPlacement;
+        "referenceElementRef"?: HTMLElement | any;
+        /**
+          * @default ''
+         */
+        "wrapperClass": string;
+        "zIndex": number;
+    }
+    interface NDrop {
+    }
+    interface NDynamicComponent {
+        "class"?: string;
+        "content": ComponentType1 | string;
     }
     interface NFade {
     }
@@ -555,6 +619,10 @@ export interface NCheapCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNCheapElement;
 }
+export interface NDialogItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLNDialogItemElement;
+}
 export interface NInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNInputElement;
@@ -633,6 +701,12 @@ declare global {
         prototype: HTMLNBottomSheetElement;
         new (): HTMLNBottomSheetElement;
     };
+    interface HTMLNBoxElement extends Components.NBox, HTMLStencilElement {
+    }
+    var HTMLNBoxElement: {
+        prototype: HTMLNBoxElement;
+        new (): HTMLNBoxElement;
+    };
     interface HTMLNButtonElement extends Components.NButton, HTMLStencilElement {
     }
     var HTMLNButtonElement: {
@@ -696,6 +770,43 @@ declare global {
     var HTMLNCheapElement: {
         prototype: HTMLNCheapElement;
         new (): HTMLNCheapElement;
+    };
+    interface HTMLNDialogElement extends Components.NDialog, HTMLStencilElement {
+    }
+    var HTMLNDialogElement: {
+        prototype: HTMLNDialogElement;
+        new (): HTMLNDialogElement;
+    };
+    interface HTMLNDialogItemElementEventMap {
+        "afterCloseEvent": void;
+        "afterOpenEvent": void;
+        "updateExpanded": boolean;
+    }
+    interface HTMLNDialogItemElement extends Components.NDialogItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLNDialogItemElementEventMap>(type: K, listener: (this: HTMLNDialogItemElement, ev: NDialogItemCustomEvent<HTMLNDialogItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLNDialogItemElementEventMap>(type: K, listener: (this: HTMLNDialogItemElement, ev: NDialogItemCustomEvent<HTMLNDialogItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLNDialogItemElement: {
+        prototype: HTMLNDialogItemElement;
+        new (): HTMLNDialogItemElement;
+    };
+    interface HTMLNDropElement extends Components.NDrop, HTMLStencilElement {
+    }
+    var HTMLNDropElement: {
+        prototype: HTMLNDropElement;
+        new (): HTMLNDropElement;
+    };
+    interface HTMLNDynamicComponentElement extends Components.NDynamicComponent, HTMLStencilElement {
+    }
+    var HTMLNDynamicComponentElement: {
+        prototype: HTMLNDynamicComponentElement;
+        new (): HTMLNDynamicComponentElement;
     };
     interface HTMLNFadeElement extends Components.NFade, HTMLStencilElement {
     }
@@ -845,11 +956,16 @@ declare global {
         "n-accordion": HTMLNAccordionElement;
         "n-accordion-group": HTMLNAccordionGroupElement;
         "n-bottom-sheet": HTMLNBottomSheetElement;
+        "n-box": HTMLNBoxElement;
         "n-button": HTMLNButtonElement;
         "n-button-icon": HTMLNButtonIconElement;
         "n-button-toggle": HTMLNButtonToggleElement;
         "n-button-toggle-group": HTMLNButtonToggleGroupElement;
         "n-cheap": HTMLNCheapElement;
+        "n-dialog": HTMLNDialogElement;
+        "n-dialog-item": HTMLNDialogItemElement;
+        "n-drop": HTMLNDropElement;
+        "n-dynamic-component": HTMLNDynamicComponentElement;
         "n-fade": HTMLNFadeElement;
         "n-field": HTMLNFieldElement;
         "n-input": HTMLNInputElement;
@@ -953,6 +1069,12 @@ declare namespace LocalJSX {
          */
         "removeFooterPadding"?: boolean;
         "snapPoints"?: BottomSheetSnapPoint[];
+    }
+    interface NBox {
+        /**
+          * @default 'none'
+         */
+        "elevation"?: 'none' | 'small' | 'medium' | 'large';
     }
     interface NButton {
         /**
@@ -1064,6 +1186,63 @@ declare namespace LocalJSX {
           * @default 'fill'
          */
         "variant"?: CheapVariant;
+    }
+    interface NDialog {
+    }
+    interface NDialogItem {
+        "afterClose"?: () => void;
+        "afterOpen"?: () => void;
+        /**
+          * @default ''
+         */
+        "bodyClass"?: string;
+        "content": ComponentType | string;
+        /**
+          * @default false
+         */
+        "defaultExpanded"?: boolean;
+        /**
+          * @default 'rtl'
+         */
+        "dialogDirection"?: 'rtl' | 'ltr';
+        "dialogId": string;
+        "dialogTitle"?: ComponentType | string;
+        /**
+          * @default false
+         */
+        "expandable"?: boolean;
+        "expandableLabel"?: ComponentType | string;
+        "expandedContent"?: ComponentType | string;
+        "footer"?: ComponentType | string;
+        /**
+          * @default ''
+         */
+        "footerClass"?: string;
+        /**
+          * @default false
+         */
+        "headerLess"?: boolean;
+        "index": number;
+        /**
+          * @default false
+         */
+        "multiple"?: boolean;
+        "onAfterCloseEvent"?: (event: NDialogItemCustomEvent<void>) => void;
+        "onAfterOpenEvent"?: (event: NDialogItemCustomEvent<void>) => void;
+        "onUpdateExpanded"?: (event: NDialogItemCustomEvent<boolean>) => void;
+        "placement"?: DialogPlacement;
+        "referenceElementRef"?: HTMLElement | any;
+        /**
+          * @default ''
+         */
+        "wrapperClass"?: string;
+        "zIndex": number;
+    }
+    interface NDrop {
+    }
+    interface NDynamicComponent {
+        "class"?: string;
+        "content": ComponentType1 | string;
     }
     interface NFade {
     }
@@ -1421,6 +1600,9 @@ declare namespace LocalJSX {
         "footerClass": string;
         "removeFooterPadding": boolean;
     }
+    interface NBoxAttributes {
+        "elevation": 'none' | 'small' | 'medium' | 'large';
+    }
     interface NButtonAttributes {
         "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
         "variant": 'fill' | 'outline' | 'flat' | 'plain';
@@ -1455,6 +1637,30 @@ declare namespace LocalJSX {
         "size": CheapSize;
         "color": CheapColor;
         "selectable": boolean;
+    }
+    interface NDialogItemAttributes {
+        "dialogId": string;
+        "zIndex": number;
+        "index": number;
+        "dialogDirection": 'rtl' | 'ltr';
+        "content": ComponentType | string;
+        "dialogTitle": ComponentType | string;
+        "expandableLabel": ComponentType | string;
+        "expandable": boolean;
+        "defaultExpanded": boolean;
+        "expandedContent": ComponentType | string;
+        "footer": ComponentType | string;
+        "bodyClass": string;
+        "wrapperClass": string;
+        "footerClass": string;
+        "multiple": boolean;
+        "referenceElementRef": string;
+        "placement": DialogPlacement;
+        "headerLess": boolean;
+    }
+    interface NDynamicComponentAttributes {
+        "content": ComponentType | string;
+        "class": string;
     }
     interface NFieldAttributes {
         "showError": boolean;
@@ -1563,11 +1769,16 @@ declare namespace LocalJSX {
         "n-accordion": Omit<NAccordion, keyof NAccordionAttributes> & { [K in keyof NAccordion & keyof NAccordionAttributes]?: NAccordion[K] } & { [K in keyof NAccordion & keyof NAccordionAttributes as `attr:${K}`]?: NAccordionAttributes[K] } & { [K in keyof NAccordion & keyof NAccordionAttributes as `prop:${K}`]?: NAccordion[K] };
         "n-accordion-group": Omit<NAccordionGroup, keyof NAccordionGroupAttributes> & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes]?: NAccordionGroup[K] } & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes as `attr:${K}`]?: NAccordionGroupAttributes[K] } & { [K in keyof NAccordionGroup & keyof NAccordionGroupAttributes as `prop:${K}`]?: NAccordionGroup[K] };
         "n-bottom-sheet": Omit<NBottomSheet, keyof NBottomSheetAttributes> & { [K in keyof NBottomSheet & keyof NBottomSheetAttributes]?: NBottomSheet[K] } & { [K in keyof NBottomSheet & keyof NBottomSheetAttributes as `attr:${K}`]?: NBottomSheetAttributes[K] } & { [K in keyof NBottomSheet & keyof NBottomSheetAttributes as `prop:${K}`]?: NBottomSheet[K] };
+        "n-box": Omit<NBox, keyof NBoxAttributes> & { [K in keyof NBox & keyof NBoxAttributes]?: NBox[K] } & { [K in keyof NBox & keyof NBoxAttributes as `attr:${K}`]?: NBoxAttributes[K] } & { [K in keyof NBox & keyof NBoxAttributes as `prop:${K}`]?: NBox[K] };
         "n-button": Omit<NButton, keyof NButtonAttributes> & { [K in keyof NButton & keyof NButtonAttributes]?: NButton[K] } & { [K in keyof NButton & keyof NButtonAttributes as `attr:${K}`]?: NButtonAttributes[K] } & { [K in keyof NButton & keyof NButtonAttributes as `prop:${K}`]?: NButton[K] };
         "n-button-icon": Omit<NButtonIcon, keyof NButtonIconAttributes> & { [K in keyof NButtonIcon & keyof NButtonIconAttributes]?: NButtonIcon[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `attr:${K}`]?: NButtonIconAttributes[K] } & { [K in keyof NButtonIcon & keyof NButtonIconAttributes as `prop:${K}`]?: NButtonIcon[K] };
         "n-button-toggle": Omit<NButtonToggle, keyof NButtonToggleAttributes> & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes]?: NButtonToggle[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `attr:${K}`]?: NButtonToggleAttributes[K] } & { [K in keyof NButtonToggle & keyof NButtonToggleAttributes as `prop:${K}`]?: NButtonToggle[K] };
         "n-button-toggle-group": Omit<NButtonToggleGroup, keyof NButtonToggleGroupAttributes> & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes]?: NButtonToggleGroup[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `attr:${K}`]?: NButtonToggleGroupAttributes[K] } & { [K in keyof NButtonToggleGroup & keyof NButtonToggleGroupAttributes as `prop:${K}`]?: NButtonToggleGroup[K] };
         "n-cheap": Omit<NCheap, keyof NCheapAttributes> & { [K in keyof NCheap & keyof NCheapAttributes]?: NCheap[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `attr:${K}`]?: NCheapAttributes[K] } & { [K in keyof NCheap & keyof NCheapAttributes as `prop:${K}`]?: NCheap[K] };
+        "n-dialog": NDialog;
+        "n-dialog-item": Omit<NDialogItem, keyof NDialogItemAttributes> & { [K in keyof NDialogItem & keyof NDialogItemAttributes]?: NDialogItem[K] } & { [K in keyof NDialogItem & keyof NDialogItemAttributes as `attr:${K}`]?: NDialogItemAttributes[K] } & { [K in keyof NDialogItem & keyof NDialogItemAttributes as `prop:${K}`]?: NDialogItem[K] } & OneOf<"dialogId", NDialogItem["dialogId"], NDialogItemAttributes["dialogId"]> & OneOf<"zIndex", NDialogItem["zIndex"], NDialogItemAttributes["zIndex"]> & OneOf<"index", NDialogItem["index"], NDialogItemAttributes["index"]> & OneOf<"content", NDialogItem["content"], NDialogItemAttributes["content"]>;
+        "n-drop": NDrop;
+        "n-dynamic-component": Omit<NDynamicComponent, keyof NDynamicComponentAttributes> & { [K in keyof NDynamicComponent & keyof NDynamicComponentAttributes]?: NDynamicComponent[K] } & { [K in keyof NDynamicComponent & keyof NDynamicComponentAttributes as `attr:${K}`]?: NDynamicComponentAttributes[K] } & { [K in keyof NDynamicComponent & keyof NDynamicComponentAttributes as `prop:${K}`]?: NDynamicComponent[K] } & OneOf<"content", NDynamicComponent["content"], NDynamicComponentAttributes["content"]>;
         "n-fade": NFade;
         "n-field": Omit<NField, keyof NFieldAttributes> & { [K in keyof NField & keyof NFieldAttributes]?: NField[K] } & { [K in keyof NField & keyof NFieldAttributes as `attr:${K}`]?: NFieldAttributes[K] } & { [K in keyof NField & keyof NFieldAttributes as `prop:${K}`]?: NField[K] };
         "n-input": Omit<NInput, keyof NInputAttributes> & { [K in keyof NInput & keyof NInputAttributes]?: NInput[K] } & { [K in keyof NInput & keyof NInputAttributes as `attr:${K}`]?: NInputAttributes[K] } & { [K in keyof NInput & keyof NInputAttributes as `prop:${K}`]?: NInput[K] };
@@ -1589,11 +1800,16 @@ declare module "@stencil/core" {
             "n-accordion": LocalJSX.IntrinsicElements["n-accordion"] & JSXBase.HTMLAttributes<HTMLNAccordionElement>;
             "n-accordion-group": LocalJSX.IntrinsicElements["n-accordion-group"] & JSXBase.HTMLAttributes<HTMLNAccordionGroupElement>;
             "n-bottom-sheet": LocalJSX.IntrinsicElements["n-bottom-sheet"] & JSXBase.HTMLAttributes<HTMLNBottomSheetElement>;
+            "n-box": LocalJSX.IntrinsicElements["n-box"] & JSXBase.HTMLAttributes<HTMLNBoxElement>;
             "n-button": LocalJSX.IntrinsicElements["n-button"] & JSXBase.HTMLAttributes<HTMLNButtonElement>;
             "n-button-icon": LocalJSX.IntrinsicElements["n-button-icon"] & JSXBase.HTMLAttributes<HTMLNButtonIconElement>;
             "n-button-toggle": LocalJSX.IntrinsicElements["n-button-toggle"] & JSXBase.HTMLAttributes<HTMLNButtonToggleElement>;
             "n-button-toggle-group": LocalJSX.IntrinsicElements["n-button-toggle-group"] & JSXBase.HTMLAttributes<HTMLNButtonToggleGroupElement>;
             "n-cheap": LocalJSX.IntrinsicElements["n-cheap"] & JSXBase.HTMLAttributes<HTMLNCheapElement>;
+            "n-dialog": LocalJSX.IntrinsicElements["n-dialog"] & JSXBase.HTMLAttributes<HTMLNDialogElement>;
+            "n-dialog-item": LocalJSX.IntrinsicElements["n-dialog-item"] & JSXBase.HTMLAttributes<HTMLNDialogItemElement>;
+            "n-drop": LocalJSX.IntrinsicElements["n-drop"] & JSXBase.HTMLAttributes<HTMLNDropElement>;
+            "n-dynamic-component": LocalJSX.IntrinsicElements["n-dynamic-component"] & JSXBase.HTMLAttributes<HTMLNDynamicComponentElement>;
             "n-fade": LocalJSX.IntrinsicElements["n-fade"] & JSXBase.HTMLAttributes<HTMLNFadeElement>;
             "n-field": LocalJSX.IntrinsicElements["n-field"] & JSXBase.HTMLAttributes<HTMLNFieldElement>;
             "n-input": LocalJSX.IntrinsicElements["n-input"] & JSXBase.HTMLAttributes<HTMLNInputElement>;
