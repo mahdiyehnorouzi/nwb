@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>NWB Loading</title>
+
+    <link rel="stylesheet" href="/build/nwb.css">
+    <script src="/tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+      }
+    </script>
+
+    <script nomodule src="/build/nwb.js"></script>
+    <script type="module">
+      import('/build/nwb.esm.js').then(() => {
+        console.log('Components loaded');
+      }).catch(err => {
+        console.error('Failed to load components:', err);
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+
+      .dark .theme-bg {
+        background-color: var(--n-bg-primary);
+        color: var(--n-text-primary);
+      }
+    </style>
+  </head>
+  <body class="theme-bg p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-primary mb-8">NWB Loading</h1>
+
+      <!-- n-loading standalone -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-loading</h2>
+        <div class="flex flex-wrap items-end gap-8">
+          <div class="flex flex-col items-center gap-2">
+            <n-loading size="6"></n-loading>
+            <span class="text-sm text-neutral-secondary">size=6</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <n-loading size="10"></n-loading>
+            <span class="text-sm text-neutral-secondary">size=10 (default)</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <n-loading size="14"></n-loading>
+            <span class="text-sm text-neutral-secondary">size=14</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <n-loading size="20"></n-loading>
+            <span class="text-sm text-neutral-secondary">size=20</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- n-loading inside n-button -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">n-button با loading</h2>
+        <div class="flex flex-wrap gap-4">
+          <n-button loading color="green">Loading…</n-button>
+          <n-button loading variant="outline" color="red">Loading</n-button>
+          <n-button loading variant="flat" color="gray">Loading</n-button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          localStorage.setItem('theme', 'dark');
+        }
+        applyTheme();
+      }
+
+      initTheme();
+      window.addEventListener('storage', (e) => { if (e.key === 'theme') applyTheme(); });
+      window.addEventListener('message', (e) => { if (e.data?.type === 'theme-change') applyTheme(); });
+      setInterval(applyTheme, 1000);
+    </script>
+  </body>
+</html>

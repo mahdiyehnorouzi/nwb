@@ -1,59 +1,57 @@
-import { Component, Prop, h } from '@stencil/core';
-import {
-  BASE,
-  SIZES,
-  FILL_THEME,
-  OUTLINE_THEME,
-  FLAT_THEME,
-  PLAIN_THEME,
-  DISABLE_THEME,
-  NOT_CLICKABLE,
-} from './theme';
+import { Component, Prop, h, Host } from '@stencil/core';
+import type { ButtonColor, ButtonSize, ButtonVariant, NativeButtonType } from '../_shared/button.types';
+import { BUTTON_SIZE, BUTTON_VARIANT, BUTTON_COLOR, BUTTON_NATIVE_TYPE } from '../_shared/button.types';
+import { getButtonClasses } from '../_shared/getButtonClasses';
+import { BUTTON_TEXT_BASE, BUTTON_SIZES_TEXT } from '../_shared/button.styles';
 
 @Component({
   tag: 'n-button',
   shadow: false,
 })
 export class NButton {
-  @Prop() size: 'mini' | 'xsmall' | 'small' | 'middle' | 'large' = 'middle';
-  @Prop() variant: 'fill' | 'outline' | 'flat' | 'plain' = 'fill';
-  @Prop() color: 'green' | 'red' | 'blue' | 'gray' = 'green';
-  @Prop() loading: boolean = false;
-  @Prop() disabled: boolean = false;
+  @Prop() size: ButtonSize = BUTTON_SIZE.MIDDLE;
+  @Prop() variant: ButtonVariant = BUTTON_VARIANT.FILL;
+  @Prop() color: ButtonColor = BUTTON_COLOR.GREEN;
 
-  private getClasses() {
-    return [
-      BASE,
-      SIZES[this.size],
-      DISABLE_THEME[this.variant],
-      this.variant === 'fill' && FILL_THEME[this.color],
-      this.variant === 'flat' && FLAT_THEME[this.color],
-      this.variant === 'plain' && PLAIN_THEME[this.color],
-      this.variant === 'outline' && OUTLINE_THEME[this.color],
-      this.loading && NOT_CLICKABLE.default,
-      this.size === 'mini' && 'rounded-xl',
-    ]
-      .filter(Boolean)
-      .join(' ');
-  }
+  @Prop() loading = false;
+  @Prop() disabled = false;
+
+  @Prop() type: NativeButtonType = BUTTON_NATIVE_TYPE.BUTTON;
 
   render() {
+    const isDisabled = this.disabled || this.loading;
+
+    const classes = getButtonClasses({
+      size: this.size,
+      variant: this.variant,
+      color: this.color,
+      loading: this.loading,
+      baseClass: BUTTON_TEXT_BASE,
+      sizeClassMap: BUTTON_SIZES_TEXT,
+      miniRoundClass: 'rounded-xl',
+    });
+
     return (
-      <button
-        class={this.getClasses()}
-        disabled={this.disabled || this.loading}
-      >
-        <div class="inline-flex items-center justify-between">
-          {this.loading ? (
-            <n-loading size={10} class="mx-auto" />
-          ) : (
-            <>
-              <slot name="icon" />
-              <slot />
-            </>
-          )}
-        </div>
-      </button>
+      <Host>
+        <button
+          type={this.type}
+          class={classes}
+          disabled={isDisabled}
+          aria-disabled={isDisabled ? 'true' : null}
+          aria-busy={this.loading ? 'true' : null}
+        >
+          <span class="inline-flex items-center gap-2">
+            {this.loading ? (
+              <n-loading size={10} />
+            ) : (
+              <>
+                <slot name="icon" />
+                <slot />
+              </>
+            )}
+          </span>
+        </button>
+      </Host>
     );
   }
 }

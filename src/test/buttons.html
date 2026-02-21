@@ -6,7 +6,7 @@
     <title>NWB Buttons</title>
 
     <link rel="stylesheet" href="/build/nwb.css">
-    <script src="/build/tailwind-config.js"></script>
+    <script src="/tailwind.config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       if (window.tailwindConfig) {
@@ -14,6 +14,7 @@
       }
     </script>
 
+    <script type="module" src="/build/nwb.esm.js"></script>
     <script nomodule src="/build/nwb.js"></script>
     <script type="module">
       // Load ESM version
@@ -44,13 +45,6 @@
   <body class="theme-bg p-8 min-h-screen">
     <div class="max-w-7xl mx-auto">
       <h1 class="text-3xl font-bold text-primary mb-8">NWB Buttons</h1>
-
-      <!-- Test CSS -->
-      <div style="padding: 20px; margin-bottom: 20px; background: #f0f0f0; border: 1px solid #ccc;">
-        <h3>Test CSS Classes:</h3>
-        <div class="bg-green-500 text-white p-4 rounded">Tailwind Green</div>
-        <div class="bg-neutral-secondary text-white p-4 rounded mt-2">Custom Neutral Secondary</div>
-      </div>
 
       <!-- n-button Variants -->
       <div class="mb-12">
@@ -236,6 +230,18 @@
               <svg class="w-7 h-7"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </n-button-icon>
           </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-primary">Loading State</h2>
+        <div class="flex gap-6 flex-wrap items-end">
+          <n-button loading variant="fill" color="green">Loading…</n-button>
+          <n-button loading variant="outline" color="red">Loading…</n-button>
+          <n-button loading variant="flat" color="gray">Loading…</n-button>
+          <n-button loading size="small" variant="fill" color="green">Loading…</n-button>
+          <n-button loading size="large" variant="fill" color="green">Loading…</n-button>
         </div>
       </div>
 

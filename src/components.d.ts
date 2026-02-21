@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { BottomSheetSnapPoint, NBottomSheetClosingStartedDetail } from "./components/bottom-sheet/types";
+import { ButtonColor, ButtonSize, ButtonVariant, NativeButtonType } from "./components/button/_shared/button.types";
 import { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 import { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 import { ComponentType, DialogPlacement } from "./components/dialog/types";
@@ -16,6 +17,7 @@ import { ColumnPadding, ColumnType, NTableColumnConfigAlign, SortBy, SortOrder }
 import { TextTag, TextVariant } from "./components/typography/text/n-text";
 import { Position, Toast, Variants } from "./components/toast/types";
 export { BottomSheetSnapPoint, NBottomSheetClosingStartedDetail } from "./components/bottom-sheet/types";
+export { ButtonColor, ButtonSize, ButtonVariant, NativeButtonType } from "./components/button/_shared/button.types";
 export { ButtonToggleColor, ButtonToggleRounded, ButtonToggleSize } from "./components/button/n-button-toggle-group/type";
 export { CheapColor, CheapSize, CheapVariant } from "./components/cheap/type";
 export { ComponentType, DialogPlacement } from "./components/dialog/types";
@@ -118,9 +120,9 @@ export namespace Components {
     }
     interface NButton {
         /**
-          * @default 'green'
+          * @default BUTTON_COLOR.GREEN
          */
-        "color": 'green' | 'red' | 'blue' | 'gray';
+        "color": ButtonColor;
         /**
           * @default false
          */
@@ -130,19 +132,23 @@ export namespace Components {
          */
         "loading": boolean;
         /**
-          * @default 'middle'
+          * @default BUTTON_SIZE.MIDDLE
          */
-        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        "size": ButtonSize;
         /**
-          * @default 'fill'
+          * @default BUTTON_NATIVE_TYPE.BUTTON
          */
-        "variant": 'fill' | 'outline' | 'flat' | 'plain';
+        "type": NativeButtonType;
+        /**
+          * @default BUTTON_VARIANT.FILL
+         */
+        "variant": ButtonVariant;
     }
     interface NButtonIcon {
         /**
-          * @default 'green'
+          * @default BUTTON_COLOR.GREEN
          */
-        "color": 'green' | 'red' | 'blue' | 'gray';
+        "color": ButtonColor;
         /**
           * @default false
          */
@@ -152,27 +158,59 @@ export namespace Components {
          */
         "loading": boolean;
         /**
-          * @default 'middle'
+          * @default BUTTON_SIZE.MIDDLE
          */
-        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        "size": ButtonSize;
         /**
-          * @default 'fill'
+          * @default BUTTON_NATIVE_TYPE.BUTTON
          */
-        "variant": 'fill' | 'outline' | 'flat' | 'plain';
+        "type": NativeButtonType;
+        /**
+          * @default BUTTON_VARIANT.FILL
+         */
+        "variant": ButtonVariant;
     }
     interface NButtonToggle {
+        /**
+          * @default false
+         */
+        "active": boolean;
         /**
           * @default ''
          */
         "badge": string;
         /**
+          * @default BUTTON_COLOR.GREEN
+         */
+        "color": ButtonToggleColor;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default 0
+         */
+        "index": number;
+        /**
           * @default ''
          */
         "label": string;
+        /**
+          * @default BUTTON_TOGGLE_ROUNDED.FULL
+         */
+        "rounded": ButtonToggleRounded;
+        /**
+          * @default BUTTON_SIZE.SMALL
+         */
+        "size": ButtonToggleSize;
+        /**
+          * @default -1
+         */
+        "tabIndex": number;
     }
     interface NButtonToggleGroup {
         /**
-          * @default 'green'
+          * @default BUTTON_COLOR.GREEN
          */
         "color": ButtonToggleColor;
         /**
@@ -184,11 +222,11 @@ export namespace Components {
          */
         "modelValue": number;
         /**
-          * @default 'full'
+          * @default BUTTON_TOGGLE_ROUNDED.FULL
          */
         "rounded": ButtonToggleRounded;
         /**
-          * @default 'small'
+          * @default BUTTON_SIZE.SMALL
          */
         "size": ButtonToggleSize;
     }
@@ -382,6 +420,12 @@ export namespace Components {
           * @default 'text'
          */
         "type": InputType;
+    }
+    interface NLoading {
+        /**
+          * @default 10
+         */
+        "size": number;
     }
     interface NProgress {
         "backgroundColorCode": string;
@@ -720,7 +764,7 @@ declare global {
         new (): HTMLNButtonIconElement;
     };
     interface HTMLNButtonToggleElementEventMap {
-        "toggleClick": number;
+        "toggleSelect": number;
     }
     interface HTMLNButtonToggleElement extends Components.NButtonToggle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLNButtonToggleElementEventMap>(type: K, listener: (this: HTMLNButtonToggleElement, ev: NButtonToggleCustomEvent<HTMLNButtonToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -836,6 +880,12 @@ declare global {
     var HTMLNInputElement: {
         prototype: HTMLNInputElement;
         new (): HTMLNInputElement;
+    };
+    interface HTMLNLoadingElement extends Components.NLoading, HTMLStencilElement {
+    }
+    var HTMLNLoadingElement: {
+        prototype: HTMLNLoadingElement;
+        new (): HTMLNLoadingElement;
     };
     interface HTMLNProgressElement extends Components.NProgress, HTMLStencilElement {
     }
@@ -969,6 +1019,7 @@ declare global {
         "n-fade": HTMLNFadeElement;
         "n-field": HTMLNFieldElement;
         "n-input": HTMLNInputElement;
+        "n-loading": HTMLNLoadingElement;
         "n-progress": HTMLNProgressElement;
         "n-switch": HTMLNSwitchElement;
         "n-table": HTMLNTableElement;
@@ -1078,9 +1129,9 @@ declare namespace LocalJSX {
     }
     interface NButton {
         /**
-          * @default 'green'
+          * @default BUTTON_COLOR.GREEN
          */
-        "color"?: 'green' | 'red' | 'blue' | 'gray';
+        "color"?: ButtonColor;
         /**
           * @default false
          */
@@ -1090,19 +1141,23 @@ declare namespace LocalJSX {
          */
         "loading"?: boolean;
         /**
-          * @default 'middle'
+          * @default BUTTON_SIZE.MIDDLE
          */
-        "size"?: 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        "size"?: ButtonSize;
         /**
-          * @default 'fill'
+          * @default BUTTON_NATIVE_TYPE.BUTTON
          */
-        "variant"?: 'fill' | 'outline' | 'flat' | 'plain';
+        "type"?: NativeButtonType;
+        /**
+          * @default BUTTON_VARIANT.FILL
+         */
+        "variant"?: ButtonVariant;
     }
     interface NButtonIcon {
         /**
-          * @default 'green'
+          * @default BUTTON_COLOR.GREEN
          */
-        "color"?: 'green' | 'red' | 'blue' | 'gray';
+        "color"?: ButtonColor;
         /**
           * @default false
          */
@@ -1112,28 +1167,60 @@ declare namespace LocalJSX {
          */
         "loading"?: boolean;
         /**
-          * @default 'middle'
+          * @default BUTTON_SIZE.MIDDLE
          */
-        "size"?: 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
+        "size"?: ButtonSize;
         /**
-          * @default 'fill'
+          * @default BUTTON_NATIVE_TYPE.BUTTON
          */
-        "variant"?: 'fill' | 'outline' | 'flat' | 'plain';
+        "type"?: NativeButtonType;
+        /**
+          * @default BUTTON_VARIANT.FILL
+         */
+        "variant"?: ButtonVariant;
     }
     interface NButtonToggle {
+        /**
+          * @default false
+         */
+        "active"?: boolean;
         /**
           * @default ''
          */
         "badge"?: string;
         /**
+          * @default BUTTON_COLOR.GREEN
+         */
+        "color"?: ButtonToggleColor;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default 0
+         */
+        "index"?: number;
+        /**
           * @default ''
          */
         "label"?: string;
-        "onToggleClick"?: (event: NButtonToggleCustomEvent<number>) => void;
+        "onToggleSelect"?: (event: NButtonToggleCustomEvent<number>) => void;
+        /**
+          * @default BUTTON_TOGGLE_ROUNDED.FULL
+         */
+        "rounded"?: ButtonToggleRounded;
+        /**
+          * @default BUTTON_SIZE.SMALL
+         */
+        "size"?: ButtonToggleSize;
+        /**
+          * @default -1
+         */
+        "tabIndex"?: number;
     }
     interface NButtonToggleGroup {
         /**
-          * @default 'green'
+          * @default BUTTON_COLOR.GREEN
          */
         "color"?: ButtonToggleColor;
         /**
@@ -1146,11 +1233,11 @@ declare namespace LocalJSX {
         "modelValue"?: number;
         "onModelValueChange"?: (event: NButtonToggleGroupCustomEvent<number>) => void;
         /**
-          * @default 'full'
+          * @default BUTTON_TOGGLE_ROUNDED.FULL
          */
         "rounded"?: ButtonToggleRounded;
         /**
-          * @default 'small'
+          * @default BUTTON_SIZE.SMALL
          */
         "size"?: ButtonToggleSize;
     }
@@ -1350,6 +1437,12 @@ declare namespace LocalJSX {
           * @default 'text'
          */
         "type"?: InputType;
+    }
+    interface NLoading {
+        /**
+          * @default 10
+         */
+        "size"?: number;
     }
     interface NProgress {
         "backgroundColorCode": string;
@@ -1604,22 +1697,31 @@ declare namespace LocalJSX {
         "elevation": 'none' | 'small' | 'medium' | 'large';
     }
     interface NButtonAttributes {
-        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
-        "variant": 'fill' | 'outline' | 'flat' | 'plain';
-        "color": 'green' | 'red' | 'blue' | 'gray';
+        "size": ButtonSize;
+        "variant": ButtonVariant;
+        "color": ButtonColor;
         "loading": boolean;
         "disabled": boolean;
+        "type": NativeButtonType;
     }
     interface NButtonIconAttributes {
-        "size": 'mini' | 'xsmall' | 'small' | 'middle' | 'large';
-        "variant": 'fill' | 'outline' | 'flat' | 'plain';
-        "color": 'green' | 'red' | 'blue' | 'gray';
+        "size": ButtonSize;
+        "variant": ButtonVariant;
+        "color": ButtonColor;
         "loading": boolean;
         "disabled": boolean;
+        "type": NativeButtonType;
     }
     interface NButtonToggleAttributes {
+        "index": number;
+        "active": boolean;
         "label": string;
         "badge": string;
+        "color": ButtonToggleColor;
+        "size": ButtonToggleSize;
+        "rounded": ButtonToggleRounded;
+        "disabled": boolean;
+        "tabIndex": number;
     }
     interface NButtonToggleGroupAttributes {
         "modelValue": number;
@@ -1690,6 +1792,9 @@ declare namespace LocalJSX {
         "max": number;
         "step": number;
         "changeValueOnMouseWheel": boolean;
+    }
+    interface NLoadingAttributes {
+        "size": number;
     }
     interface NProgressAttributes {
         "percentage": number;
@@ -1782,6 +1887,7 @@ declare namespace LocalJSX {
         "n-fade": NFade;
         "n-field": Omit<NField, keyof NFieldAttributes> & { [K in keyof NField & keyof NFieldAttributes]?: NField[K] } & { [K in keyof NField & keyof NFieldAttributes as `attr:${K}`]?: NFieldAttributes[K] } & { [K in keyof NField & keyof NFieldAttributes as `prop:${K}`]?: NField[K] };
         "n-input": Omit<NInput, keyof NInputAttributes> & { [K in keyof NInput & keyof NInputAttributes]?: NInput[K] } & { [K in keyof NInput & keyof NInputAttributes as `attr:${K}`]?: NInputAttributes[K] } & { [K in keyof NInput & keyof NInputAttributes as `prop:${K}`]?: NInput[K] };
+        "n-loading": Omit<NLoading, keyof NLoadingAttributes> & { [K in keyof NLoading & keyof NLoadingAttributes]?: NLoading[K] } & { [K in keyof NLoading & keyof NLoadingAttributes as `attr:${K}`]?: NLoadingAttributes[K] } & { [K in keyof NLoading & keyof NLoadingAttributes as `prop:${K}`]?: NLoading[K] };
         "n-progress": Omit<NProgress, keyof NProgressAttributes> & { [K in keyof NProgress & keyof NProgressAttributes]?: NProgress[K] } & { [K in keyof NProgress & keyof NProgressAttributes as `attr:${K}`]?: NProgressAttributes[K] } & { [K in keyof NProgress & keyof NProgressAttributes as `prop:${K}`]?: NProgress[K] } & OneOf<"backgroundColorCode", NProgress["backgroundColorCode"], NProgressAttributes["backgroundColorCode"]>;
         "n-switch": Omit<NSwitch, keyof NSwitchAttributes> & { [K in keyof NSwitch & keyof NSwitchAttributes]?: NSwitch[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `attr:${K}`]?: NSwitchAttributes[K] } & { [K in keyof NSwitch & keyof NSwitchAttributes as `prop:${K}`]?: NSwitch[K] };
         "n-table": Omit<NTable, keyof NTableAttributes> & { [K in keyof NTable & keyof NTableAttributes]?: NTable[K] } & { [K in keyof NTable & keyof NTableAttributes as `attr:${K}`]?: NTableAttributes[K] } & { [K in keyof NTable & keyof NTableAttributes as `prop:${K}`]?: NTable[K] };
@@ -1813,6 +1919,7 @@ declare module "@stencil/core" {
             "n-fade": LocalJSX.IntrinsicElements["n-fade"] & JSXBase.HTMLAttributes<HTMLNFadeElement>;
             "n-field": LocalJSX.IntrinsicElements["n-field"] & JSXBase.HTMLAttributes<HTMLNFieldElement>;
             "n-input": LocalJSX.IntrinsicElements["n-input"] & JSXBase.HTMLAttributes<HTMLNInputElement>;
+            "n-loading": LocalJSX.IntrinsicElements["n-loading"] & JSXBase.HTMLAttributes<HTMLNLoadingElement>;
             "n-progress": LocalJSX.IntrinsicElements["n-progress"] & JSXBase.HTMLAttributes<HTMLNProgressElement>;
             "n-switch": LocalJSX.IntrinsicElements["n-switch"] & JSXBase.HTMLAttributes<HTMLNSwitchElement>;
             "n-table": LocalJSX.IntrinsicElements["n-table"] & JSXBase.HTMLAttributes<HTMLNTableElement>;
