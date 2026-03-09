@@ -34,6 +34,7 @@ export type StoreAPIType = {
   add: (toast: Toast) => void;
   removeAll: () => void;
   remove: (id: string) => void;
+  subscribe: (listener: (toasts: Toast[]) => void) => () => void;
 };
 
 export type UseToastReturnType = {

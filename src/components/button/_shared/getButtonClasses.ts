@@ -1,5 +1,5 @@
 import type { ButtonColor, ButtonSize, ButtonVariant } from './button.types';
-import { cx } from './button.classnames';
+import clsx from 'clsx';
 import {
   BUTTON_BASE,
   BUTTON_DISABLED_BY_VARIANT,
@@ -28,7 +28,7 @@ export function getButtonClasses(params: {
     miniRoundClass,
   } = params;
 
-  return cx(
+  return clsx(
     BUTTON_BASE,
     baseClass,
     sizeClassMap[size],

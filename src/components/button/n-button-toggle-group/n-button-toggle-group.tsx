@@ -77,7 +77,7 @@ export class NButtonToggleGroup {
       toggle.size = this.size;
       toggle.rounded = this.rounded;
   
-      toggle.tabIndex = index === this.modelValue ? 0 : -1;
+      toggle.focusTabIndex = index === this.modelValue ? 0 : -1;
     });
   }
 

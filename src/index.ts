@@ -9,5 +9,5 @@
  */
 
 export { format } from './utils/utils';
-export { useDialog } from './components/dialog/useDialog';
+export { default as dialogStore } from './components/dialog/store';
 export type * from './components.d.ts';

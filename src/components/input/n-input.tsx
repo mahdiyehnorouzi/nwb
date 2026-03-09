@@ -94,7 +94,9 @@ export class NInput {
     }
 
     componentDidLoad() {
-        document.addEventListener('click', this.handleClickOutside);
+        if (typeof document !== 'undefined') {
+            document.addEventListener('click', this.handleClickOutside);
+        }
         
         const fieldElement = this.el.closest('n-field');
         if (fieldElement) {
@@ -109,7 +111,9 @@ export class NInput {
     }
 
     disconnectedCallback() {
-        document.removeEventListener('click', this.handleClickOutside);
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('click', this.handleClickOutside);
+        }
     }
 
     private handleClickOutside = (event: MouseEvent) => {
