@@ -2,8 +2,17 @@ import { Config } from '@stencil/core';
 import { postcss } from "@stencil-community/postcss";
 import { resolve } from 'path';
 
+// TODO [MONOREPO]: When migrating to monorepo structure:
+// - Move this to packages/components/stencil.config.ts
+// - Create workspace-level build orchestration with Nx
+// - Enable parallel builds across packages with Nx's task runner
+// - Add shared build configuration in root
+// - Use nx.json to configure build dependencies
+
 export const config: Config = {
   namespace: 'nwb',
+  // NOTE: Global styles loaded for all components - impacts initial load time
+  // Consider: Component-scoped styles for better tree-shaking
   globalStyle: 'src/global/global.css',
   plugins: [
     postcss({

@@ -1,5 +1,7 @@
 type HashStackListener = (stack: string[]) => void;
 
+// TODO [SSR]: Add typeof window check before accessing window.location
+// Will crash during server-side rendering
 let hashStack: string[] = window.location.hash.split('#');
 const listeners = new Set<HashStackListener>();
 

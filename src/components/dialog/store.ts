@@ -1,6 +1,16 @@
 import uuid from '../utils/uuid';
 import type { StoreAPIType, DialogProps, DialogConsumerProps } from './types';
 
+// TODO [ARCHITECTURE]: Refactor to event-driven architecture
+// Current implementation uses mutable module-level state which:
+// 1. Breaks SSR/SSG compatibility
+// 2. Doesn't follow reactive patterns
+// 3. Requires polling in components (see n-dialog.tsx)
+// Recommended: Use Stencil Store or implement Observer pattern
+
+// FIX [STATE MANAGEMENT]: Module-level state is not reactive
+// Components must poll this state every 50ms to detect changes
+// Consider: createStore pattern with subscribe/notify mechanism
 const START_INDEX_OFFSET = -1;
 const START_MULTI_DIALOG_Z_INDEX_OFFSET = 60;
 const SINGLE_DIALOG_Z_INDEX = 190;
@@ -94,6 +104,14 @@ const api: StoreAPIType = {
 
 export default api;
 
+//  ANTI-PATTERN: Global namespace pollution
+// Issues:
+// 1. Breaks SSR - code will crash on server
+// 2. No encapsulation - can be overwritten by other libraries
+// 3. Memory leaks - no cleanup mechanism
+// 4. Type safety lost with 'any' casting
+// FIX: Remove window globals, use proper event system or Stencil Store
+// Alternative: Custom elements can use CustomEvent for cross-component communication
 if (typeof window !== 'undefined') {
   (window as any).nwbDialogStore = api;
   (window as any).useDialog = () => api;

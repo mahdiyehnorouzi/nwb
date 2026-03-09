@@ -96,6 +96,8 @@ export class NBottomSheet {
 
       if (shouldListenPopstate && !this.popstateHandler) {
         this.popstateHandler = () => this.requestClose('popstate');
+        // TODO [SSR]: Add typeof window check
+        // Will crash during server-side rendering
         window.addEventListener('popstate', this.popstateHandler);
       } else if (!shouldListenPopstate && this.popstateHandler) {
         window.removeEventListener('popstate', this.popstateHandler);

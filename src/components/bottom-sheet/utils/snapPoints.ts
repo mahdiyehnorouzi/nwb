@@ -7,6 +7,8 @@ export function computeSnapHeightPx(
   instinctHeight: number,
   initialSnapPoint: number | undefined,
 ): number | null {
+  // TODO [SSR]: Add SSR guard - document and window undefined on server
+  // Will crash: ReferenceError: document is not defined
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
   const points = Array.isArray(snapPoints) ? snapPoints : [];
 

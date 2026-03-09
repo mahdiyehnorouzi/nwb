@@ -1,5 +1,6 @@
 import type { ButtonColor, ButtonSize, ButtonVariant } from './button.types';
 
+// Could be improved: Move to theme package when migrating to monorepo
 export const BUTTON_BASE =
   'duration-150 transition-colors border focus:outline-none disabled:cursor-not-allowed';
 
