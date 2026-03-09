@@ -4,7 +4,7 @@ import en from './lang/en-US';
 export type Message = Record<string, any>;
 export type Messages = Record<string, Message>;
 
-// ⚠️ STATE MANAGEMENT: Module-level mutable state
+//  STATE MANAGEMENT: Module-level mutable state
 // Issues:
 // 1. Not reactive - components won't update on locale change
 // 2. Shared across all instances (good for i18n, but not reactive)
