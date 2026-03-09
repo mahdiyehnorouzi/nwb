@@ -94,10 +94,12 @@ export class NBottomSheet {
       const lastHash = this.locationHash.getLastHash();
       const shouldListenPopstate = lastHash === this.bottomSheetId && this.closable;
 
-      if (shouldListenPopstate && !this.popstateHandler) {
+      const isBrowser = typeof window !== 'undefined';
+
+      if (shouldListenPopstate && !this.popstateHandler && isBrowser) {
         this.popstateHandler = () => this.requestClose('popstate');
         window.addEventListener('popstate', this.popstateHandler);
-      } else if (!shouldListenPopstate && this.popstateHandler) {
+      } else if (!shouldListenPopstate && this.popstateHandler && isBrowser) {
         window.removeEventListener('popstate', this.popstateHandler);
         this.popstateHandler = undefined;
       }
@@ -121,7 +123,9 @@ export class NBottomSheet {
 
   disconnectedCallback() {
     if (this.unsubscribeHash) this.unsubscribeHash();
-    if (this.popstateHandler) window.removeEventListener('popstate', this.popstateHandler);
+    if (this.popstateHandler && typeof window !== 'undefined') {
+      window.removeEventListener('popstate', this.popstateHandler);
+    }
     if (this.blocking) {
       unlockBodyScroll();
     }

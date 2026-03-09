@@ -18,18 +18,11 @@
     <script type="module">
       import('/build/nwb.esm.js').then((module) => {
         console.log('Components loaded', module);
-        // Try to get useDialog from module
-        if (module.useDialog) {
-          const dialogStore = module.useDialog();
-          window.dialogStore = dialogStore;
-          window.useDialog = () => dialogStore;
-          window.nwbDialogStore = dialogStore;
-          console.log('Dialog store loaded from module:', dialogStore);
-          
-          // Dispatch event
-          window.dispatchEvent(new CustomEvent('nwb-dialog-store-ready', { detail: dialogStore }));
+        // Try to get dialog store from module
+        if (module.dialogStore) {
+          console.log('Dialog store loaded from module:', module.dialogStore);
         } else {
-          console.warn('useDialog not found in module');
+          console.warn('dialogStore not found in module');
         }
       }).catch(err => {
         console.error('Failed to load components:', err);
@@ -192,17 +185,7 @@
         const MAX_INIT_ATTEMPTS = 50; // Try for 10 seconds (50 * 200ms)
 
         function getDialogStore() {
-          // Try multiple ways to get the store
-          if (window.nwbDialogStore) {
-            return window.nwbDialogStore;
-          }
-          if (window.useDialog && typeof window.useDialog === 'function') {
-            return window.useDialog();
-          }
-          if (window.dialogStore) {
-            return window.dialogStore;
-          }
-          return null;
+          return dialogStore;
         }
 
         function initDialogs() {
@@ -437,7 +420,7 @@
         // Listen for store ready event
         window.addEventListener('nwb-dialog-store-ready', (event) => {
           console.log('Dialog store ready event received', event.detail);
-          window.nwbDialogStore = event.detail;
+          dialogStore = event.detail;
           if (!isInitialized) {
             initDialogs();
           }
@@ -457,14 +440,6 @@
           startInit();
         }
 
-        // Debug: Check store availability periodically
-        setInterval(() => {
-          const store = getDialogStore();
-          if (store && !isInitialized) {
-            console.log('Store found via interval check, initializing...');
-            initDialogs();
-          }
-        }, 1000);
       </script>
 
       <script>

@@ -7,7 +7,15 @@ export function computeSnapHeightPx(
   instinctHeight: number,
   initialSnapPoint: number | undefined,
 ): number | null {
-  const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+  const isBrowser =
+    typeof window !== 'undefined' && typeof document !== 'undefined';
+
+  const vh = isBrowser
+    ? Math.max(
+        (document.documentElement && document.documentElement.clientHeight) || 0,
+        window.innerHeight || 0,
+      )
+    : 0;
   const points = Array.isArray(snapPoints) ? snapPoints : [];
 
   let combinedSnapPoints: BottomSheetSnapPoint[] = [...points];

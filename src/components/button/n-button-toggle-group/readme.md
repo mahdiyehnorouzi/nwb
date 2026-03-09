@@ -7,13 +7,13 @@
 
 ## Properties
 
-| Property     | Attribute     | Description | Type                               | Default   |
-| ------------ | ------------- | ----------- | ---------------------------------- | --------- |
-| `color`      | `color`       |             | `"gray" \| "grayGreen" \| "green"` | `'green'` |
-| `disabled`   | `disabled`    |             | `boolean`                          | `false`   |
-| `modelValue` | `model-value` |             | `number`                           | `0`       |
-| `rounded`    | `rounded`     |             | `"full" \| "medium"`               | `'full'`  |
-| `size`       | `size`        |             | `"middle" \| "small"`              | `'small'` |
+| Property     | Attribute     | Description | Type                               | Default                      |
+| ------------ | ------------- | ----------- | ---------------------------------- | ---------------------------- |
+| `color`      | `color`       |             | `"gray" \| "grayGreen" \| "green"` | `BUTTON_COLOR.GREEN`         |
+| `disabled`   | `disabled`    |             | `boolean`                          | `false`                      |
+| `modelValue` | `model-value` |             | `number`                           | `0`                          |
+| `rounded`    | `rounded`     |             | `"full" \| "medium"`               | `BUTTON_TOGGLE_ROUNDED.FULL` |
+| `size`       | `size`        |             | `"middle" \| "small"`              | `BUTTON_SIZE.SMALL`          |
 
 
 ## Events

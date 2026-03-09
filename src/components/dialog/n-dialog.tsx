@@ -1,5 +1,5 @@
 import { Component, State, h } from '@stencil/core';
-import { useDialog } from './useDialog';
+import dialogStore from './store';
 import type { DialogProps } from './types';
 
 @Component({
@@ -8,48 +8,28 @@ import type { DialogProps } from './types';
 })
 export class NDialog {
   @State() dialogs: DialogProps[] = [];
-  private watchInterval?: number;
+  private unsubscribe?: () => void;
 
   componentWillLoad() {
-    this.updateDialogs();
-    this.watchDialogs();
+    this.dialogs = [...dialogStore.dialogs];
+    this.unsubscribe = dialogStore.subscribe((nextDialogs) => {
+      this.dialogs = [...nextDialogs];
+    });
   }
 
   componentDidLoad() {
-    const dialogStore = useDialog();
     if (typeof window !== 'undefined') {
-      (window as any).nwbDialogStore = dialogStore;
-      (window as any).useDialog = () => dialogStore;
       try {
         window.dispatchEvent(new CustomEvent('nwb-dialog-store-ready', { detail: dialogStore }));
-      } catch (_) {}
+      } catch (_) { }
     }
   }
 
   disconnectedCallback() {
-    if (this.watchInterval) {
-      clearInterval(this.watchInterval);
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = undefined;
     }
-  }
-
-  private updateDialogs() {
-    const dialogStore = useDialog();
-    const currentDialogs = dialogStore.dialogs;
-    this.dialogs = [...currentDialogs];
-  }
-
-  private watchDialogs() {
-    this.watchInterval = window.setInterval(() => {
-      const dialogStore = useDialog();
-      const currentDialogs = dialogStore.dialogs;
-      
-      const currentIds = currentDialogs.map(d => d.id).sort().join(',');
-      const existingIds = this.dialogs.map(d => d.id).sort().join(',');
-      
-      if (currentIds !== existingIds || currentDialogs.length !== this.dialogs.length) {
-        this.updateDialogs();
-      }
-    }, 50);
   }
 
   render() {

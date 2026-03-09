@@ -51,6 +51,7 @@ export type StoreAPIType = {
   focus: (id: string) => void;
   selectNextDialog: () => void;
   removeAll: () => void;
+  subscribe: (listener: (dialogs: DialogProps[]) => void) => () => void;
 };
 
 export type UseDialogPositionParamsType = {

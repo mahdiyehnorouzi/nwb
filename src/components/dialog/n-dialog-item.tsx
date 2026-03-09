@@ -7,7 +7,7 @@ import {
   Element,
   h,
 } from '@stencil/core';
-import { useDialog } from './useDialog';
+import dialogStore from './store';
 import { useDialogPosition } from './composables/useDialogPosition';
 import {
   DIALOG_WRAPPER,
@@ -52,11 +52,13 @@ export class NDialogItem {
   @Event() afterCloseEvent!: EventEmitter<void>;
   @Event() afterOpenEvent!: EventEmitter<void>;
   @Event() updateExpanded!: EventEmitter<boolean>;
+  @Event() positionError!: EventEmitter<{ dialogId: string; error: unknown }>;
 
   @State() expanded: boolean = false;
   @State() wrapperStyle: Record<string, string> = {};
   @State() bodyStyle: Record<string, string> = {};
   @State() isDragging: boolean = false;
+  @State() positionErrorMessage?: string;
 
   private wrapperRef?: HTMLElement;
   private dialogRef?: HTMLElement;
@@ -68,24 +70,15 @@ export class NDialogItem {
   }
 
   componentDidLoad() {
-    requestAnimationFrame(() => {
-      if (!this.wrapperRef || !this.headerRef) {
-        setTimeout(() => {
-          if (this.wrapperRef && this.headerRef && !this.positionHandler) {
-            this.initializePosition();
-          }
-        }, 100);
-        return;
-      }
-
-      if (!this.positionHandler) {
-        this.initializePosition();
-      }
-    });
-
     if (this.afterOpen) {
       this.afterOpen();
       this.afterOpenEvent.emit();
+    }
+  }
+
+  componentDidRender() {
+    if (!this.positionHandler && this.wrapperRef && this.headerRef) {
+      this.initializePosition();
     }
   }
 
@@ -109,22 +102,21 @@ export class NDialogItem {
         placement: this.placement,
         disableDragging: !this.multiple,
       });
+      this.positionErrorMessage = undefined;
 
       if (!this.multiple && !this.referenceElementRef && this.positionHandler) {
-        setTimeout(() => {
-          if (this.dialogRef && this.positionHandler) {
-            const width = this.dialogRef.offsetWidth || 0;
-            const height = this.dialogRef.offsetHeight || 0;
-            if (width > 0 && height > 0) {
-              this.positionHandler.handleDialogResize(width, height);
-              this.updateStyles();
-            }
-          }
-        }, 50);
+        const width = this.dialogRef.offsetWidth || 0;
+        const height = this.dialogRef.offsetHeight || 0;
+        if (width > 0 && height > 0) {
+          this.positionHandler.handleDialogResize(width, height);
+          this.updateStyles();
+        }
       } else {
         this.updateStyles();
       }
     } catch (error) {
+      this.positionError.emit({ dialogId: this.dialogId, error });
+      this.positionErrorMessage = 'Dialog position could not be initialized.';
       console.error(`Error initializing dialog position for ${this.dialogId}:`, error);
     }
   }
@@ -198,6 +190,8 @@ export class NDialogItem {
         }
       }
     } catch (error) {
+      this.positionError.emit({ dialogId: this.dialogId, error });
+      this.positionErrorMessage = 'Dialog position update failed.';
       console.error('Error updating dialog styles:', error);
       this.wrapperStyle = {
         zIndex: String(this.zIndex),
@@ -206,7 +200,6 @@ export class NDialogItem {
   }
 
   private close = () => {
-    const dialogStore = useDialog();
     dialogStore.remove(this.dialogId);
   };
 
@@ -217,7 +210,6 @@ export class NDialogItem {
   };
 
   private handleClick = () => {
-    const dialogStore = useDialog();
     dialogStore.focus(this.dialogId);
   };
 
@@ -337,6 +329,11 @@ export class NDialogItem {
                   .filter(Boolean)
                   .join(' ')}
               >
+                {this.positionErrorMessage && (
+                  <div class="mb-2 rounded border border-critical-primary bg-critical-secondary px-2 py-1 text-sm text-critical-primary">
+                    {this.positionErrorMessage}
+                  </div>
+                )}
                 <n-dynamic-component content={this.content} />
 
                 {this.expandable && this.expandedContent && this.expanded && (

@@ -14,6 +14,6 @@ export type ToggleEl = HTMLElement & {
   color: ButtonToggleColor;
   size: ButtonToggleSize;
   rounded: ButtonToggleRounded;
-  tabIndex: number;
+  focusTabIndex: number;
   focus: () => void;
 };

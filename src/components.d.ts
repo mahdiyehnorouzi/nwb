@@ -188,6 +188,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * @default -1
+         */
+        "focusTabIndex": number;
+        /**
           * @default 0
          */
         "index": number;
@@ -203,10 +207,6 @@ export namespace Components {
           * @default BUTTON_SIZE.SMALL
          */
         "size": ButtonToggleSize;
-        /**
-          * @default -1
-         */
-        "tabIndex": number;
     }
     interface NButtonToggleGroup {
         /**
@@ -825,6 +825,7 @@ declare global {
         "afterCloseEvent": void;
         "afterOpenEvent": void;
         "updateExpanded": boolean;
+        "positionError": { dialogId: string; error: unknown };
     }
     interface HTMLNDialogItemElement extends Components.NDialogItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLNDialogItemElementEventMap>(type: K, listener: (this: HTMLNDialogItemElement, ev: NDialogItemCustomEvent<HTMLNDialogItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1197,6 +1198,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * @default -1
+         */
+        "focusTabIndex"?: number;
+        /**
           * @default 0
          */
         "index"?: number;
@@ -1213,10 +1218,6 @@ declare namespace LocalJSX {
           * @default BUTTON_SIZE.SMALL
          */
         "size"?: ButtonToggleSize;
-        /**
-          * @default -1
-         */
-        "tabIndex"?: number;
     }
     interface NButtonToggleGroup {
         /**
@@ -1316,6 +1317,7 @@ declare namespace LocalJSX {
         "multiple"?: boolean;
         "onAfterCloseEvent"?: (event: NDialogItemCustomEvent<void>) => void;
         "onAfterOpenEvent"?: (event: NDialogItemCustomEvent<void>) => void;
+        "onPositionError"?: (event: NDialogItemCustomEvent<{ dialogId: string; error: unknown }>) => void;
         "onUpdateExpanded"?: (event: NDialogItemCustomEvent<boolean>) => void;
         "placement"?: DialogPlacement;
         "referenceElementRef"?: HTMLElement | any;
@@ -1721,7 +1723,7 @@ declare namespace LocalJSX {
         "size": ButtonToggleSize;
         "rounded": ButtonToggleRounded;
         "disabled": boolean;
-        "tabIndex": number;
+        "focusTabIndex": number;
     }
     interface NButtonToggleGroupAttributes {
         "modelValue": number;

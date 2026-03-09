@@ -1,51 +1,53 @@
 import uuid from '../utils/uuid';
+import { createStore } from '@stencil/store';
 import type { StoreAPIType, DialogProps, DialogConsumerProps } from './types';
 
 const START_INDEX_OFFSET = -1;
 const START_MULTI_DIALOG_Z_INDEX_OFFSET = 60;
 const SINGLE_DIALOG_Z_INDEX = 190;
 
-let dialogs: DialogProps[] = [];
-let selectedDialogId: string | undefined;
-let lastIndex = START_INDEX_OFFSET;
-let lastMultiDialogZIndex = START_MULTI_DIALOG_Z_INDEX_OFFSET;
+const { state, onChange } = createStore({
+  dialogs: [] as DialogProps[],
+  selectedDialogId: undefined as string | undefined,
+  lastIndex: START_INDEX_OFFSET,
+  lastMultiDialogZIndex: START_MULTI_DIALOG_Z_INDEX_OFFSET,
+});
 
 const api: StoreAPIType = {
   get lastMultiDialogZIndex() {
-    return lastMultiDialogZIndex;
+    return state.lastMultiDialogZIndex;
   },
 
   get selectedDialogId() {
-    return selectedDialogId;
+    return state.selectedDialogId;
   },
 
   get dialogs() {
-    return dialogs;
+    return state.dialogs;
   },
 
   add: (dialog: DialogConsumerProps) => {
     const id = uuid('dialog-');
-
-    lastIndex++;
+    state.lastIndex += 1;
 
     if (dialog.multiple) {
-      lastMultiDialogZIndex++;
+      state.lastMultiDialogZIndex += 1;
     }
 
-    dialogs.push({
+    const nextDialog: DialogProps = {
       ...dialog,
       id,
-      index: lastIndex,
+      index: state.lastIndex,
       zIndex: dialog.multiple
-        ? lastMultiDialogZIndex
+        ? state.lastMultiDialogZIndex
         : SINGLE_DIALOG_Z_INDEX,
-    });
-
+    };
+    state.dialogs = [...state.dialogs, nextDialog];
     return id;
   },
 
   selectNextDialog() {
-    const sortedDialogsBasedOnZIndex = [...dialogs].sort(
+    const sortedDialogsBasedOnZIndex = [...state.dialogs].sort(
       (firstDialog, secondDialog) =>
         firstDialog.zIndex > secondDialog.zIndex ? -1 : 1
     );
@@ -55,15 +57,15 @@ const api: StoreAPIType = {
     }
   },
 
-  remove(id = selectedDialogId) {
+  remove(id = state.selectedDialogId) {
     if (id) {
-      const index = dialogs.findIndex((dialog) => dialog.id === id);
+      const index = state.dialogs.findIndex((dialog) => dialog.id === id);
 
       if (index > -1) {
-        dialogs.splice(index, 1);
+        state.dialogs = state.dialogs.filter((dialog) => dialog.id !== id);
 
-        if (id === selectedDialogId) {
-          selectedDialogId = undefined;
+        if (id === state.selectedDialogId) {
+          state.selectedDialogId = undefined;
         }
 
         api.selectNextDialog();
@@ -72,29 +74,39 @@ const api: StoreAPIType = {
   },
 
   focus(id: string) {
-    const dialog = dialogs.find((dialog) => dialog.id === id);
+    const dialog = state.dialogs.find((item) => item.id === id);
 
     if (dialog) {
-      selectedDialogId = id;
+      state.selectedDialogId = id;
 
-      if (dialog.zIndex !== lastMultiDialogZIndex) {
-        lastMultiDialogZIndex++;
-        dialog.zIndex = lastMultiDialogZIndex;
+      if (dialog.zIndex !== state.lastMultiDialogZIndex) {
+        state.lastMultiDialogZIndex += 1;
+        state.dialogs = state.dialogs.map((item) =>
+          item.id === id
+            ? { ...item, zIndex: state.lastMultiDialogZIndex }
+            : item
+        );
       }
     }
   },
 
   removeAll() {
-    dialogs = [];
-    lastIndex = START_INDEX_OFFSET;
-    lastMultiDialogZIndex = START_MULTI_DIALOG_Z_INDEX_OFFSET;
-    selectedDialogId = undefined;
+    state.dialogs = [];
+    state.lastIndex = START_INDEX_OFFSET;
+    state.lastMultiDialogZIndex = START_MULTI_DIALOG_Z_INDEX_OFFSET;
+    state.selectedDialogId = undefined;
+  },
+
+  subscribe(listener) {
+    listener([...state.dialogs]);
+    return onChange('dialogs', (nextDialogs) => {
+      try {
+        listener([...nextDialogs]);
+      } catch {
+        // ignore listener errors
+      }
+    });
   },
 };
 
 export default api;
-
-if (typeof window !== 'undefined') {
-  (window as any).nwbDialogStore = api;
-  (window as any).useDialog = () => api;
-}

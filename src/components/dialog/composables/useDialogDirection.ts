@@ -8,7 +8,7 @@ export function useDialogDirection({
 }: UseDialogDirectionParamsType): { direction: MoveDirection } {
   let direction: MoveDirection = 'left';
 
-  const windowWidth = window.innerWidth;
+  const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
   const middleOfWindowWidth = windowWidth / 2;
 
   const calcDirection = (): MoveDirection => {
@@ -37,8 +37,8 @@ export function useDialogDirection({
       return 'left';
     }
 
-    const isLeftPlacement = placement.includes('left');
-    const isRightPlacement = placement.includes('right');
+    const isLeftPlacement = placement?.includes('left') ?? false;
+    const isRightPlacement = placement?.includes('right') ?? false;
     const isCenterPlacement = !isLeftPlacement && !isRightPlacement;
 
     const referenceElementLeftOffset = referenceElement.offsetLeft || 0;
