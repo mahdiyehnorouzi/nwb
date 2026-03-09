@@ -2,7 +2,7 @@ import type { StoreAPIType, Toast } from './types';
 import uuid from '../utils/uuid';
 import sleep from '../utils/sleep';
 
-// ⚠️ SAME ISSUES AS DIALOG STORE:
+// SAME ISSUES AS DIALOG STORE:
 // 1. Module-level mutable state - not reactive
 // 2. No event system - requires polling in n-toast.tsx
 // 3. Mutation without notification
@@ -22,9 +22,9 @@ const api: StoreAPIType = {
   },
 
   async removeAll() {
-    // ⚠️ MUTATION PATTERN: Direct array mutation
+    //  MUTATION PATTERN: Direct array mutation
     // Components won't know this changed unless polling
-    toasts.forEach((toast) => (toast.removed = true));
+    toasts.forEach(toast => (toast.removed = true));
 
     await sleep(400);
 
