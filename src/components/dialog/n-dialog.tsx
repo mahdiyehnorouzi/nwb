@@ -17,7 +17,7 @@ export class NDialog {
 
   componentDidLoad() {
     const dialogStore = useDialog();
-    // ❌ ANTI-PATTERN: Exposing store on window object
+    // ANTI-PATTERN: Exposing store on window object
     // This breaks SSR and pollutes global namespace
     if (typeof window !== 'undefined') {
       (window as any).nwbDialogStore = dialogStore;
@@ -42,7 +42,7 @@ export class NDialog {
   }
 
   private watchDialogs() {
-    // ❌ CRITICAL PERFORMANCE ISSUE: Polling every 50ms
+    //  CRITICAL PERFORMANCE ISSUE: Polling every 50ms
     // Problems:
     // 1. Wastes CPU cycles continuously
     // 2. Drains battery on mobile devices
