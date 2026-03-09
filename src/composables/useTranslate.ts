@@ -8,7 +8,8 @@ export type UseTranslateReturnType = {
 
 export type KeyLookupReturnType = string | ((params: Params) => string);
 
-// TODO: replace me with get util
+// TODO [ARCHITECTURE]: Replace with proper get/lodash utility
+// Reinventing the wheel - many edge cases not handled
 const keyLookup = (path: string, messages: Record<string, any>): KeyLookupReturnType => {
   return path.split('.').reduce((sub: any, key: string) => sub?.[key], messages);
 };

@@ -7,6 +7,8 @@ import {
   NOT_CLICKABLE,
 } from './button.styles';
 
+// Makes button components cleaner and logic reusable
+// Pattern: Could be extracted to a factory pattern for other components
 export function getButtonClasses(params: {
   size: ButtonSize;
   variant: ButtonVariant;

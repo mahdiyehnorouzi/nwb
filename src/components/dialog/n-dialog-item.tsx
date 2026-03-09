@@ -68,8 +68,12 @@ export class NDialogItem {
   }
 
   componentDidLoad() {
+    // ⚠️ TIMING ISSUE: Relies on timing hacks
+    // Using setTimeout as fallback indicates race condition
+    // Better approach: Use componentDidRender or proper lifecycle management
     requestAnimationFrame(() => {
       if (!this.wrapperRef || !this.headerRef) {
+        // FIX: Magic number - why 100ms? Can fail on slow devices
         setTimeout(() => {
           if (this.wrapperRef && this.headerRef && !this.positionHandler) {
             this.initializePosition();
@@ -125,6 +129,9 @@ export class NDialogItem {
         this.updateStyles();
       }
     } catch (error) {
+      // ⚠️ BAD PRACTICE: Logging errors without user feedback
+      // Error is logged but not shown to user - dialog may appear broken
+      // TODO: Consider displaying error state in UI or emitting error event
       console.error(`Error initializing dialog position for ${this.dialogId}:`, error);
     }
   }
