@@ -1,4 +1,4 @@
-// ⚠️ STATE MANAGEMENT: Module-level mutable state
+// STATE MANAGEMENT: Module-level mutable state
 // Issue: Multiple components calling this creates unpredictable behavior
 // Example: If Dialog and BottomSheet both use this, unlocking one unlocks all
 // TODO: Refactor to reference counting or stack-based approach
@@ -13,7 +13,7 @@ export function lockBodyScroll() {
 }
 
 export function unlockBodyScroll() {
-  // ⚠️ BUG: Last one to unlock wins
+  // BUG: Last one to unlock wins
   // If component A locks, component B locks, component B unlocks:
   // - Body is unlocked even though A still needs it locked
   // - No reference counting
