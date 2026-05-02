@@ -19,9 +19,13 @@ export class NDialog {
 
   componentDidLoad() {
     if (typeof window !== 'undefined') {
+      // High: empty catch around `window.dispatchEvent` is dead
+      // defensiveness — under realistic browser conditions this won't throw,
+      // and if it ever does we want to know. Drop the try/catch.
+      // TODO [ARCHITECTURE]: remove unnecessary try/catch.
       try {
         window.dispatchEvent(new CustomEvent('nwb-dialog-store-ready', { detail: dialogStore }));
-      } catch (_) { }
+      } catch (_) {}
     }
   }
 

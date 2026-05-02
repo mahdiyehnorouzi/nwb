@@ -1,4 +1,8 @@
 import type { ButtonColor, ButtonSize, ButtonVariant } from './button.types';
+// High: `clsx` is declared in `devDependencies` in package.json but used
+// here at runtime. Consumers installing the published package without dev deps
+// will hit "Cannot find module 'clsx'". Move it to `dependencies`.
+// TODO [BUILD]: relocate `clsx` to `dependencies` in package.json before next publish.
 import clsx from 'clsx';
 import {
   BUTTON_BASE,
