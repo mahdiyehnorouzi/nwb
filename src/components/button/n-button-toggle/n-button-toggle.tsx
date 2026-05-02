@@ -22,10 +22,17 @@ export class NButtonToggle {
 
   @Prop() color: ButtonToggleColor = BUTTON_COLOR.GREEN;
   @Prop() size: ButtonToggleSize = BUTTON_SIZE.SMALL;
-  @Prop() rounded: ButtonToggleRounded = BUTTON_TOGGLE_ROUNDED.FULL; 
+  @Prop() rounded: ButtonToggleRounded = BUTTON_TOGGLE_ROUNDED.FULL;
 
   @Prop() disabled: boolean = false;
 
+  // High: renaming `tabIndex` → `focusTabIndex` is a breaking change for
+  // any TSX/JSX consumer that referenced the prop by name. The HTML attribute
+  // (`tab-index`) is preserved, but the JS-property contract is not. The
+  // package was bumped only `0.0.10 → 0.0.11` (patch) — at minimum document
+  // this in the changelog; ideally provide a deprecated `tabIndex` alias for
+  // one release.
+  // TODO [BREAKING-CHANGE]: add changelog entry and consider deprecation alias.
   @Prop({ attribute: 'tab-index' }) focusTabIndex: number = -1;
 
   @Event({ bubbles: true }) toggleSelect: EventEmitter<number>;
@@ -36,18 +43,9 @@ export class NButtonToggle {
   };
 
   private getClasses() {
-    const theme = this.active
-      ? BUTTON_TOGGLE_THEME.active[this.color]
-      : BUTTON_TOGGLE_THEME.normal[this.color];
+    const theme = this.active ? BUTTON_TOGGLE_THEME.active[this.color] : BUTTON_TOGGLE_THEME.normal[this.color];
 
-    return [
-      BUTTON_TOGGLE_BASE,
-      ROUNDED[this.rounded],
-      SIZES[this.size],
-      theme,
-    ]
-      .filter(Boolean)
-      .join(' ');
+    return [BUTTON_TOGGLE_BASE, ROUNDED[this.rounded], SIZES[this.size], theme].filter(Boolean).join(' ');
   }
 
   render() {
@@ -64,19 +62,11 @@ export class NButtonToggle {
       >
         <slot name="icon" />
 
-        <slot name="label">
-          {this.label && (
-            <span class="box-border flex items-center gap-1">
-              {this.label}
-            </span>
-          )}
-        </slot>
+        <slot name="label">{this.label && <span class="box-border flex items-center gap-1">{this.label}</span>}</slot>
 
         {this.badge && (
           <slot name="badge">
-            <span class="!bg-blue-primary text-white rounded-xl px-1 py-0 flex items-center">
-              {this.badge}
-            </span>
+            <span class="!bg-blue-primary text-white rounded-xl px-1 py-0 flex items-center">{this.badge}</span>
           </slot>
         )}
       </button>

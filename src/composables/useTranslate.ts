@@ -1,4 +1,8 @@
 import locale from '../locale';
+//  Medium: importing from full `lodash` (CJS) defeats tree-shaking and pulls
+// the whole library into consumer bundles for a single 5-line `get`. Prefer
+// `lodash-es/get`, the standalone `lodash.get` package, or inline this util.
+// TODO [PERFORMANCE]: replace lodash dependency with a lighter alternative.
 import get from 'lodash/get';
 
 export type Params = Record<string, any>;

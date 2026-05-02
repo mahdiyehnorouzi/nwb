@@ -42,6 +42,9 @@ const api: StoreAPIType = {
   subscribe(listener) {
     listener([...state.toasts]);
     return onChange('toasts', (nextToasts) => {
+      // Medium: silently swallowing subscriber errors hides real bugs in
+      // consuming components. Same pattern as dialog/store.ts — log or rethrow.
+      // TODO [ARCHITECTURE]: log or rethrow — don't drop listener errors.
       try {
         listener([...nextToasts]);
       } catch {

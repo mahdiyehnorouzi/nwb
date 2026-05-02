@@ -100,6 +100,10 @@ const api: StoreAPIType = {
   subscribe(listener) {
     listener([...state.dialogs]);
     return onChange('dialogs', (nextDialogs) => {
+      // High: silently swallowing subscriber errors hides real bugs in
+      // consuming components. At minimum log via `console.error(err)`; ideally
+      // let exceptions propagate unless we have a measured failure mode.
+      // TODO [ARCHITECTURE]: log or rethrow — don't drop listener errors.
       try {
         listener([...nextDialogs]);
       } catch {

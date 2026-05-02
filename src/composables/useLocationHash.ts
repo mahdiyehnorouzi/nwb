@@ -45,6 +45,12 @@ export default function useLocationHash() {
   };
 
   return {
+    // Medium: this captures `state.hashStack` by reference at call-time.
+    // Because `popHash`/`pushHash` reassign `state.hashStack = [...]` rather
+    // than mutating, consumers holding `result.hashStack` keep a stale
+    // snapshot. Either expose this as a getter, drop it from the return, or
+    // direct callers to `getStack()` / `subscribe()`.
+    // TODO [ARCHITECTURE]: remove or convert `hashStack` field to a getter.
     hashStack: state.hashStack,
 
     popHash,

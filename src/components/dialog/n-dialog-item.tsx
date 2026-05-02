@@ -76,6 +76,13 @@ export class NDialogItem {
     }
   }
 
+  // High: `componentDidRender` fires after every render — including
+  // re-renders triggered by `wrapperStyle`/`bodyStyle` updates inside
+  // `updateStyles`. The `!this.positionHandler` guard works today, but if
+  // `initializePosition` ever throws after assigning then unsetting the
+  // handler, we re-enter on the next render. Use a one-shot flag
+  // (e.g. `this.positionInitialized`) to make this strictly idempotent.
+  // TODO [ARCHITECTURE]: replace truthy-handler check with explicit init flag.
   componentDidRender() {
     if (!this.positionHandler && this.wrapperRef && this.headerRef) {
       this.initializePosition();
@@ -88,8 +95,8 @@ export class NDialogItem {
     }
 
     try {
-      const targetRef = this.multiple ? this.wrapperRef : (this.dialogRef || this.wrapperRef);
-      
+      const targetRef = this.multiple ? this.wrapperRef : this.dialogRef || this.wrapperRef;
+
       if (!targetRef || !this.headerRef) {
         return;
       }
@@ -116,6 +123,10 @@ export class NDialogItem {
       }
     } catch (error) {
       this.positionError.emit({ dialogId: this.dialogId, error });
+      // ⚠️ WARNING: hardcoded English string surfaces in the rendered dialog.
+      // The rest of the codebase routes user-facing strings through
+      // `useTranslate()` / `locale`. RTL Persian users will see English here.
+      // TODO [I18N]: route this string through useTranslate / locale.messages.
       this.positionErrorMessage = 'Dialog position could not be initialized.';
       console.error(`Error initializing dialog position for ${this.dialogId}:`, error);
     }
@@ -149,7 +160,7 @@ export class NDialogItem {
 
     try {
       const { x, y, direction, isDragging } = this.positionHandler;
-      
+
       if (this.isDragging !== isDragging) {
         this.isDragging = isDragging;
       }
@@ -160,7 +171,7 @@ export class NDialogItem {
           top: `${y}px`,
           zIndex: String(this.zIndex),
         };
-        
+
         if (JSON.stringify(this.wrapperStyle) !== JSON.stringify(newWrapperStyle)) {
           this.wrapperStyle = newWrapperStyle;
         }
@@ -168,7 +179,7 @@ export class NDialogItem {
         const newWrapperStyle = {
           zIndex: String(this.zIndex),
         };
-        
+
         if (JSON.stringify(this.wrapperStyle) !== JSON.stringify(newWrapperStyle)) {
           this.wrapperStyle = newWrapperStyle;
         }
@@ -191,6 +202,8 @@ export class NDialogItem {
       }
     } catch (error) {
       this.positionError.emit({ dialogId: this.dialogId, error });
+      // ⚠️ WARNING: hardcoded English — same i18n issue as initializePosition.
+      // TODO [I18N]: route this string through useTranslate / locale.messages.
       this.positionErrorMessage = 'Dialog position update failed.';
       console.error('Error updating dialog styles:', error);
       this.wrapperStyle = {
@@ -228,134 +241,74 @@ export class NDialogItem {
     return (
       <n-fade>
         <div
-          ref={(el) => {
+          ref={el => {
             this.wrapperRef = el as HTMLElement;
           }}
-          class={[
-            classes.wrapper,
-            this.wrapperClass,
-            this.isDragging ? 'opacity-20' : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
+          class={[classes.wrapper, this.wrapperClass, this.isDragging ? 'opacity-20' : ''].filter(Boolean).join(' ')}
           style={this.wrapperStyle}
           onMouseDown={this.handleClick}
         >
           <n-drop>
             <n-box elevation="medium">
               <div
-                ref={(el) => (this.dialogRef = el as HTMLElement)}
+                ref={el => (this.dialogRef = el as HTMLElement)}
                 aria-labelledby={`${this.dialogId}-label`}
                 class={[classes.dialog, this.bodyClass].filter(Boolean).join(' ')}
                 style={this.bodyStyle}
                 role="dialog"
                 tabIndex={-1}
               >
-              <div class="relative shrink-0">
-                <div
-                  ref={(el) => (this.headerRef = el as HTMLElement)}
-                  class={classes.header}
-                >
-                  {!this.headerLess && (
-                    <>
-                      <div
-                        id={`${this.dialogId}-label`}
-                        class={[
-                          'flex-1',
-                          !this.expandable ? 'rtl:ml-4 ltr:mr-4' : '',
-                          this.isDragging ? 'invisible' : '',
-                        ]
-                          .filter(Boolean)
-                          .join(' ')}
-                      >
-                        {this.expandable && (
-                          <div
-                            class={classes.expandable}
-                            onClick={this.handleExpand}
-                          >
-                            {this.expandableLabel && (
-                              <n-dynamic-component
-                                content={this.expandableLabel}
-                                class={this.isDragging ? 'invisible' : ''}
-                              />
-                            )}
+                <div class="relative shrink-0">
+                  <div ref={el => (this.headerRef = el as HTMLElement)} class={classes.header}>
+                    {!this.headerLess && (
+                      <>
+                        <div
+                          id={`${this.dialogId}-label`}
+                          class={['flex-1', !this.expandable ? 'rtl:ml-4 ltr:mr-4' : '', this.isDragging ? 'invisible' : ''].filter(Boolean).join(' ')}
+                        >
+                          {this.expandable && (
+                            <div class={classes.expandable} onClick={this.handleExpand}>
+                              {this.expandableLabel && <n-dynamic-component content={this.expandableLabel} class={this.isDragging ? 'invisible' : ''} />}
 
-                            <span
-                              class={[
-                                'inline-block transition-transform ltr:hidden',
-                                this.expanded ? 'rotate-180' : '',
-                              ]
-                                .filter(Boolean)
-                                .join(' ')}
-                            >
-                              ▼
-                            </span>
-                            <span
-                              class={[
-                                'inline-block transition-transform rtl:hidden',
-                                this.expanded ? 'rotate-180' : '',
-                              ]
-                                .filter(Boolean)
-                                .join(' ')}
-                            >
-                              ▼
-                            </span>
-                          </div>
-                        )}
-                        {!this.expandable && this.dialogTitle && (
-                          <n-dynamic-component content={this.dialogTitle} />
-                        )}
-                      </div>
+                              <span class={['inline-block transition-transform ltr:hidden', this.expanded ? 'rotate-180' : ''].filter(Boolean).join(' ')}>▼</span>
+                              <span class={['inline-block transition-transform rtl:hidden', this.expanded ? 'rotate-180' : ''].filter(Boolean).join(' ')}>▼</span>
+                            </div>
+                          )}
+                          {!this.expandable && this.dialogTitle && <n-dynamic-component content={this.dialogTitle} />}
+                        </div>
 
-                      <button
-                        type="button"
-                        tabIndex={-1}
-                        class="cursor-pointer focus:outline-none hover:opacity-70 transition-opacity text-neutral-primary text-xl leading-none w-6 h-6 flex items-center justify-center"
-                        onClick={this.close}
-                        aria-label="Close dialog"
-                      >
-                        ×
-                      </button>
-                    </>
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          class="cursor-pointer focus:outline-none hover:opacity-70 transition-opacity text-neutral-primary text-xl leading-none w-6 h-6 flex items-center justify-center"
+                          onClick={this.close}
+                          aria-label="Close dialog"
+                        >
+                          ×
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <div class={['p-4 flex gap-4 flex-1 overflow-hidden', this.isDragging ? 'invisible' : ''].filter(Boolean).join(' ')}>
+                  {this.positionErrorMessage && (
+                    <div class="mb-2 rounded border border-critical-primary bg-critical-secondary px-2 py-1 text-sm text-critical-primary">{this.positionErrorMessage}</div>
+                  )}
+                  <n-dynamic-component content={this.content} />
+
+                  {this.expandable && this.expandedContent && this.expanded && (
+                    <div>
+                      <n-dynamic-component content={this.expandedContent} />
+                    </div>
                   )}
                 </div>
-              </div>
 
-              <div
-                class={[
-                  'p-4 flex gap-4 flex-1 overflow-hidden',
-                  this.isDragging ? 'invisible' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                {this.positionErrorMessage && (
-                  <div class="mb-2 rounded border border-critical-primary bg-critical-secondary px-2 py-1 text-sm text-critical-primary">
-                    {this.positionErrorMessage}
+                {this.footer && (
+                  <div class={['p-4 shrink-0', this.footerClass, this.isDragging ? 'invisible' : ''].filter(Boolean).join(' ')}>
+                    <n-dynamic-component content={this.footer} />
                   </div>
                 )}
-                <n-dynamic-component content={this.content} />
-
-                {this.expandable && this.expandedContent && this.expanded && (
-                  <div>
-                    <n-dynamic-component content={this.expandedContent} />
-                  </div>
-                )}
-              </div>
-
-              {this.footer && (
-                <div
-                  class={[
-                    'p-4 shrink-0',
-                    this.footerClass,
-                    this.isDragging ? 'invisible' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                >
-                  <n-dynamic-component content={this.footer} />
-                </div>
-              )}
               </div>
             </n-box>
           </n-drop>
