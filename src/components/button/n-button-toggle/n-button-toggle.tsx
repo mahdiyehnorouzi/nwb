@@ -26,7 +26,7 @@ export class NButtonToggle {
 
   @Prop() disabled: boolean = false;
 
-  @Prop() tabIndex: number = -1;
+  @Prop() focusTabIndex: number = -1;
 
   @Event({ bubbles: true }) toggleSelect: EventEmitter<number>;
 
@@ -59,7 +59,7 @@ export class NButtonToggle {
         aria-checked={this.active}
         aria-disabled={this.disabled}
         disabled={this.disabled}
-        tabindex={this.tabIndex}
+        tabindex={this.focusTabIndex}
         onClick={this.onClick}
       >
         <slot name="icon" />

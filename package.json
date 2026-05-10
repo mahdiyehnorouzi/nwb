@@ -1,6 +1,6 @@
 {
   "name": "nwb",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -14,13 +14,13 @@
       "require": "./dist/nwb/nwb.cjs.js"
     },
     "./my-component": {
-      "import": "./dist/components/my-component.js",
-      "types": "./dist/components/my-component.d.ts"
+      "types": "./dist/components/my-component.d.ts",
+      "import": "./dist/components/my-component.js"
     },
     "./loader": {
+      "types": "./loader/index.d.ts",
       "import": "./loader/index.js",
-      "require": "./loader/index.cjs",
-      "types": "./loader/index.d.ts"
+      "require": "./loader/index.cjs"
     }
   },
   "repository": {
@@ -32,13 +32,14 @@
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build",
+    "build": "node src/global/tokens/build-tokens.js && stencil build",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "npm run build && storybook dev -p 6006",
+    "storybook:quick": "storybook dev -p 6006",
+    "build-storybook": "npm run build && storybook build"
   },
   "devDependencies": {
     "@stencil-community/postcss": "^2.2.0",

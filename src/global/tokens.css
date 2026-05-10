@@ -218,7 +218,7 @@
   --n-border-primary: #d8d8d8;
   --n-border-brand: #167b47;
 }
-html.dark {
+:root.dark, :root[data-theme="dark"] {
   --n-background-brand-primary-DEFAULT: #18a15a;
   --n-background-brand-primary-hover: #24c371;
   --n-background-brand-primary-press: #4cdc91;

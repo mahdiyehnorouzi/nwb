@@ -15,52 +15,59 @@ export default {
   },
 };
 
-const Template = ({ position, offset, queued }) => `
-  <div style="padding: 20px; min-height: 300px; position: relative;">
-    <div style="margin-bottom: 20px;">
-      <button onclick="showToast('positive')" style="padding: 8px 16px; margin-right: 10px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">Show Success Toast</button>
-      <button onclick="showToast('negative')" style="padding: 8px 16px; margin-right: 10px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer;">Show Error Toast</button>
-      <button onclick="showToast('alert')" style="padding: 8px 16px; margin-right: 10px; background: #f59e0b; color: white; border: none; border-radius: 4px; cursor: pointer;">Show Warning Toast</button>
-      <button onclick="showToast('neutral')" style="padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 4px; cursor: pointer;">Show Info Toast</button>
-    </div>
+const messages = {
+  positive: 'Operation completed successfully!',
+  negative: 'An error occurred!',
+  alert: 'Warning: Please check your input!',
+  neutral: 'Information updated successfully.',
+};
 
-    <n-toast
-      position="${position}"
-      offset="${offset}"
-      ${queued ? 'queued' : ''}
-      id="toast-demo"
-    ></n-toast>
+function btn(label, bg, onClick) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = label;
+  b.style.cssText =
+    'padding: 8px 16px; margin-right: 10px; margin-bottom: 8px; color: white; border: none; border-radius: 4px; cursor: pointer;';
+  b.style.background = bg;
+  b.addEventListener('click', onClick);
+  return b;
+}
 
-    <script>
-      window.showToast = function(variant) {
-        const messages = {
-          positive: 'Operation completed successfully!',
-          negative: 'An error occurred!',
-          alert: 'Warning: Please check your input!',
-          neutral: 'Information updated successfully.'
-        };
+const Template = ({ position, offset, queued }) => {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'padding: 20px; min-height: 300px; position: relative;';
 
-        const toast = {
-          message: messages[variant],
-          variant: variant,
-          duration: 3000,
-          closable: true,
-          showIcon: true
-        };
+  const row = document.createElement('div');
+  row.style.marginBottom = '20px';
 
-        const toastContainer = document.getElementById('toast-demo');
-        if (toastContainer) {
-          toastContainer.addToast(toast);
-        }
-      };
+  const nt = document.createElement('n-toast');
+  nt.setAttribute('position', position);
+  nt.setAttribute('offset', String(offset));
+  if (queued) nt.setAttribute('queued', '');
+  nt.id = 'toast-demo';
 
-      // Auto-show a demo toast
-      setTimeout(() => {
-        window.showToast('positive');
-      }, 1000);
-    </script>
-  </div>
-`;
+  const show = (variant) => {
+    nt.addToast({
+      message: messages[variant],
+      variant,
+      duration: 3000,
+      closable: true,
+      showIcon: true,
+    });
+  };
+
+  row.appendChild(btn('Success', '#10b981', () => show('positive')));
+  row.appendChild(btn('Error', '#ef4444', () => show('negative')));
+  row.appendChild(btn('Warning', '#f59e0b', () => show('alert')));
+  row.appendChild(btn('Info', '#6b7280', () => show('neutral')));
+
+  wrap.appendChild(row);
+  wrap.appendChild(nt);
+
+  queueMicrotask(() => show('positive'));
+
+  return wrap;
+};
 
 export const Default = Template.bind({});
 Default.args = {
@@ -76,37 +83,37 @@ TopPosition.args = {
   queued: false,
 };
 
-export const Queued = () => `
-  <div style="padding: 20px; min-height: 400px; position: relative;">
-    <div style="margin-bottom: 20px;">
-      <button onclick="showMultipleToasts()" style="padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">Show Multiple Toasts</button>
-    </div>
+export const Queued = () => {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'padding: 20px; min-height: 400px; position: relative;';
 
-    <n-toast position="bottom" offset="20" queued id="queued-demo"></n-toast>
+  const nt = document.createElement('n-toast');
+  nt.setAttribute('position', 'bottom');
+  nt.setAttribute('offset', '20');
+  nt.setAttribute('queued', '');
+  nt.id = 'queued-demo';
 
-    <script>
-      window.showMultipleToasts = function() {
-        const toastContainer = document.getElementById('queued-demo');
-        const toasts = [
-          { message: 'First toast', variant: 'positive', delay: 0 },
-          { message: 'Second toast', variant: 'negative', delay: 500 },
-          { message: 'Third toast', variant: 'alert', delay: 1000 },
-          { message: 'Fourth toast', variant: 'neutral', delay: 1500 }
-        ];
-
-        toasts.forEach(toast => {
-          setTimeout(() => {
-            if (toastContainer) {
-              toastContainer.addToast({
-                ...toast,
-                duration: 4000,
-                closable: true,
-                showIcon: true
-              });
-            }
-          }, toast.delay);
+  const multi = btn('Show multiple toasts', '#3b82f6', () => {
+    const list = [
+      { message: 'First toast', variant: 'positive', delay: 0 },
+      { message: 'Second toast', variant: 'negative', delay: 500 },
+      { message: 'Third toast', variant: 'alert', delay: 1000 },
+      { message: 'Fourth toast', variant: 'neutral', delay: 1500 },
+    ];
+    list.forEach(({ message, variant, delay }) => {
+      setTimeout(() => {
+        nt.addToast({
+          message,
+          variant,
+          duration: 4000,
+          closable: true,
+          showIcon: true,
         });
-      };
-    </script>
-  </div>
-`;
+      }, delay);
+    });
+  });
+
+  wrap.appendChild(multi);
+  wrap.appendChild(nt);
+  return wrap;
+};

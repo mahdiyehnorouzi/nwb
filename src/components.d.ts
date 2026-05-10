@@ -116,7 +116,7 @@ export namespace Components {
         /**
           * @default 'none'
          */
-        "elevation"?: 'none' | 'small' | 'medium' | 'large';
+        "elevation": 'none' | 'small' | 'medium' | 'large';
     }
     interface NButton {
         /**
@@ -188,6 +188,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * @default -1
+         */
+        "focusTabIndex": number;
+        /**
           * @default 0
          */
         "index": number;
@@ -203,10 +207,6 @@ export namespace Components {
           * @default BUTTON_SIZE.SMALL
          */
         "size": ButtonToggleSize;
-        /**
-          * @default -1
-         */
-        "tabIndex": number;
     }
     interface NButtonToggleGroup {
         /**
@@ -1197,6 +1197,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * @default -1
+         */
+        "focusTabIndex"?: number;
+        /**
           * @default 0
          */
         "index"?: number;
@@ -1213,10 +1217,6 @@ declare namespace LocalJSX {
           * @default BUTTON_SIZE.SMALL
          */
         "size"?: ButtonToggleSize;
-        /**
-          * @default -1
-         */
-        "tabIndex"?: number;
     }
     interface NButtonToggleGroup {
         /**
@@ -1721,7 +1721,7 @@ declare namespace LocalJSX {
         "size": ButtonToggleSize;
         "rounded": ButtonToggleRounded;
         "disabled": boolean;
-        "tabIndex": number;
+        "focusTabIndex": number;
     }
     interface NButtonToggleGroupAttributes {
         "modelValue": number;

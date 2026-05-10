@@ -23,6 +23,19 @@
 | `modelValueChange` |             | `CustomEvent<boolean>` |
 
 
+## Dependencies
+
+### Depends on
+
+- [n-loading](../spinner/loading)
+
+### Graph
+```mermaid
+graph TD;
+  n-switch --> n-loading
+  style n-switch fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -8,7 +8,7 @@ export default {
     },
     color: {
       control: { type: 'select' },
-      options: ['green', 'red', 'gray'],
+      options: ['green', 'red', 'gray', 'blue'],
     },
     size: {
       control: { type: 'select' },
@@ -21,7 +21,6 @@ export default {
 };
 
 const Template = ({ variant, color, size, disabled, children }) => `
-  <div style="padding: 20px;">
     <n-button
       variant="${variant}"
       color="${color}"
@@ -30,25 +29,16 @@ const Template = ({ variant, color, size, disabled, children }) => `
     >
       ${children}
     </n-button>
-  </div>
 `;
 
-export const Fill = () => `
-  <div style="padding: 20px; background: #f5f5f5; min-height: 100px;">
-    <script>
-      // Load components if not loaded
-      if (!window.customElements.get('n-button')) {
-        const script = document.createElement('script');
-        script.src = '/build/nwb.esm.js';
-        script.type = 'module';
-        document.head.appendChild(script);
-      }
-    </script>
-    <n-button variant="fill" color="green" size="middle">
-      Fill Button
-    </n-button>
-  </div>
-`;
+export const Fill = Template.bind({});
+Fill.args = {
+  variant: 'fill',
+  color: 'green',
+  size: 'middle',
+  disabled: false,
+  children: 'Fill Button',
+};
 
 export const Outline = Template.bind({});
 Outline.args = {
@@ -92,11 +82,11 @@ Disabled.args = {
   color: 'green',
   size: 'middle',
   disabled: true,
-  children: 'Disabled Button',
+  children: 'Disabled',
 };
 
 export const Sizes = () => `
-  <div style="display: flex; gap: 1rem; align-items: end;">
+  <div style="display: flex; gap: 1rem; align-items: end; flex-wrap: wrap;">
     <n-button size="mini" variant="fill" color="green">Mini</n-button>
     <n-button size="xsmall" variant="fill" color="green">XSmall</n-button>
     <n-button size="small" variant="fill" color="green">Small</n-button>
@@ -106,9 +96,10 @@ export const Sizes = () => `
 `;
 
 export const Colors = () => `
-  <div style="display: flex; gap: 1rem;">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
     <n-button variant="fill" color="green">Green</n-button>
     <n-button variant="fill" color="red">Red</n-button>
     <n-button variant="fill" color="gray">Gray</n-button>
+    <n-button variant="fill" color="blue">Blue</n-button>
   </div>
 `;

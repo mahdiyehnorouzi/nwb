@@ -47,11 +47,11 @@ import { LabelPosition } from './type';
     private getTrackClasses() {
       return [
         'w-full h-full p-0.5 rounded-full transition-colors duration-200',
-        !this.disabled && !this.active && 'bg-gray-300 dark:bg-gray-600',
-        !this.disabled && this.active && 'bg-green-500',
-        !this.disabled && this.active && this.hovered && 'bg-green-600',
-        this.disabled && !this.active && 'bg-gray-200 dark:bg-gray-700',
-        this.disabled && this.active && 'bg-green-300',
+        !this.disabled && !this.active && 'bg-neutral-secondary',
+        !this.disabled && this.active && 'bg-brand-primary',
+        !this.disabled && this.active && this.hovered && 'bg-brand-primary-press',
+        this.disabled && !this.active && 'bg-neutral-primary-disable',
+        this.disabled && this.active && 'bg-brand-secondary-disable',
       ]
         .filter(Boolean)
         .join(' ');
