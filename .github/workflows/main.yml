@@ -46,5 +46,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create Storybook static directory
+        run: mkdir -p www
+
       - name: Build Storybook
         run: npm run build-storybook
